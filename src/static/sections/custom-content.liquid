@@ -1,0 +1,1023 @@
+<!-- /sections/custom-content.liquid -->
+<div class="container">
+	{% if section.settings.title != blank %}
+		<div class="mb-5 text-center">
+			<h3
+				class="font-semibold text-3xl">{{ section.settings.title | escape }}</h3>
+		</div>
+	{% endif %}
+
+	<div
+		class="flex md:flex-row flex-col flex-wrap items-stretch mx-0 md:-mx-4">
+		{%- assign block_width_mobile = '' -%}
+
+		{% for block in section.blocks %}
+			{% case block.settings.width %}
+				{% when '25%' %}
+					{%- assign max_height = 250 -%}
+					{%- assign block_width = 'md:w-1/4' -%}
+					{%- assign block_width_mobile = 'sm:w-1/2' -%}
+				{% when '33%' %}
+					{%- assign max_height = 345 -%}
+					{%- assign block_width = 'md:w-1/3' -%}
+					{%- assign block_width_mobile = 'sm:w-1/2' -%}
+				{% when '50%' %}
+					{%- assign max_height = 530 -%}
+					{%- assign block_width = 'md:w-1/2' -%}
+					{%- assign block_width_mobile = 'sm:w-1/2' -%}
+				{% when '66%' %}
+					{%- assign max_height = 720 -%}
+					{%- assign block_width = 'w-2/3' -%}
+				{% when '75%' %}
+					{%- assign max_height = 810 -%}
+					{%- assign block_width = 'w-3/4' -%}
+				{% when '100%' %}
+					{%- assign max_height = 1090 -%}
+					{%- assign block_width = 'w-full' -%}
+			{% endcase %}
+
+			{%- if block.type == 'blog' or block.type == 'article' -%}
+				{%- assign block_width_mobile = 'sm:w-full' -%}
+			{%- endif -%}
+
+			{% if block.type == 'image' %}
+				{% capture img_id %}CustomImage--{{ forloop.index }}-{{ block.settings.image.id }}{% endcapture %}
+				{% capture img_wrapper_id %}CustomImageWrapper--{{ forloop.index }}-{{ block.settings.image.id }}{% endcapture %}
+
+				{% unless block.settings.image == blank %}
+					{% include 'image-style', image: block.settings.image, height: max_height, wrapper_id: img_wrapper_id, img_id: img_id %}
+				{% endunless %}
+			{% endif %}
+
+			<div class="max-w-full mb-5 px-4 custom__item--{{ block.type }} custom__item--{{ block.id }} {{ block_width_mobile }} {{ block_width }}{% if block.settings.alignment %} {{ block.settings.alignment }}{% endif %}" {{ block.shopify_attributes }}>
+				<div class="relative block max-w-full m-auto"{% if block.type == 'image' %} id="{{ img_wrapper_id }}"{% endif %}>
+					{% case block.type %}
+						{% when 'image' %}
+							{% if block.settings.image != blank %}
+								{%- assign img_url = block.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+								{% style %}
+									#img--{{ block.id }} {
+										padding-top: {{ 1 | divided_by: block.settings.image.aspect_ratio | times: 100}}%;
+									}
+								{% endstyle %}
+								<div id="img--{{ block.id }}" data-image-loading-animation>
+									<img
+										id="{{ img_id }}"
+										class="w-full block absolute top-0 lazyload js"
+										data-src="{{ img_url }}"
+										data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+										data-aspectratio="{{ block.settings.image.aspect_ratio }}"
+										data-sizes="auto"
+										alt="{{ block.settings.image.alt | escape }}">
+								</div>
+								<noscript>
+									{% capture image_size %}{{ max_height }}x{% endcapture %}
+									{{ block.settings.image | img_url: image_size, scale: 2, crop: 'top' | img_tag: block.settings.image.alt, 'w-full block absolute top-0' }}
+								</noscript>
+							{% else %}
+								{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+							{% endif %}
+
+						{% when 'text' %}
+							<div class="{{ block.settings.align_text }}">
+								{% if block.settings.title != blank %}
+									<h4 class="font-semibold text-2xl">{{ block.settings.title | escape }}</h4>
+								{% endif %}
+								{% if block.settings.text != blank %}
+								{{ block.settings.text }}
+								{% endif %}
+							</div>
+
+						{% when 'video' %}
+							{% style %}
+								#img--{{ block.id }} {
+									padding-bottom: 56.25%;
+								}
+							{% endstyle %}
+							<div id="img--{{ block.id }}" class="relative overflow-hidden max-w-full h-0">
+								{% if block.settings.video_url == blank %}
+									<iframe class="absolute top-0 left-0 w-full h-full" src="//www.youtube.com/embed/_9VUPq3SxOc?rel=0&showinfo=0&vq=720" width="850" height="480" frameborder="0" allowfullscreen></iframe>
+								{% else %}
+									{% if block.settings.video_url.type == "youtube" %}
+										<iframe class="absolute top-0 left-0 w-full h-full" src="//www.youtube.com/embed/{{ block.settings.video_url.id }}?rel=0&showinfo=0&vq=720" width="850" height="480" frameborder="0" allowfullscreen></iframe>
+									{% endif %}
+									{% if block.settings.video_url.type == "vimeo" %}
+										<iframe class="absolute top-0 left-0 w-full h-full" src="//player.vimeo.com/video/{{ block.settings.video_url.id }}?byline=0&portrait=0&badge=0" width="850" height="480" frameborder="0" allowfullscreen></iframe>
+									{% endif %}
+								{% endif %}
+							</div>
+
+						{% when 'product' %}
+							{%- assign product = all_products[block.settings.product] -%}
+							{% if product.title.size > 0 %}
+								{% include 'product-card-grid', max_height: max_height, product: product %}
+							{% else %}
+								{% comment %}
+									No product yet. Show onboarding one.
+								{% endcomment %}
+								<div class="mx-auto">
+									<a class="block" href="#">
+										<div class="block mx-auto w-full mb-4">
+											{% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+											{{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+										</div>
+										<div class="font-semibold text-xl mb-0">{{ 'homepage.onboarding.product_title' | t }}</div>
+										<div class="mt-2">
+											{{ 1999 | money }}
+										</div>
+									</a>
+								</div>
+							{% endif %}
+
+						{% when 'collection' %}
+							{%- assign collection = collections[block.settings.collection] -%}
+							{% include 'collection-grid-item', collection: collection, block_ratio: block.settings.aspect_ratio %}
+
+						{% when 'html' %}
+							{% if block.settings.code != blank %}
+								{{ block.settings.code }}
+							{% endif %}
+
+						{%- when 'link_list' -%}
+							{%- assign custom_linklist = block.settings.menu -%}
+							<ul class="flex flex-row flex-wrap justify-start">
+								{%- for link in linklists[custom_linklist].links -%}
+									<li class="flex-shrink-0 self-center">
+										<a href="{{ link.url }}" class="py-2 px-4">
+											{{ link.title | escape }}
+										</a>
+									</li>
+								{%- endfor -%}
+							</ul>
+
+						{%- when 'blog' -%}
+							{%- assign blog = blogs[block.settings.blog] -%}
+							{%- if block.settings.cover_image -%}
+								{%- assign img = block.settings.cover_image -%}
+								{%- capture img_id -%}ArticleImage-{{ img.id }}{%- endcapture -%}
+								{%- capture img_wrapper_id -%}ArticleImageWrapper-{{ img.id }}{%- endcapture -%}
+								{%- assign img_url = img | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+								{% include 'image-style', image: img, height: 600, wrapper_id: img_wrapper_id, img_id: img_id %}
+
+								{%- case block.settings.image_size -%}
+									{%- when "medium" -%}
+										{%- assign wrapper = "pb-4x3" -%}
+									{%- when "small" -%}
+										{%- assign wrapper = "pb-2x1" -%}
+									{%- else -%}
+										{%- assign wrapper = "pb-full" -%}
+								{%- endcase -%}
+
+								<div class="mb-5 relative w-full {{ wrapper }}">
+									<a
+										class="absolute top-0 left-0 right-0 bottom-0"
+										href="{{ blog.url | default: '#' }}">
+										<div
+											class="relative block h-full w-full bg-cover bg-no-repeat bg-center box ratio-container js lazyload"
+											data-bgset="{% include 'bgset', image: img %}"
+											data-sizes="auto"
+											data-parent-fit="cover"
+											data-image-loading-animation
+										></div>
+										<noscript>
+											<div
+												class="relative block h-full w-full bg-cover bg-no-repeat bg-center"
+												style="background-image: url('{{ img | img_url: '1024x1024' }}')"></div>
+										</noscript>
+										<div class="-translate-y-1/2 absolute px-2 text-3xl text-center text-shadow text-white top-50 transform w-full">{{ blog.title }}</div>
+									</a>
+								</div>
+							{%- else -%}
+								<div class="mb-5 relative w-full pb-4x3">
+									<a
+										class="absolute top-0 left-0 right-0 bottom-0"
+										href="{{ blog.url | default: '#' }}">
+										{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+									</a>
+								</div>
+							{%- endif -%}
+
+							{%- if block.settings.description != blank -%}
+								<div class="text-base">{{ block.settings.description }}</div>
+							{%- endif -%}
+
+							{%- if block.settings.show_number_articles -%}
+								{%- assign number_of_articles = blog.articles_count | default: 0 -%}
+								<a
+									href="{{ blog.url | default: '#' }}"
+									class="btn border-b border-current text-sm text-current"
+									aria-label="{{ 'blogs.article.article_with_count' | t: count: number_of_articles }}: {{ blog.title }}"
+								>{{ 'blogs.article.article_with_count' | t: count: number_of_articles }}</a>
+							{%- endif -%}
+
+						{%- when 'article' -%}
+							{%- assign article = articles[block.settings.article] -%}
+							{%- assign cover_image = block.settings.cover_image -%}
+							{%- case cover_image -%}
+								{%- when "small" -%}
+									{%- assign wrapper = "w-3/4" -%}
+								{%- when "medium" -%}
+									{%- assign wrapper = "w-1/2" -%}
+								{%- else -%}
+									{%- assign wrapper = "w-full" -%}
+							{%- endcase -%}
+
+							{%- if article != empty -%}
+								<div id="Article-{{ article.image.id }}">
+									<a
+										class="block"
+										href="{{ article.url }}">
+										{%- if article.image and cover_image != 'none' -%}
+
+											{%- capture img_id -%}ArticleImage-{{ article.image.id }}{%- endcapture -%}
+											{%- capture img_wrapper_id -%}ArticleImageWrapper-{{ article.image.id }}{%- endcapture -%}
+											{%- assign img_url = article.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+
+											{% render 'image-style', image: article.image, height: 600, wrapper_id: img_wrapper_id, img_id: img_id %}
+
+											{%- style -%}
+												#Article-{{ article.image.id }} .article__link:not([disabled]):hover .article__grid-image-wrapper::before,
+												#Article-{{ article.image.id }} .article__link:focus .article__grid-image-wrapper::before {
+													padding-top:{{ 1 | divided_by: article.image.aspect_ratio | times: 100 }}%;
+												}
+											{%- endstyle -%}
+											<div
+												id="{{ img_wrapper_id }}"
+												class="mx-auto relative w-full {{ wrapper }} js">
+												<div
+													class="block clear-both relative mr-auto mb-5 min-h-px w-full h-full"
+													style="padding-top:{{ 1 | divided_by: article.image.aspect_ratio | times: 100 }}%;"
+													data-image-loading-animation
+												>
+													<img
+														id="{{ img_id }}"
+														class="mx-auto w-full absolute top-0 lazyload"
+														data-src="{{ img_url }}"
+														data-widths="[180, 360, 540, 720, 905, 1090, 1296, 1512, 1728, 2048]"
+														data-aspectratio="{{ article.image.aspect_ratio }}"
+														data-sizes="auto"
+														alt="">
+												</div>
+											</div>
+
+											<noscript>
+												<p>
+													<a href="{{ article.url }}">
+														{{ article | img_url: '455x300', scale: 2 | img_tag: article.title }}
+													</a>
+												</p>
+											</noscript>
+										{%- endif -%}
+
+										<h2 class="mb-3 text-2xl leading-snug">{{ article.title }}</h2>
+									</a>
+
+									{%- if block.settings.show_author or block.settings.show_date -%}
+										<div class="mb-5">
+											{%- if block.settings.show_author -%}
+												<span class="inline-block mr-3">{{ 'blogs.article.by_author' | t: author: article.author }}</span>
+											{%- endif -%}
+
+											{%- if block.settings.show_date -%}
+												<span class="inline-block">
+													{{ article.published_at | time_tag: format: 'date' }}
+												</span>
+											{%- endif -%}
+										</div>
+									{%- endif -%}
+
+									<div class="mb-5 text-gray-700">
+										{%- if article.excerpt.size > 0 -%}
+											{{ article.excerpt }}
+										{%- else -%}
+											{{ article.content | strip_html | truncate: 150 }}
+										{%- endif -%}
+									</div>
+
+									{%- if article.tags.size > 0 -%}
+										<div class="article__tags rte">
+											<ul class="list--inline" aria-label="{{ 'blogs.article.tags' | t }}">
+												{%- for tag in article.tags -%}
+													<li>
+														<a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="article__grid-tag">{{ tag }}</a>
+													</li>
+												{%- endfor -%}
+											</ul>
+										</div>
+									{%- endif -%}
+
+									<ul class="list--inline article__meta-buttons">
+										<li>
+											<a href="{{ article.url }}" class="btn border-b border-current text-sm text-current" aria-label="{{ 'blogs.article.read_more_title' | t: title: article.title }}">
+												{{ 'blogs.article.read_more' | t }}
+											</a>
+										</li>
+										{%- if article.comments != blank and article.comments_count > 0 -%}
+											<li>
+												<a href="{{ article.url }}#comments" class="article__comment-count btn border-b border-current text-sm text-current">
+													{{ 'blogs.comments.comments_with_count' | t: count: article.comments_count }}
+												</a>
+											</li>
+										{%- endif -%}
+									</ul>
+								</div>
+							{%- else -%}
+								<div class="article">
+									<a href="#" class="flex flex-col w-full article__link article__link--fixed-overlay">
+										{%- if article.image and cover_image != 'none' -%}
+											<div class="relative clear-both mr-auto mb-5 min-h-px h-full {{ wrapper }}">
+												{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+											</div>
+										{%- endif -%}
+
+										<h2 class="mb-3 text-2xl leading-snug">{{ 'homepage.onboarding.blog_title' | t }}</h2>
+									</a>
+
+									{%- if block.settings.show_author or block.settings.show_date -%}
+										<div class="mb-5">
+											{%- if block.settings.show_author -%}
+												{%- assign author_name = 'homepage.onboarding.blog_author' | t -%}
+												<span class="inline-block mr-3">{{ 'blogs.article.by_author' | t: author: author_name }}</span>
+											{%- endif -%}
+
+											{%- if block.settings.show_date -%}
+												<span class="inline-block">
+													{{ "now" | time_tag: format: 'date' }}
+												</span>
+											{%- endif -%}
+										</div>
+									{%- endif -%}
+
+									<div class="mb-5 text-gray-600">{{ 'homepage.onboarding.blog_excerpt' | t }}</div>
+
+									<ul class="flex flex-row flex-wrap justify-start">
+										<li class="mr-6">
+											<a href="#" class="btn text-xs py-2 px-3">{{ 'blogs.article.read_more' | t }}</a>
+										</li>
+										<li>
+											<a href="#" class="btn text-xs py-2 px-3 text-current">{{ 'blogs.comments.comments_with_count' | t: count: 1 }}</a>
+										</li>
+									</ul>
+								</div>
+							{%- endif -%}
+					{% endcase %}
+				</div>
+			</div>
+
+		{% endfor %}
+	</div>
+
+	{% if section.blocks.size == 0 %}
+		{% include 'no-blocks' %}
+	{% endif %}
+</div>
+
+
+
+{% schema %}
+{
+	"name": "Custom content",
+	"class": "index-section",
+	"settings": [{
+		"type": "text",
+		"id": "title",
+		"label": "Heading",
+		"default": "Custom content"
+	}],
+	"blocks": [{
+			"type": "text",
+			"name": "Text",
+			"settings": [{
+					"type": "text",
+					"id": "title",
+					"label": "Heading",
+					"default": "Talk about your brand"
+				},
+				{
+					"type": "richtext",
+					"id": "text",
+					"label": "Text",
+					"default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+				},
+				{
+					"type": "select",
+					"id": "width",
+					"label": "Container width",
+					"default": "50%",
+					"options": [{
+							"value": "25%",
+							"label": "25%"
+						},
+						{
+							"value": "33%",
+							"label": "33%"
+						},
+						{
+							"value": "50%",
+							"label": "50%"
+						},
+						{
+							"value": "66%",
+							"label": "66%"
+						},
+						{
+							"value": "75%",
+							"label": "75%"
+						},
+						{
+							"value": "100%",
+							"label": "100%"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "alignment",
+					"label": "Vertical alignment",
+					"default": "self-center text-center",
+					"options": [{
+							"value": "self-start",
+							"label": "Top"
+						},
+						{
+							"value": "self-center text-center",
+							"label": "Middle"
+						},
+						{
+							"value": "self-end",
+							"label": "Bottom"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "align_text",
+					"label": "Horizontal alignment",
+					"default": "text-left",
+					"options": [{
+							"value": "text-left",
+							"label": "Left"
+						},
+						{
+							"value": "text-center",
+							"label": "Centered"
+						},
+						{
+							"value": "text-right",
+							"label": "Right"
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "image",
+			"name": "Image",
+			"settings": [{
+					"type": "image_picker",
+					"id": "image",
+					"label": "Image"
+				},
+				{
+					"type": "select",
+					"id": "width",
+					"label": "Container width",
+					"default": "50%",
+					"options": [{
+							"value": "25%",
+							"label": "25%"
+						},
+						{
+							"value": "33%",
+							"label": "33%"
+						},
+						{
+							"value": "50%",
+							"label": "50%"
+						},
+						{
+							"value": "66%",
+							"label": "66%"
+						},
+						{
+							"value": "75%",
+							"label": "75%"
+						},
+						{
+							"value": "100%",
+							"label": "100%"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "alignment",
+					"label": "Vertical alignment",
+					"default": "self-center",
+					"options": [{
+							"value": "self-start",
+							"label": "Top"
+						},
+						{
+							"value": "self-center",
+							"label": "Middle"
+						},
+						{
+							"value": "self-end",
+							"label": "Bottom"
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "video",
+			"name": "Video",
+			"settings": [{
+					"type": "video_url",
+					"id": "video_url",
+					"label": "YouTube or Vimeo link",
+					"accept": [
+						"youtube",
+						"vimeo"
+					]
+				},
+				{
+					"type": "select",
+					"id": "width",
+					"label": "Container width",
+					"default": "100%",
+					"options": [{
+							"value": "25%",
+							"label": "25%"
+						},
+						{
+							"value": "33%",
+							"label": "33%"
+						},
+						{
+							"value": "50%",
+							"label": "50%"
+						},
+						{
+							"value": "66%",
+							"label": "66%"
+						},
+						{
+							"value": "75%",
+							"label": "75%"
+						},
+						{
+							"value": "100%",
+							"label": "100%"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "alignment",
+					"label": "Vertical alignment",
+					"default": "self-center",
+					"options": [{
+							"value": "self-start",
+							"label": "Top"
+						},
+						{
+							"value": "self-center",
+							"label": "Middle"
+						},
+						{
+							"value": "self-end",
+							"label": "Bottom"
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "product",
+			"name": "Product",
+			"settings": [{
+					"type": "product",
+					"id": "product",
+					"label": "Product"
+				},
+				{
+					"type": "select",
+					"id": "width",
+					"label": "Container width",
+					"default": "50%",
+					"options": [{
+							"value": "25%",
+							"label": "25%"
+						},
+						{
+							"value": "33%",
+							"label": "33%"
+						},
+						{
+							"value": "50%",
+							"label": "50%"
+						},
+						{
+							"value": "66%",
+							"label": "66%"
+						},
+						{
+							"value": "75%",
+							"label": "75%"
+						},
+						{
+							"value": "100%",
+							"label": "100%"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "alignment",
+					"label": "Vertical alignment",
+					"default": "self-center",
+					"options": [{
+							"value": "self-start",
+							"label": "Top"
+						},
+						{
+							"value": "self-center",
+							"label": "Middle"
+						},
+						{
+							"value": "self-end",
+							"label": "Bottom"
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "collection",
+			"name": "Collection",
+			"settings": [{
+					"type": "collection",
+					"id": "collection",
+					"label": "Collection"
+				},
+				{
+					"type": "select",
+					"id": "width",
+					"label": "Container width",
+					"default": "50%",
+					"options": [{
+							"value": "25%",
+							"label": "25%"
+						},
+						{
+							"value": "33%",
+							"label": "33%"
+						},
+						{
+							"value": "50%",
+							"label": "50%"
+						},
+						{
+							"value": "66%",
+							"label": "66%"
+						},
+						{
+							"value": "75%",
+							"label": "75%"
+						},
+						{
+							"value": "100%",
+							"label": "100%"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "aspect_ratio",
+					"label": "Aspect Ratio",
+					"default": "pb-full",
+					"options": [{
+							"value": "pb-21x9",
+							"label": "21:9"
+						},
+						{
+							"value": "pb-16x9",
+							"label": "16:9"
+						},
+						{
+							"value": "pb-4x3",
+							"label": "4:3"
+						},
+						{
+							"value": "pb-full",
+							"label": "Square"
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "link_list",
+			"name": "Menu",
+			"settings": [{
+					"type": "link_list",
+					"id": "menu",
+					"label": "Menu",
+					"default": "main-menu"
+				},
+				{
+					"type": "select",
+					"id": "width",
+					"label": "Container width",
+					"default": "25%",
+					"options": [{
+							"value": "25%",
+							"label": "25%"
+						},
+						{
+							"value": "33%",
+							"label": "33%"
+						},
+						{
+							"value": "50%",
+							"label": "50%"
+						},
+						{
+							"value": "66%",
+							"label": "66%"
+						},
+						{
+							"value": "75%",
+							"label": "75%"
+						},
+						{
+							"value": "100%",
+							"label": "100%"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "alignment",
+					"label": "Vertical alignment",
+					"default": "self-center",
+					"options": [{
+							"value": "self-start",
+							"label": "Top"
+						},
+						{
+							"value": "self-center",
+							"label": "Middle"
+						},
+						{
+							"value": "self-end",
+							"label": "Bottom"
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "blog",
+			"name": "Blog",
+			"settings": [{
+					"type": "blog",
+					"id": "blog",
+					"label": "Blog"
+				},
+				{
+					"type": "image_picker",
+					"id": "cover_image",
+					"label": "Cover image"
+				},
+				{
+					"type": "select",
+					"id": "image_size",
+					"label": "Image size",
+					"default": "medium",
+					"options": [{
+							"value": "small",
+							"label": "Small"
+						},
+						{
+							"value": "medium",
+							"label": "Medium"
+						},
+						{
+							"value": "large",
+							"label": "Large"
+						}
+					]
+				},
+				{
+					"id": "description",
+					"type": "richtext",
+					"default": "<p>Description of your blog.</p>",
+					"label": "Description"
+				},
+				{
+					"id": "show_number_articles",
+					"type": "checkbox",
+					"default": true,
+					"label": "Show number of articles"
+				},
+				{
+					"type": "select",
+					"id": "width",
+					"label": "Container width",
+					"default": "25%",
+					"options": [{
+							"value": "25%",
+							"label": "25%"
+						},
+						{
+							"value": "33%",
+							"label": "33%"
+						},
+						{
+							"value": "50%",
+							"label": "50%"
+						},
+						{
+							"value": "66%",
+							"label": "66%"
+						},
+						{
+							"value": "75%",
+							"label": "75%"
+						},
+						{
+							"value": "100%",
+							"label": "100%"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "alignment",
+					"label": "Vertical alignment",
+					"default": "self-center",
+					"options": [{
+							"value": "self-start",
+							"label": "Top"
+						},
+						{
+							"value": "self-center",
+							"label": "Middle"
+						},
+						{
+							"value": "self-end",
+							"label": "Bottom"
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "article",
+			"name": "Article",
+			"settings": [{
+					"type": "article",
+					"id": "article",
+					"label": "Article"
+				},
+				{
+					"type": "select",
+					"id": "width",
+					"label": "Container width",
+					"default": "50%",
+					"options": [{
+							"value": "25%",
+							"label": "25%"
+						},
+						{
+							"value": "33%",
+							"label": "33%"
+						},
+						{
+							"value": "50%",
+							"label": "50%"
+						},
+						{
+							"value": "66%",
+							"label": "66%"
+						},
+						{
+							"value": "75%",
+							"label": "75%"
+						},
+						{
+							"value": "100%",
+							"label": "100%"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "alignment",
+					"label": "Vertical alignment",
+					"default": "self-center",
+					"options": [{
+							"value": "self-start",
+							"label": "Top"
+						},
+						{
+							"value": "self-center",
+							"label": "Middle"
+						},
+						{
+							"value": "self-end",
+							"label": "Bottom"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "cover_image",
+					"label": "Cover image",
+					"default": "large",
+					"options": [{
+							"value": "small",
+							"label": "Small"
+						},
+						{
+							"value": "large",
+							"label": "Large"
+						},
+						{
+							"value": "none",
+							"label": "None"
+						}
+					]
+				},
+				{
+					"type": "checkbox",
+					"id": "show_author",
+					"label": "Show author",
+					"default": false
+				},
+				{
+					"type": "checkbox",
+					"id": "show_date",
+					"label": "Show date",
+					"default": true
+				}
+			]
+		},
+		{
+			"type": "html",
+			"name": "Custom HTML",
+			"settings": [{
+					"type": "html",
+					"id": "code",
+					"label": "HTML"
+				},
+				{
+					"type": "select",
+					"id": "width",
+					"label": "Container width",
+					"default": "50%",
+					"options": [{
+							"value": "25%",
+							"label": "25%"
+						},
+						{
+							"value": "33%",
+							"label": "33%"
+						},
+						{
+							"value": "50%",
+							"label": "50%"
+						},
+						{
+							"value": "66%",
+							"label": "66%"
+						},
+						{
+							"value": "75%",
+							"label": "75%"
+						},
+						{
+							"value": "100%",
+							"label": "100%"
+						}
+					]
+				}
+			]
+		}
+	],
+	"presets": [{
+		"name": "Custom content",
+		"category": "Advanced layout",
+		"blocks": [{
+				"type": "text"
+			},
+			{
+				"type": "image"
+			}
+		]
+	}]
+}
+{% endschema %}

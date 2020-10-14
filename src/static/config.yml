@@ -1,0 +1,8 @@
+development:
+  password: b466d4db1dcf75ccbfc3d2c518bc5200
+  theme_id: "83171344432"
+  store: maeoka-dev.myshopify.com
+  ignore_files:
+    - "*.gif"
+    - "*.jpg"
+    - config/settings_data.json

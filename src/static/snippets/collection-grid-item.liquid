@@ -1,0 +1,57 @@
+<!-- /snippets/collection-grid-item.liquid -->
+{% comment %}
+	Renders a list of products from a collection
+
+	Accepts:
+	- collection: {Object} Collection Liquid object (required)
+
+	Usage:
+	{% include 'collection-grid-item', collection: collection %}
+{% endcomment %}
+{% if collection.image %}
+	{%- assign collection_image = collection.image -%}
+{% elsif collection.products.first and collection.products.first.media != empty %}
+	{%- assign collection_image = collection.products.first.featured_media.preview_image -%}
+{% else %}
+	{% assign collection_image = blank %}
+{% endif %}
+
+{%- assign aspect_ratio = block_ratio -%}
+{%- unless aspect_ratio -%}
+	{%- assign aspect_ratio = "pb-full" -%}
+{%- endunless -%}
+
+<div class="relative bg-gray-100 w-full {{ aspect_ratio }}" >
+	<a
+		class="absolute top-0 left-0 bottom-0 right-0"
+		href="{% if collection.products == empty %}#{% else %}{{ collection.url }}{% endif %}">
+		{% unless collection_image == blank %}
+			<div
+				class="relative block h-full w-full bg-cover bg-no-repeat bg-center box ratio-container lazyload js"
+				data-bgset="{% include 'bgset', image: collection_image %}"
+				data-sizes="auto"
+				data-parent-fit="cover"
+				data-image-loading-animation></div>
+			<noscript>
+				<div class="relative block h-full w-full bg-cover bg-no-repeat bg-center" style="background-image: url('{{ collection_image | img_url: '1024x1024' }}')"></div>
+			</noscript>
+		{% else %}
+			{% if collection == empty %}
+				<div class="relative block h-full w-full bg-cover bg-no-repeat bg-center">
+					{% capture current %}{% cycle 1, 2, 3 %}{% endcapture %}
+					{{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+				</div>
+			{% else %}
+				<div class="relative block h-full w-full bg-cover bg-no-repeat bg-center" style="background-image: url('{{ collection_image | img_url: '1024x1024' }}')"></div>
+			{% endif %}
+		{% endunless %}
+		<div
+			class="absolute px-2 text-3xl text-center text-shadow text-white top-50 w-full transform -translate-y-1/2">
+			{% if collection.title == blank %}
+				{{ 'homepage.onboarding.collection_title' | t }}
+			{% else %}
+				{{ collection.title }}
+			{% endif %}
+		</div>
+	</a>
+</div>

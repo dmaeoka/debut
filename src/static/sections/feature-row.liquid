@@ -1,0 +1,122 @@
+<!-- src/static/sections/feature-row.liquid -->
+<div class="container">
+	<div class="flex flex-col items-stretch mx-0 md:flex-row md:flex-wrap md:-mx-4">
+		<div
+			class="px-4 md:w-1/2 {{section.settings.layout}}">
+			{% if section.settings.image != blank %}
+				{% capture img_id %}FeatureRowImage-{{ section.id }}{% endcapture %}
+				{% capture wrapper_id %}FeatureRowImageWrapper-{{ section.id }}{% endcapture %}
+				{%- assign img_url = section.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+				{% include 'image-style', image: section.settings.image, height: 545, wrapper_id: wrapper_id, img_id: img_id %}
+				<div
+					id="{{ wrapper_id }}"
+					class="mx-auto mb-5 relative w-full js">
+					<div
+						style="padding-top:{{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100}}%;"
+						data-image-loading-animation>
+						<img
+							id="{{ img_id }}"
+							class="block mx-auto w-full absolute top-0 lazyload"
+							data-src="{{ img_url }}"
+							data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+							data-aspectratio="{{ section.settings.image.aspect_ratio }}"
+							data-sizes="auto"
+							alt="{{ section.settings.image.alt | escape }}">
+					</div>
+				</div>
+
+				<noscript>
+					{{ section.settings.image | img_url: '600x600', scale: 2 | img_tag: section.settings.image.alt, 'block mx-auto' }}
+				</noscript>
+			{% else %}
+				{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+			{% endif %}
+		</div>
+
+		<div class="px-4 flex-1 order-2 self-center">
+			{% if section.settings.title != blank %}
+				<h2 class="font-semibold leading-snug text-2xl tracking-wide mb-5">{{ section.settings.title | escape }}</h2>
+			{% endif %}
+			{% if section.settings.text != blank %}
+				<!-- color: var(--color-body-text); -->
+				<div class="text-gray-600 mb-5 text-base">{{ section.settings.text }}</div>
+			{% endif %}
+			{% if section.settings.button_label != blank and section.settings.button_link != blank %}
+				{%- capture ariaLabel -%}
+					{{- section.settings.button_label -}}
+					{%- if section.settings.button_link.type == 'frontpage_link' -%}
+						: {{ 'homepage.general.title' | t -}}
+					{%- elsif section.settings.button_link.type == 'catalog_link' -%}
+						: {{ 'collections.catalog.title' | t -}}
+					{%- elsif section.settings.button_link.object.title -%}
+						: {{ section.settings.button_link.object.title -}}
+					{%- endif -%}
+				{%- endcapture -%}
+
+				<a href="{{ section.settings.button_link }}"
+					class="btn"
+					aria-label="{{ ariaLabel }}">
+					{{- section.settings.button_label | escape -}}
+				</a>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+{% schema %}
+{
+	"name": "Image with text",
+	"class": "index-section",
+	"settings": [
+		{
+			"type": "image_picker",
+			"id": "image",
+			"label": "Image"
+		},
+		{
+			"type": "select",
+			"id": "layout",
+			"label": "Image alignment",
+			"default": "order-1",
+			"options": [
+				{
+					"value": "order-1",
+					"label": "Left"
+				},
+				{
+					"value": "order-last",
+					"label": "Right"
+				}
+			]
+		},
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Heading",
+			"default": "Image with text"
+		},
+		{
+			"type": "richtext",
+			"id": "text",
+			"label": "Text",
+			"default": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
+		},
+		{
+			"type": "text",
+			"id": "button_label",
+			"label": "Button label"
+		},
+		{
+			"type": "url",
+			"id": "button_link",
+			"label": "Button link"
+		}
+	],
+	"presets": [
+		{
+			"name": "Image with text",
+			"category": "Image"
+		}
+	]
+}
+{% endschema %}

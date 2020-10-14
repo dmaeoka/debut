@@ -1,0 +1,40 @@
+<!-- src/static/snippets/search-drawer.liquid -->
+<div id="SearchDrawer" class="-translate-y-full bg-white hidden drawer drawer--top fixed flex h-40 max-h-screen search-bar transform w-full z-999" role="dialog" aria-modal="true" aria-label="{{ 'general.search.placeholder' | t }}" data-predictive-search-drawer>
+	<div class="flex flex-1 h-auto px-16 search-bar__interior">
+		<div class="flex flex-1 items-center justify-center px-3 search-form__container" data-search-form-container>
+			<form class="border border-transparent flex-1 max-w-4xl relative search-bar__form search-form w-full" action="{{ routes.search_url }}" method="get" role="search">
+				<div class="search-form__input-wrapper relative">
+					<input
+						type="text"
+						name="q"
+						placeholder="{{ 'general.search.placeholder' | t }}"
+						role="combobox"
+						aria-autocomplete="list"
+						aria-owns="predictive-search-results"
+						aria-expanded="false"
+						aria-label="{{ 'general.search.placeholder' | t }}"
+						aria-haspopup="listbox"
+						class="bg-white border border-gray-300 pr-12 px-5 py-3 search-bar__input search-form__input text-gray-800 w-full rounded-sm"
+						data-predictive-search-drawer-input
+					/>
+					<input type="hidden" name="options[prefix]" value="last" aria-hidden="true" />
+					<div class="predictive-search-wrapper predictive-search-wrapper--drawer" data-predictive-search-mount="drawer"></div>
+				</div>
+
+				<button class="absolute align-middle bg-transparent border-0 h-full inline-block m-0 p-3 right-0 search-bar__submit search-form__submit top-0 z-0"
+					type="submit"
+					data-search-form-submit>
+					{% include 'icon-search', icon_class: "-mt-px h-auto relative top-0 w-5" %}
+					<span class="sr-only">{{ 'general.search.submit' | t }}</span>
+				</button>
+			</form>
+
+			<div class="flex flex-grow-0 flex-shrink-0 items-center search-bar__actions">
+				<button type="button" class="-mr-3 bg-transparent border-0 btn--link js-drawer-close m-0 px-3 py-2 search-bar__close text-current text-left">
+					{% include 'icon-close', icon_class: "align-middle h-auto w-4" %}
+					<span class="sr-only">{{ 'general.search.close' | t }}</span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

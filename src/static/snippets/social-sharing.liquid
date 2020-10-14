@@ -1,0 +1,42 @@
+<!-- /snippets/social-sharing.liquid -->
+<ul class="flex flex-row flex-no-wrap -mx-2 {{ snipet_class }}">
+	{% if settings.share_facebook %}
+		<li class="px-2">
+			<a
+				target="_blank"
+				href="//www.facebook.com/sharer.php?u={{ shop.url | append: share_permalink }}"
+				class="btn text-xs share-facebook">
+				{% include 'icon-facebook', icon_class: "fill-current text-blue-600 h-auto w-4 align-middle mr-2" %}
+				<span class="uppercase inline-block align-middle" aria-hidden="true">{{ 'general.social.share_on_facebook' | t }}</span>
+				<span class="sr-only">{{ 'general.social.alt_text.share_on_facebook' | t }}</span>
+			</a>
+		</li>
+	{% endif %}
+
+	{% if settings.share_twitter %}
+		<li class="px-2">
+			<a
+				target="_blank"
+				href="//twitter.com/share?text={{ share_title | url_param_escape }}&amp;url={{ shop.url | append: share_permalink }}"
+				class="btn text-xs share-twitter">
+				{% include 'icon-twitter', icon_class: "fill-current text-blue-500 h-auto w-4 align-middle mr-2" %}
+				<span class="uppercase inline-block align-middle" aria-hidden="true">{{ 'general.social.share_on_twitter' | t }}</span>
+				<span class="sr-only">{{ 'general.social.alt_text.share_on_twitter' | t }}</span>
+			</a>
+		</li>
+	{% endif %}
+
+	{% if settings.share_pinterest %}
+		<li class="px-2">
+			<a
+				target="_blank"
+				href="//pinterest.com/pin/create/button/?url={{ shop.url | append: share_permalink }}&amp;media={{ share_image | img_url: '1024x1024' }}&amp;description={{ share_title | url_param_escape }}"
+				class="btn text-xs share-pinterest">
+				{% include 'icon-pinterest', icon_class: "fill-current text-red-500 h-auto w-4 align-middle mr-2" %}
+				<span class="uppercase inline-block align-middle" aria-hidden="true">{{ 'general.social.share_on_pinterest' | t }}</span>
+				<span class="sr-only">{{ 'general.social.alt_text.share_on_pinterest' | t }}</span>
+			</a>
+		</li>
+	{% endif %}
+
+</ul>

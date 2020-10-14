@@ -1,0 +1,89 @@
+<!-- /sections/newsletter.liquid -->
+<div class="newsletter-section py-16 {% if section.settings.show_background %} bg-gray-200{% endif %}">
+	<div class="container">
+		<div class="mb-8 text-center">
+			{% if section.settings.section_title != blank %}
+				<h2 class="text-2xl tracking-wide uppercase mb-4">{{ section.settings.section_title | escape }}</h2>
+			{% endif %}
+			{% if section.settings.subheading != blank %}
+				<div class="text-gray-600">{{ section.settings.subheading }}</div>
+			{% endif %}
+		</div>
+		{%- assign formId = 'Contact_' | append: section.id -%}
+		{% form 'customer', id: formId, novalidate: 'novalidate', class: 'contact-form max-w-xl mx-auto' %}
+			{%- if form.posted_successfully? -%}
+				<p class="form-message form-message--success" tabindex="-1" data-form-status>
+					{{ 'general.newsletter_form.confirmation' | t }}
+				</p>
+			{%- endif -%}
+			<input type="hidden" name="contact[tags]" value="newsletter">
+			<div class="flex flex-no-wrap{% if form.errors %} input-group--error{% endif %}">
+				<input type="email"
+					name="contact[email]"
+					id="{{ formId }}-email"
+					class="border border-gray-500 flex-1 px-3 w-full{% if form.errors %} input--error{% endif %}"
+					value="{{ form.email }}"
+					placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
+					aria-label="{{ 'general.newsletter_form.email_placeholder' | t }}"
+					aria-required="true"
+					autocorrect="off"
+					autocapitalize="off"
+					{% if form.errors %}
+						aria-invalid="true"
+						aria-describedby="{{ formId }}-email-error"
+						data-form-status
+					{% endif %}
+					>
+				<button type="submit" class="bg-red-600 btn flex-shrink-0 text-base text-white -ml-px" name="commit">
+					<span>{{ 'general.newsletter_form.submit' | t }}</span>
+				</button>
+			</div>
+			{%- if form.errors contains 'email' -%}
+				<span id="{{ formId }}-email-error" class="input-error-message">
+					<span class="sr-only">{{ 'general.accessibility.error' | t }} </span>
+					{% include 'icon-error', icon_class: "h-3 w-3 align-middle" %}
+					<span>{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}.</span>
+				</span>
+			{%- endif -%}
+		{% endform %}
+	</div>
+</div>
+
+
+
+{% schema %}
+{
+	"name": "Newsletter",
+	"class": "index-section index-section--flush",
+	"settings": [
+		{
+			"type": "text",
+			"id": "section_title",
+			"label":  "Heading",
+			"default": "Subscribe to our newsletter"
+		},
+		{
+			"type": "richtext",
+			"id": "subheading",
+			"label":  "Subheading",
+			"default": "<p>Promotions, new products and sales. Directly to your inbox.</p>"
+		},
+		{
+			"id": "show_background",
+			"type": "checkbox",
+			"label":  "Show background",
+			"default": true
+		},
+		{
+			"type": "paragraph",
+			"content": "Any customers who sign up will have an account created for them in Shopify. [View customers](/admin/customers?query=&accepts_marketing=1)"
+		}
+	],
+	"presets": [
+		{
+			"name": "Newsletter",
+			"category": "Promotional"
+		}
+	]
+}
+{% endschema %}

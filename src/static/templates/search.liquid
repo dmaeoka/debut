@@ -1,0 +1,111 @@
+<!-- src/static/templates/search.liquid -->
+{% paginate search.results by 10 %}
+
+<div class="container">
+	{% if search.performed == false %}
+		<div class="text-center">
+			<h1 class="h2">{{ 'general.search.title' | t }}</h1>
+	{% else %}
+		<div class="text-center">
+			<h1 class="h2">
+				<span class="sr-only">{{ 'general.search.heading' | t: count: search.results_count }}:</span>
+				{{ 'general.search.results_with_count' | t: terms: search.terms, count: search.results_count }}
+			</h1>
+	{% endif %}
+			<div class="flex flex-row">
+				<div class="md:w-3/5 medium-up--push-two-tenths">
+					{% if search.performed and search.results_count == 0 %}
+						<div class="rte search--no-results-found">
+							<p>{{ 'general.search.no_results' | t }}</p>
+						</div>
+					{% endif %}
+					<form action="{{ routes.search_url }}" method="get" role="search" class="search-form search-page-form">
+						<div class="input-group input-group--nowrap">
+							<div class="input-group__field input-group__field--connected search-form__input-wrapper">
+								<input
+									type="search"
+									name="q"
+									value="{{ search.terms | escape }}"
+									placeholder="{{ 'general.search.placeholder' | t }}"
+									role="combobox"
+									aria-autocomplete="list"
+									aria-owns="predictive-search-results"
+									aria-expanded="false"
+									aria-label="{{ 'general.search.placeholder' | t }}"
+									aria-haspopup="listbox"
+									class="search-form__input"
+									data-search-page-predictive-search-input
+								/>
+
+								<input type="hidden" name="options[prefix]" value="last" aria-hidden="true" />
+
+								<button type="reset" class="search-form__clear-action" aria-label="{{ 'general.search.clear_search_term' | t }}" data-search-page-predictive-search-clear>
+									{% include 'icon-close', icon_class: "h-3 w-3 align-middle" %}
+								</button>
+
+								<div class="predictive-search-wrapper" data-predictive-search-mount="default"></div>
+							</div>
+
+							<button type="submit" class="search-form__connected-submit" aria-label="{{ 'general.search.submit' | t }}" data-search-page-predictive-search-submit>
+								{% include 'icon-search', icon_class: "h-auto w-5" %}
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+	</div>
+</div>
+
+
+{% if search.performed %}
+	{% if search.results_count > 0 %}
+		<hr class="border-t-0 my-20" aria-hidden="true" />
+	{% endif %}
+
+	<h2 class="sr-only">{{ 'general.search.heading' | t: count: search.results_count }}</h2>
+
+	<ul class="container list-view-items">
+		{% for item in search.results %}
+			<li class="list-view-item mb-5">
+				{% if item.object_type == 'product' %}
+					{% include 'product-card-list', product: item %}
+				{% else %}
+					<div class="product-card product-card--list">
+						<a href="{{ item.url }}" class="full-width-link">
+							<span class="sr-only">{{ item.title }}</span>
+						</a>
+						<div class="list-view-item__link">
+							<div class="list-view-item__image-column">
+								<div class="list-view-item__image-wrapper product-card__image-wrapper">
+									{% unless item.image == null %}
+										<img class="list-view-item__image" src="{{ item.image.src | img_url: '600x600' }}" alt="{{ item.image.alt | escape }}">
+									{% endunless %}
+								</div>
+							</div>
+
+							<div class="list-view-item__title-column">
+								<div class="list-view-item__title" aria-hidden="true">
+									<span class="product-card__title">{{ item.title }}</span>
+								</div>
+								<div>
+									{% if item.published_at %}{{ item.published_at | date: format: "date" }} &#8212; {% endif %}
+									{{ item.content | strip_html | truncate: 200 }}
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			</li>
+		{% endfor %}
+	</ul>
+
+	{%- if paginate.pages > 1 -%}
+		{% include 'pagination', paginate: paginate %}
+	{%- endif -%}
+{% endif %}
+
+{% if search.results_count < 2 %}
+	<div class="search--less-than-2-results h-screen"></div>
+{% endif %}
+
+{% endpaginate %}

@@ -1,0 +1,54 @@
+<!-- src/static/snippets/cart-popup.liquid -->
+{%- style -%}
+	{% assign cart_popup_box_shadow = settings.color_borders | color_modify: 'alpha', 0.5 %}
+
+	.cart-popup {
+		box-shadow: 1px 1px 10px 2px {{ cart_popup_box_shadow }};
+	}
+{%- endstyle -%}
+
+<div class="cart-popup-wrapper cart-popup-wrapper--hidden hidden -translate-y-full bg-white border border-transparent fixed right-0 top-0 transform transition-transform w-96 z-50" role="dialog" aria-modal="true" aria-labelledby="CartPopupHeading" data-cart-popup-wrapper>
+	<div class="cart-popup pb-4 pt-2 px-6" data-cart-popup tabindex="-1">
+		<div class="cart-popup__header border-b border-gray-300 flex flex-row items-center">
+			<h2 id="CartPopupHeading" class="cart-popup__heading flex-grow cart-popup__heading leading-tight m-0 py-2 text-base text-gray-800 tracking-wide uppercase">{{ 'cart.popup.added_to_cart' | t }}</h2>
+			<button class="-mr-4 cart-popup__close p-4" aria-label="{{ 'general.accessibility.close_modal' | t }}" data-cart-popup-close>
+				{% include 'icon-close', icon_class: "fill-current h-4 w-4" %}
+			</button>
+		</div>
+		<div class="cart-popup-item flex my-4">
+			<div
+				class="cart-popup-item__image-wrapper flex-shrink-0 mr-4 relative text-center hidden"
+				data-cart-popup-image-wrapper
+				data-image-loading-animation
+			></div>
+			<div class="cart-popup-item__description flex justify-between leading-5 text-gray-800 w-full">
+				<div>
+					<h3
+						class="cart-popup-item__title text-gray-800 text-xl"
+						data-cart-popup-title
+					></h3>
+					<ul
+						class="mt-1 product-details pt-1 text-base"
+						aria-label="{{ 'cart.popup.product_details' | t }}"
+						data-cart-popup-product-details
+					></ul>
+				</div>
+				<div class="cart-popup-item__quantity flex-shrink-0 ml-4 text-base text-right w-4/12">
+					<span class="sr-only" data-cart-popup-quantity-label></span>
+					<span aria-hidden="true">{{ 'cart.popup.quantity' | t }}:</span>
+					<span aria-hidden="true" data-cart-popup-quantity></span>
+				</div>
+			</div>
+		</div>
+
+		<a href="{{ routes.cart_url }}" class="cart-popup__cta-link btn btn--secondary-accent">
+			{{ 'products.product.view_cart' | t }} (<span data-cart-popup-cart-quantity></span>)
+		</a>
+
+		<div class="cart-popup__dismiss mt-2 text-center">
+			<button class="cart-popup__dismiss-button text-link text-link--accent text-base" data-cart-popup-dismiss>
+				{{ 'cart.general.continue_shopping' | t }}
+			</button>
+		</div>
+	</div>
+</div>

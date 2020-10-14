@@ -1,0 +1,44 @@
+{
+	"src": "./src",
+	"dest": "./dist",
+
+	"html": {
+		"src": "html",
+		"dest": "./"
+	},
+
+	"static": {
+		"src": "static",
+		"dest": "./"
+	},
+
+	"javascripts": {
+		"src": "javascripts",
+		"dest": "assets"
+	},
+
+	"stylesheets": {
+		"src": "stylesheets",
+		"dest": "assets"
+	},
+
+	"images": {
+		"src": "images",
+		"dest": "assets"
+	},
+
+	"fonts": {
+		"src": "fonts",
+		"dest": "assets"
+	},
+
+	"icons": {
+		"src": "icons",
+		"dest": "assets"
+	},
+
+	"legacy": {
+		"src": "legacy",
+		"dest": "assets"
+	}
+}

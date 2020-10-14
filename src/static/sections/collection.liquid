@@ -1,0 +1,123 @@
+<!-- /sections/collection.liquid -->
+<div class="container">
+	{% if section.settings.title != blank %}
+		<div class="mb-8 text-center">
+			<h2 class="text-2xl tracking-wide uppercase mb-4">{{ section.settings.title | escape }}</h2>
+		</div>
+	{% endif %}
+
+	{%- assign collection = collections[section.settings.collection] -%}
+
+	{% case section.settings.grid %}
+		{% when 2 %}
+			{%- assign max_height = 530 -%}
+			{%- assign grid_item_width = 'md:w-1/2' -%}
+		{% when 3 %}
+			{%- assign max_height = 345 -%}
+			{%- assign grid_item_width = 'sm:w-1/2 md:w-1/3' -%}
+		{% when 4 %}
+			{%- assign max_height = 250 -%}
+			{%- assign grid_item_width = 'sm:w-1/2 md:w-1/4' -%}
+		{% when 5 %}
+			{%- assign max_height = 195 -%}
+			{%- assign grid_item_width = 'sm:w-1/2 md:w-1/5' -%}
+	{% endcase %}
+
+	{%- assign product_limit = section.settings.grid | times: section.settings.rows -%}
+
+	<ul class="flex flex-col mx-0 md:flex-row md:flex-wrap md:-mx-4 justify-center">
+		{% for product in collection.products limit: product_limit %}
+			<li class="mb-6 px-4 {{ grid_item_width }}">
+				{% include 'product-card-grid', max_height: max_height, product: product, show_vendor: section.settings.show_vendor %}
+			</li>
+		{% else %}
+
+			{% for i in (1..product_limit) %}
+				<li class="mb-8 px-4 {{ grid_item_width }}">
+					<div class="relative">
+						<a class="block absolute top-0 left-0 right-0 bottom-0 z-2" href="#">
+							<span class="sr-only">{{ 'homepage.onboarding.product_title' | t }}</span>
+						</a>
+						<div class="mx-auto mb-4 relative w-full">
+							{% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+							{{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+						</div>
+						<div class="font-semibold text-xl mb-0" aria-hidden="true">{{ 'homepage.onboarding.product_title' | t }}</div>
+						{% include 'product-price' %}
+					</div>
+				</li>
+			{% endfor %}
+		{% endfor %}
+	</ul>
+
+	{% if section.settings.show_view_all %}
+		<hr class="border-t-0 my-20" aria-hidden="true" />
+		<div class="text-center">
+			<a
+				href="{{ collection.url }}"
+				class="bg-red-600 border-red-600 btn text-base text-white"
+				aria-label="{{ 'collections.general.view_all_label' | t: collection_name: collection.title }}">
+				{{ 'collections.general.view_all' | t }}
+			</a>
+		</div>
+	{% endif %}
+
+</div>
+
+
+
+{% schema %}
+{
+	"name": "Featured collection",
+	"class": "index-section",
+	"settings": [
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Heading",
+			"default": "Featured collection"
+		},
+		{
+			"id": "collection",
+			"type": "collection",
+			"label": "Collection"
+		},
+		{
+			"type": "range",
+			"id": "grid",
+			"label": "Products per row",
+			"min": 2,
+			"max": 5,
+			"step": 1,
+			"default": 3
+		},
+		{
+			"type": "range",
+			"id": "rows",
+			"label": "Rows",
+			"min": 1,
+			"max": 5,
+			"step": 1,
+			"default": 2
+		},
+		{
+			"type": "checkbox",
+			"id": "show_vendor",
+			"label": "Show product vendors",
+			"default": false
+		},
+		{
+			"type": "checkbox",
+			"id": "show_view_all",
+			"label": "Show 'View all' button",
+			"default": false
+		}
+	],
+	"presets": [
+		{
+			"name": "Featured collection",
+			"category": "Collection"
+		}
+	]
+}
+{% endschema %}

@@ -1,0 +1,89 @@
+<!-- /sections/collection-list.liquid -->
+<div class="container">
+	{% if section.settings.title != blank %}
+		<div class="mb-8 text-center">
+			<h2 class="text-2xl tracking-wide uppercase mb-4">{{ section.settings.title | escape }}</h2>
+		</div>
+	{% endif %}
+
+	{% case section.settings.grid %}
+		{% when 2 %}
+			{%- assign grid_item_width = 'md:w-1/2' -%}
+		{% when 3 %}
+			{%- assign grid_item_width = 'sm:w-1/2 md:w-1/3' -%}
+		{% when 4 %}
+			{%- assign grid_item_width = 'sm:w-1/2 md:w-1/4' -%}
+		{% when 5 %}
+			{%- assign grid_item_width = 'sm:w-1/2 md:w-1/5' -%}
+	{% endcase %}
+
+	<div class="collection-grid">
+		<ul class="flex flex-col items-stretch mx-0 md:flex-row md:flex-wrap md:-mx-4">
+			{% for block in section.blocks limit: section.blocks.size %}
+				<li class="px-4 mb-8 {{ grid_item_width }}" {{ block.shopify_attributes }}>
+					{%- assign collection = collections[block.settings.collection] -%}
+					{% include 'collection-grid-item', collection: collection %}
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+
+	{% if section.blocks.size == 0 %}
+		{% include 'no-blocks' %}
+	{% endif %}
+</div>
+
+{% schema %}
+{
+	"name": "Collection list",
+	"class": "index-section pb-12",
+	"max_blocks": 12,
+	"settings": [
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Heading",
+			"default": "Collection list"
+		},
+		{
+			"type": "range",
+			"id": "grid",
+			"label": "Collections per row",
+			"min": 2,
+			"max": 5,
+			"step": 1,
+			"default": 3
+		}
+	],
+	"blocks": [
+		{
+			"type": "featured_collection",
+			"name": "Collection",
+			"settings": [
+				{
+					"label": "Collection",
+					"id": "collection",
+					"type": "collection"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "Collection list",
+			"category": "Collection",
+			"blocks": [
+				{
+					"type": "featured_collection"
+				},
+				{
+					"type": "featured_collection"
+				},
+				{
+					"type": "featured_collection"
+				}
+			]
+		}
+	]
+}
+{% endschema %}

@@ -1,0 +1,217 @@
+{% if section.blocks.size > 0 %}
+
+	<section
+		class="slideshow-wrapper"
+		role="region"
+		aria-label="slideshow"
+		aria-describedby="a11y-slideshow-info"
+		id="Slideshow-{{ section.id }}"
+		data-section-id="{{ section.id }}"
+		data-section-type="slideshow"
+		data-autoplay="{{ section.settings.hero_home_auto }}"
+		data-speed="{{ section.settings.hero_home_auto_speed | times: 1000 }}"
+	>
+		<div
+			class="slideshow"
+			data-slider
+		>
+			{%- for block in section.blocks -%}
+				{%- if block.settings.image != blank -%}
+				<div
+					class="bg-center bg-cover bg-no-repeat lazyload hero__slide hero__slide--{{ block.id }}"
+					{% if block.settings.image %}
+					data-bgset="{% include 'bgset', image: block.settings.image %}"
+					data-sizes="auto"
+					data-parent-fit="cover"
+					{% endif %}
+					{{ block.shopify_attributes }}
+				>
+					<div class="container mx-auto flex px-4 {{ block.settings.text_position }}" style="height: 470px;">
+						<div class="text-center py-12">
+
+							{%- unless block.settings.text == blank -%}
+							<div class="{{ block.settings.text_class }}">
+								{{ block.settings.text }}
+							</div>
+							{%- endunless -%}
+
+							{%- unless block.settings.title == blank -%}
+								<h2
+									data-slide-id="{{ forloop.index }}"
+									class="{{ block.settings.title_class }} {% if section.blocks.size == 1 %} active{% endif %}"
+								>
+									{{ block.settings.title | escape }}
+								</h2>
+							{%- endunless -%}
+
+							{%- if block.settings.button_label != blank and block.settings.button_link != blank -%}
+								<a
+									data-slide-id="{{ forloop.index }}"
+									href="{{ block.settings.button_link }}"
+									class="{{ block.settings.button_class }}">
+									{{ block.settings.button_label | escape }}
+								</a>
+							{%- endif -%}
+						</div>
+					</div>
+				</div>
+				{%- else -%}
+				<div class="placeholder-background">
+					{% capture current %}{% cycle 1, 2 %}{% endcapture %}
+					{{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+				</div>
+				{%- endif -%}
+			{%- endfor -%}
+		</div>
+	</section>
+{% endif %}
+
+{% if section.blocks.size == 0 %}
+	{% include 'no-blocks' %}
+{% endif %}
+
+{% schema %}
+{
+	"name": "Slideshow",
+	"class": "shopify-section--slideshow",
+	"max_blocks": 4,
+	"settings": [
+		{
+			"type": "checkbox",
+			"id": "hero_home_auto",
+			"label": "Auto-rotate slides",
+			"default": false
+		},
+		{
+			"type": "range",
+			"id": "hero_home_auto_speed",
+			"label": "Change slides every",
+			"max": 9,
+			"min": 3,
+			"step": 2,
+			"unit": " s",
+			"default": 5
+		}
+	],
+	"blocks": [
+		{
+			"type": "slide",
+			"name": "Slide",
+			"settings": [
+				{
+					"type": "image_picker",
+					"id": "image",
+					"label": "Image"
+				},
+				{
+					"type": "select",
+					"id": "text_position",
+					"label": "Text position",
+					"default": "items-center justify-start",
+					"options": [
+						{
+							"label": "Top left",
+							"value": "items-start justify-start"
+						},
+						{
+							"label": "Top center",
+							"value": "items-start justify-center"
+						},
+						{
+							"label": "Top right",
+							"value": "items-start justify-end"
+						},
+						{
+							"label": "Middle left",
+							"value": "items-center justify-start"
+						},
+						{
+							"label": "Middle center",
+							"value": "items-center justify-center"
+						},
+						{
+							"label": "Middle right",
+							"value": "items-center justify-end"
+						},
+						{
+							"label": "Bottom left",
+							"value": "items-end justify-start"
+						},
+						{
+							"label": "Bottom center",
+							"value": "items-end justify-center"
+						},
+						{
+							"label": "Bottom right",
+							"value": "items-end justify-end"
+						}
+					]
+				},
+				{
+					"type": "header",
+					"content": "Text"
+				},
+				{
+					"type": "text",
+					"id": "title",
+					"label": "Heading",
+					"default": "Slide"
+				},
+				{
+					"type": "text",
+					"id": "title_class",
+					"label": "Title class",
+					"default": "font-hairline uppercase text-6xl mb-4"
+				},
+				{
+					"type": "richtext",
+					"id": "text",
+					"label": "Sub Heading",
+					"default": "<p>Welcome To Fashion</p>"
+				},
+				{
+					"type": "text",
+					"id": "text_class",
+					"label": "Sub Heading Class",
+					"default": "font-semibold text-xl mb-1 text-gray-600 tracking-widest capitalize"
+				},
+				{
+					"type": "text",
+					"id": "button_label",
+					"label": "Button label",
+					"default": "View all products"
+				},
+				{
+					"type": "text",
+					"id": "button_class",
+					"label": "Button class",
+					"default": "font-semibold inline-block bg-red-600 text-white uppercase py-3 px-8"
+				},
+				{
+					"type": "url",
+					"id": "button_link",
+					"label": "Button link"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "Slideshow",
+			"category": "Image",
+			"settings": {
+				"hero_home_auto": false,
+				"hero_home_auto_speed": 5
+			},
+			"blocks": [
+				{
+					"type": "slide"
+				},
+				{
+					"type": "slide"
+				}
+			]
+		}
+	]
+}
+{% endschema %}
