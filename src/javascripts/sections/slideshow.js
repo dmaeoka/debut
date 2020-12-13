@@ -62,7 +62,7 @@ let config = {
 	useLocalStorage: true
 };
 
-register('slideshow', {
+register('slideshow-section', {
 	onLoad() {
 		try {
 			let mergedConfig = { ...config, ...{ container: this.container.querySelector("[data-slider]") } };

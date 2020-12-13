@@ -13,7 +13,9 @@
 	{%- endstyle -%}
 {%- endif -%}
 
-<div data-section-id="{{ section.id }}" data-section-type="hero-section">
+<div
+	data-section-id="{{ section.id }}"
+	data-section-type="hero-section">
 
 	{%- if section.settings.hero_layout == 'fixed_width' -%}
 		<div class="container">
@@ -161,6 +163,11 @@
 	"name": "Image with text overlay",
 	"class": "index-section index-section--flush",
 	"settings": [
+		{
+			"type": "text",
+			"id": "extra_class",
+			"label": "Adicional CSS Classes"
+		},
 		{
 			"type": "image_picker",
 			"id": "image",

@@ -8,6 +8,7 @@
 	Usage:
 	{% include 'site-nav', linklist: section.settings.main_linklist, wrapper_class: 'site-nav--centered' %}
 {% endcomment %}
+
 <ul
 	id="SiteNav"
 	class="flex items-center py-4{% if wrapper_class != blank %} {{ wrapper_class }}{% endif %}">
@@ -30,7 +31,7 @@
 		{% if link.links != blank %}
 			<li class="site-nav--has-dropdown{% if three_level_nav %} site-nav--has-centered-dropdown{% endif %}{% if link.active %} site-nav--active{% endif %}" data-has-dropdowns>
 				<button
-					class="flex flex-no-wrap items-center px-3 py-2 text-xl whitespace-no-wrap{% if link.child_active %} site-nav__link--active{% endif %}"
+					class="flex flex-no-wrap items-center px-3 py-2 text-lg font-light whitespace-no-wrap site-nav__link--main{% if link.child_active %} site-nav__link--active{% endif %}"
 					type="button"
 					aria-expanded="false"
 					aria-controls="SiteNavLabel-{{ child_list_handle }}">
@@ -39,7 +40,7 @@
 				</button>
 
 				<div
-					class="hidden absolute bg-white border border-gray-300 left-0 top-full w-full z-10{% if three_level_nav %} site-nav__dropdown--centered{% endif %}"
+					class="site-nav__dropdown hidden absolute bg-white border border-gray-300 left-0 top-full w-full z-10{% if three_level_nav %} site-nav__dropdown--centered{% endif %}"
 					id="SiteNavLabel-{{ child_list_handle }}">
 					{% if three_level_nav %}
 						<div class="py-3 px-4">
@@ -49,7 +50,7 @@
 										<li class="px-4 w-1/3">
 											<a
 												href="{{ childlink.url }}"
-												class="font-semibold block whitespace-no-wrap"
+												class="font-semibold block whitespace-no-wrap site-nav__child-link"
 												{% if childlink.current %} aria-current="page"{% endif %}
 											>
 												<span class="border-b border-transparent">{{ childlink.title | escape }}</span>
@@ -61,7 +62,7 @@
 													<li>
 														<a
 															href="{{ grandchildlink.url }}"
-															class="block whitespace-no-wrap mt-2"
+															class="block whitespace-no-wrap mt-2 site-nav__child-link"
 														{% if grandchildlink.current %} aria-current="page"{% endif %}
 													>
 															<span class="border-b border-transparent">{{ grandchildlink.title | escape }}</span>
@@ -97,7 +98,7 @@
 			<li>
 				<a
 					href="{{ link.url }}"
-					class="text-xl block px-3 py-2 whitespace-no-wrap site-nav__link site-nav__link--main{% if link.active %} site-nav__link--active{% endif %}"
+					class="text-lg font-light block px-3 py-2 whitespace-no-wrap site-nav__link site-nav__link--main{% if link.active %} site-nav__link--active{% endif %}"
 					{% if link.current %} aria-current="page"{% endif %}
 				>
 					<span class="border-b {{ active_item }}">{{ link.title | escape }}</span>

@@ -1,9 +1,9 @@
 <!-- /sections/custom-content.liquid -->
-<div class="container">
+<div
+	class="container">
 	{% if section.settings.title != blank %}
 		<div class="mb-5 text-center">
-			<h3
-				class="font-semibold text-3xl">{{ section.settings.title | escape }}</h3>
+			<h3 class="font-semibold text-3xl">{{ section.settings.title | escape }}</h3>
 		</div>
 	{% endif %}
 
@@ -383,6 +383,11 @@
 		"id": "title",
 		"label": "Heading",
 		"default": "Custom content"
+	},
+	{
+		"type": "text",
+		"id": "extra_class",
+		"label": "Adicional CSS Classes"
 	}],
 	"blocks": [{
 			"type": "text",

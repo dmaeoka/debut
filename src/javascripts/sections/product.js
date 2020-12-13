@@ -35,7 +35,7 @@ const selectors = {
 	thumbnailActive: '[data-product-single-thumbnail][aria-current]',
 };
 
-register('product', {
+register('product-section', {
 	async onLoad() {
 		console.log("Loading product.js");
 		const productFormElement = document.querySelector(selectors.productForm);
