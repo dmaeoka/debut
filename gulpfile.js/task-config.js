@@ -1,12 +1,10 @@
 const PostcssPurgeCss = require('@fullhuman/postcss-purgecss');
 
 module.exports = {
-	html: false,
 	images: true,
 	fonts: true,
 	static: true,
 	svgSprite: true,
-	legacy: true,
 	stylesheets: {
 		autoprefixer: {
 			overrideBrowserslist: ['> 1%', 'last 3 versions', 'Firefox >= 20', 'iOS >=7'],
@@ -33,13 +31,47 @@ module.exports = {
 				"./lib.js"
 			],
 			theme: [
-				"@babel/polyfill",
+				"@babel/polyfill/noConflict",
 				"./theme.js"
 			],
 			gift_card: [
-				"@babel/polyfill",
+				"@babel/polyfill/noConflict",
 				"./gift_card.js"
 			],
+		},
+		babel: {
+			presets: [
+				[
+					"@babel/preset-env",
+					{
+						modules: false,
+						targets: {
+							"edge": "17",
+							"firefox": "60",
+							"chrome": "67",
+							"safari": "11.1",
+							"ie": "11"
+						},
+					},
+				]
+			],
+		},
+		production: {
+			uglifyJsPlugin: {
+				uglifyOptions: {
+					mangle: true,
+					ie8: false,
+					compress: {
+						pure_getters: true,
+						unsafe: true,
+						unsafe_comps: true,
+					},
+				},
+				cache: true,
+				sourceMap: false,
+				extractComments: false,
+				exclude: [/\.min\.js$/gi], // skip pre-minified libs
+			},
 		},
 		publicPath: "/"
 	},
@@ -56,14 +88,5 @@ module.exports = {
 
 	production: {
 		rev: false
-	},
-
-	additionalTasks: {
-		development: {
-			postbuild: 'legacy'
-		},
-		production: {
-			postbuild: 'legacy'
-		}
 	}
 }

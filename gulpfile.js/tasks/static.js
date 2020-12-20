@@ -3,6 +3,7 @@ if (!TASK_CONFIG.static) return
 const changed = require('gulp-changed')
 const gulp = require('gulp')
 const path = require('path')
+const debug = require("gulp-debug")
 const projectPath = require('../lib/projectPath')
 
 const staticTask = function () {
@@ -19,6 +20,7 @@ const staticTask = function () {
 	}
 
 	return gulp.src(paths.src, options)
+		.pipe(debug())
 		.pipe(gulp.dest(paths.dest))
 }
 

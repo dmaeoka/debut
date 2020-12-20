@@ -13,7 +13,10 @@
 	{% if block_size > 0 %}
 		<div
 			class="quotes-wrapper"
-			data-slider>
+			{%- if block_size > 2 -%}
+			data-slider
+			{%- endif -%}
+		>
 			<div
 				class="quotes-slider-wrapper overflow-hidden"
 				data-slider-container>
@@ -24,7 +27,7 @@
 					data-slider-track>
 					{% case block_size %}
 						{% when 1 %}
-							{%- assign block_class = 'md:w-3/4' -%}
+							{%- assign block_class = 'md:w-3/4 m-auto' -%}
 						{% when 2 %}
 							{%- assign block_class = 'md:w-1/2' -%}
 						{% else %}
@@ -36,10 +39,8 @@
 							class="w-full {{ block_class }} z-10 flex-shrink-0 quotes-slide quotes-slide--{{ block.id }}"
 							aria-labelledby="slickDot{{ block.id }}"
 							{{ block.shopify_attributes }}
-							{%- if block_size > 2 -%}
 							data-slider-slide-index="{{ forloop.index0 }}"
 							data-slider-item
-							{%- endif -%}
 						>
 							<blockquote class="quotes-slider__text text-xl text-center px-4">
 								<span class="quote-icon block mx-auto mb-5 ">

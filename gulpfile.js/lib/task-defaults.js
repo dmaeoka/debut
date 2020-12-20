@@ -53,18 +53,6 @@ module.exports = {
 		}
 	},
 
-	html: {
-		dataFile: "data/global.json",
-		excludeFolders: ["layouts", "shared", "macros", "data"],
-		extensions: ["html", "njk", "json"],
-		htmlmin: {
-			collapseWhitespace: true
-		},
-		nunjucksRender: {},
-		templateLanguage: 'nunjucks',
-		twig: {},
-	},
-
 	images: {
 		extensions: ["jpg", "png", "svg", "gif"]
 	},

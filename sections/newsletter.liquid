@@ -1,4 +1,5 @@
 <!-- /sections/newsletter.liquid -->
+
 <div class="newsletter-section py-16 {% if section.settings.show_background %} bg-gray-200{% endif %}">
 	<div class="container">
 		<div class="mb-8 text-center">
@@ -33,8 +34,8 @@
 						aria-describedby="{{ formId }}-email-error"
 						data-form-status
 					{% endif %}
-					>
-				<button type="submit" class="bg-red-600 btn flex-shrink-0 text-base text-white -ml-px" name="commit">
+				>
+				<button type="submit" class="-ml-px bg-red-600 border-red-600 btn flex-shrink-0 text-base text-white" name="commit">
 					<span>{{ 'general.newsletter_form.submit' | t }}</span>
 				</button>
 			</div>
@@ -48,8 +49,6 @@
 		{% endform %}
 	</div>
 </div>
-
-
 
 {% schema %}
 {

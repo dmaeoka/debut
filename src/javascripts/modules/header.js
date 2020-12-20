@@ -27,33 +27,31 @@ export default class Header {
 	constructor() {
 		this.adjustStyleAndPosition = Helpers.debounce(() => {
 			this.styleDropdowns(document.querySelectorAll(selectors.siteNavHasDropdown));
-			this.positionFullWidthDropdowns();
 		}, 50);
 	}
 
 	init() {
-		this.cacheSelectors();
-		this.styleDropdowns(document.querySelectorAll(selectors.siteNavHasDropdown));
-		this.positionFullWidthDropdowns();
+		// this.cacheSelectors();
+		// this.styleDropdowns(document.querySelectorAll(selectors.siteNavHasDropdown));
 
-		cache.parents.forEach(element => {
-			element.addEventListener('click', this.submenuParentClickHandler);
-		});
+		// cache.parents.forEach(element => {
+		// 	element.addEventListener('click', this.submenuParentClickHandler);
+		// });
 
-		// check when we're leaving a dropdown and close the active dropdown
-		cache.siteNavChildLink.forEach(element => {
-			element.addEventListener('focusout', this.submenuFocusoutHandler);
-		});
+		// // check when we're leaving a dropdown and close the active dropdown
+		// cache.siteNavChildLink.forEach(element => {
+		// 	element.addEventListener('focusout', this.submenuFocusoutHandler);
+		// });
 
-		cache.topLevel.forEach(element => {
-			element.addEventListener('focus', this.hideDropdown);
-		});
+		// cache.topLevel.forEach(element => {
+		// 	element.addEventListener('focus', this.hideDropdown);
+		// });
 
-		cache.subMenuLinks.forEach(element => {
-			element.addEventListener('click', this.stopImmediatePropagation);
-		});
+		// cache.subMenuLinks.forEach(element => {
+		// 	element.addEventListener('click', this.stopImmediatePropagation);
+		// });
 
-		window.addEventListener('resize', this.resizeHandler);
+		// window.addEventListener('resize', this.resizeHandler);
 	}
 
 	stopImmediatePropagation(event) {
@@ -72,6 +70,7 @@ export default class Header {
 			siteHeader: document.querySelector(selectors.siteHeader),
 			siteNavChildLink: document.querySelectorAll(selectors.siteNavChildLink)
 		};
+		console.log(cache);
 	}
 
 	showDropdown(element) {
@@ -129,18 +128,6 @@ export default class Header {
 		var leftOffset = rect.left + win.pageXOffset;
 		var headerWidth = Math.floor(cache.siteHeader.offsetWidth) / 2;
 		return leftOffset > headerWidth;
-	}
-
-	positionFullWidthDropdowns() {
-		document
-			.querySelectorAll(selectors.siteNavHasCenteredDropdown)
-			.forEach(el => {
-				var fullWidthDropdown = el.querySelector(
-					selectors.siteNavCenteredDropdown
-				);
-				var fullWidthDropdownOffset = el.offsetTop + 41;
-				fullWidthDropdown.style.top = fullWidthDropdownOffset + 'px';
-			});
 	}
 
 	keyUpHandler(event) {

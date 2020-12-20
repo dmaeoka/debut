@@ -1,0 +1,102 @@
+<!-- /snippets/site-nav.liquid -->
+{% comment %}
+Renders a list of menu items
+Accepts:
+- linklist: {Object} Linklist Liquid object (required)
+- wrapper_class: {String} CSS wrapper class for the navigation (optional)
+Usage:
+{% include 'site-nav', linklist: section.settings.main_linklist, wrapper_class: 'site-nav--centered' %}
+{% endcomment %}
+<!--
+	{{wrapper_class}}
+	-->
+	<ul
+	id="SiteNav"
+	class="flex items-center py-4">
+	{% for link in linklists[linklist].links %}
+	{%- assign child_list_handle = link.title | handleize -%}
+	{% comment %}
+	Check if third-level nav exists on each parent link.
+	{% endcomment %}
+	{%- assign three_level_nav = false -%}
+	{% if link.links != blank %}
+	{% if link.levels == 2 %}
+	{%- assign three_level_nav = true -%}
+	{% endif %}
+	{% endif %}
+	{%- capture active_item -%}{% if link.active or link.child_active %} border-gray-700{% else %}border-transparent{% endif %}{%- endcapture -%}
+	{% if link.links != blank %}
+	<li data-has-dropdowns>
+		<button
+			class="flex flex-no-wrap items-center px-3 py-2 text-lg font-light whitespace-no-wrap"
+			type="button"
+			aria-expanded="false"
+			aria-controls="SiteNavLabel-{{child_list_handle}}">
+		<span class="border-b {{active_item}}">{{link.title | escape}}</span>
+		{% include 'icon-chevron-down', icon_class: "fill-current h-auto ml-2 w-3" %}
+		</button>
+		<div
+			class="hidden absolute bg-white border border-gray-300 left-0 top-full w-full z-10"
+			id="SiteNavLabel-{{child_list_handle}}">
+			{% if three_level_nav %}
+			<div class="py-3 px-4">
+				<ul class="-mx-4 flex flex-no-wrap">
+					{% if link.links != blank %}
+					{% for childlink in link.links %}
+					<li class="px-4 w-1/3">
+						<a
+						href="{{childlink.url}}"
+						class="font-semibold block whitespace-no-wrap"
+						{% if childlink.current %} aria-current="page"{% endif %}
+						>
+						<span class="border-b border-transparent">{{childlink.title | escape}}</span>
+						</a>
+						{% if childlink.links != blank %}
+						<ul>
+							{% for grandchildlink in childlink.links %}
+							<li>
+								<a
+								href="{{grandchildlink.url}}"
+								class="block whitespace-no-wrap mt-2"
+								{% if grandchildlink.current %} aria-current="page"{% endif %}
+								>
+								<span class="border-b border-transparent">{{grandchildlink.title | escape}}</span>
+								</a>
+							</li>
+							{% endfor %}
+						</ul>
+						{% endif %}
+					</li>
+					{% endfor %}
+					{% endif %}
+				</ul>
+			</div>
+			{% else %}
+			<ul>
+				{% for childlink in link.links %}
+				<li>
+					<a href="{{childlink.url}}"
+					class="site-nav__link site-nav__child-link{% if forloop.last %} site-nav__link--last{% endif %}"
+					{% if childlink.current %} aria-current="page"{% endif %}
+					>
+					<span class="border-b border-transparent">{{childlink.title | escape}}</span>
+					</a>
+				</li>
+				{% endfor %}
+			</ul>
+			{% endif %}
+		</div>
+	</li>
+	{% else %}
+	<li>
+		<a
+		href="{{link.url}}"
+		class="text-lg font-light block px-3 py-2 whitespace-no-wrap site-nav__link site-nav__link--main{% if link.active %} site-nav__link--active{% endif %}"
+		{% if link.current %} aria-current="page"{% endif %}
+		>
+		<span class="border-b {{active_item}}">{{link.title | escape}}</span>
+		</a>
+	</li>
+	{% endif %}
+	{% endfor %}
+</ul>
