@@ -1,5 +1,5 @@
-<!-- src/static/sections/feature-row.liquid -->
-<div class="container">
+<!-- sections/feature-row.liquid -->
+<section class="{{ section.settings.extra_class }}">
 	<div class="flex flex-col items-stretch mx-0 md:flex-row md:flex-wrap md:-mx-4">
 		<div
 			class="px-4 md:w-1/2 {{section.settings.layout}}">
@@ -10,10 +10,8 @@
 				{% include 'image-style', image: section.settings.image, height: 545, wrapper_id: wrapper_id, img_id: img_id %}
 				<div
 					id="{{ wrapper_id }}"
-					class="mx-auto mb-5 relative w-full js">
-					<div
-						style="padding-top:{{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100}}%;"
-						data-image-loading-animation>
+					class="mx-auto relative w-full js">
+					<div style="padding-top:{{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100}}%;">
 						<img
 							id="{{ img_id }}"
 							class="block mx-auto w-full absolute top-0 lazyload"
@@ -54,20 +52,26 @@
 				{%- endcapture -%}
 
 				<a href="{{ section.settings.button_link }}"
-					class="btn"
+					class="{{ section.settings.button_class }}"
 					aria-label="{{ ariaLabel }}">
 					{{- section.settings.button_label | escape -}}
 				</a>
 			{% endif %}
 		</div>
 	</div>
-</div>
+</section>
 
 {% schema %}
 {
 	"name": "Image with text",
 	"class": "index-section",
 	"settings": [
+		{
+			"type": "text",
+			"id": "extra_class",
+			"label": "Adicional CSS Classes",
+			"default": "container"
+		},
 		{
 			"type": "image_picker",
 			"id": "image",
@@ -96,11 +100,6 @@
 			"default": "Image with text"
 		},
 		{
-			"type": "text",
-			"id": "extra_class",
-			"label": "Adicional CSS Classes"
-		},
-		{
 			"type": "richtext",
 			"id": "text",
 			"label": "Text",
@@ -115,6 +114,12 @@
 			"type": "url",
 			"id": "button_link",
 			"label": "Button link"
+		},
+		{
+			"type": "text",
+			"id": "button_class",
+			"label": "Button class",
+			"default": "btn bg-red-600 border-red-600 text-base text-white"
 		}
 	],
 	"presets": [

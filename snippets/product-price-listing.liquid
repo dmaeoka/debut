@@ -1,4 +1,4 @@
-<!-- /snippets/product-price-listing.liquid -->
+<!-- snippets/product-price-listing.liquid -->
 {% comment %}
 	Renders a list of product's price (regular, sale, unit)
 	Accompanies product listings (collection page, search result) and not updated dynamically
@@ -32,18 +32,13 @@
 	assign money_price = price | money
 -%}
 
-<!--
-	{%- if product.price_varies == false and product.compare_at_price_varies %} price--compare-price-hidden {% endif -%}
--->
 <dl class="flex flex-col items-start mt-0 mb-0">
 	{% if show_vendor and product %}
 		<div class="text-gray-600 text-sm font-normal uppercase tracking-wide w-full flex-grow">
 			<dt>
 				<span class="sr-only">{{ 'products.product.vendor' | t }}</span>
 			</dt>
-			<dd class="mb-2">
-				{{ product.vendor }}
-			</dd>
+			<dd class="mb-2">{{ product.vendor }}</dd>
 		</div>
 	{% endif %}
 
@@ -59,7 +54,7 @@
 			<span class="sr-only">{{ 'products.product.regular_price' | t }}</span>
 		</dt>
 		<dd class="mr-2">
-			<span class="line-through font-semibold text-gray-600">
+			<span class="text-xl text-gray-600">
 				{%- if product.price_varies -%}
 					{{ 'products.product.from_lowest_price_html' | t: lowest_price: money_price }}
 				{%- else -%}
@@ -74,7 +69,7 @@
 			<span class="sr-only">{{ 'products.product.sale_price' | t }}</span>
 		</dt>
 		<dd class="mr-2">
-			<span class="text-xl text-red-600 font-semibold">
+			<span class="text-xl text-red-600">
 				{%- if product.price_varies -%}
 					{{ 'products.product.from_lowest_price_html' | t: lowest_price: money_price }}
 				{%- else -%}
@@ -87,7 +82,7 @@
 				<span class="sr-only">{{ 'products.product.regular_price' | t }}</span>
 			</dt>
 			<dd class="mr-2">
-				<s class="text-xl font-semibold text-gray-600">
+				<s class="text-xl text-gray-600">
 					{{ compare_at_price | money }}
 				</s>
 			</dd>
@@ -118,15 +113,15 @@
 	</div>
 	{% endif -%}
 
-	<div class="mt-2">
+	<div class="mt-2 flex">
 		{% if on_sale %}
-		<span class="flex px-2 py-1 self-center text-center text-xs leading-4 uppercase tracking-wide bg-red-600 border border-red-500 rounded-sm price__badge--sale" aria-hidden="true">
+		<span class="flex px-2 py-1 self-center text-center text-xs leading-4 uppercase tracking-wide bg-red-600 border border-red-500 rounded-sm mr-2" aria-hidden="true">
 			<span class="text-white">{{ 'products.product.on_sale' | t }}</span>
 		</span>
 		{% endif %}
 
 		{% unless available %}
-		<span class="flex px-2 py-1 self-center text-center text-xs leading-4 uppercase tracking-wide bg-transparent border border-gray-500 rounded-sm price__badge--sold-out">
+		<span class="flex px-2 py-1 self-center text-center text-xs leading-4 uppercase tracking-wide bg-transparent border border-gray-500 rounded-sm">
 			<span class="text-gray-600">{{ 'products.product.sold_out' | t }}</span>
 		</span>
 		{% endunless %}

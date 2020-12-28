@@ -1,7 +1,6 @@
 {% if section.blocks.size > 0 %}
-
 	<section
-		class="slideshow-wrapper"
+		class="slideshow-wrapper {{ section.settings.extra_class }}"
 		role="region"
 		aria-label="slideshow"
 		aria-describedby="a11y-slideshow-info"
@@ -18,7 +17,7 @@
 			{%- for block in section.blocks -%}
 				{%- if block.settings.image != blank -%}
 				<div
-					class="bg-center bg-cover bg-no-repeat lazyload hero__slide hero__slide--{{ block.id }}"
+					class="bg-center bg-cover bg-no-repeat lazyload slideshow__slide slideshow__slide--{{ block.id }}"
 					{% if block.settings.image %}
 					data-bgset="{% include 'bgset', image: block.settings.image %}"
 					data-sizes="auto"
@@ -26,7 +25,7 @@
 					{% endif %}
 					{{ block.shopify_attributes }}
 				>
-					<div class="container mx-auto flex px-4 {{ block.settings.text_position }}" style="height: 470px;">
+					<div class="slideshow__slide-container relative z-10 container mx-auto flex px-4 {{ block.settings.text_position }}" style="--slide-height: 500px;">
 						<div class="text-center py-12">
 
 							{%- unless block.settings.text == blank -%}
@@ -76,6 +75,11 @@
 	"class": "shopify-section--slideshow",
 	"max_blocks": 4,
 	"settings": [
+		{
+			"type": "text",
+			"id": "extra_class",
+			"label": "Adicional CSS Classes"
+		},
 		{
 			"type": "checkbox",
 			"id": "hero_home_auto",
@@ -185,7 +189,7 @@
 					"type": "text",
 					"id": "button_class",
 					"label": "Button class",
-					"default": "font-semibold inline-block bg-red-600 text-white uppercase py-3 px-8"
+					"default": "font-semibold inline-block bg-red-600 text-white uppercase py-3 px-8 rounded"
 				},
 				{
 					"type": "url",

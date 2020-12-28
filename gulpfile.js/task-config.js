@@ -1,3 +1,4 @@
+// http://maeoka-dev.myshopify.com/admin/themes.xml
 const PostcssPurgeCss = require('@fullhuman/postcss-purgecss');
 
 module.exports = {
@@ -28,6 +29,7 @@ module.exports = {
 			// files paths are relative to
 			// javascripts.dest in path-config.json
 			lib: [
+				"@babel/polyfill",
 				"./lib.js"
 			],
 			theme: [
@@ -37,23 +39,6 @@ module.exports = {
 			gift_card: [
 				"@babel/polyfill/noConflict",
 				"./gift_card.js"
-			],
-		},
-		babel: {
-			presets: [
-				[
-					"@babel/preset-env",
-					{
-						modules: false,
-						targets: {
-							"edge": "17",
-							"firefox": "60",
-							"chrome": "67",
-							"safari": "11.1",
-							"ie": "11"
-						},
-					},
-				]
 			],
 		},
 		production: {
@@ -77,8 +62,9 @@ module.exports = {
 	},
 
 	browserSync: {
+		https: true,
 		proxy: {
-			target: "https://maeoka-dev.myshopify.com"
+			target: "https://about.gitlab.com"
 		},
 		files: [
 			"./src/javascripts/**/*.js",

@@ -1,4 +1,4 @@
-<!-- src/static/templates/article.liquid -->
+<!-- templates/article.liquid -->
 {%- comment -%}
 	Comments may not appear right after they are submitted, either to be checked by Shopify's spam filter
 	or to await moderation. When a comment is submitted, the browser is redirected to a page
@@ -12,20 +12,15 @@
 	{%- assign number_of_comments = article.comments_count -%}
 {%- endif -%}
 
-<article class="container" aria-labelledby="title-0">
-	<div class="flex flex-row">
-		<div class="md:w-5/6 medium-up--push-one-twelfth">
-			{% section 'article-template' %}
-		</div>
-	</div>
+<article aria-labelledby="title-0">
+	{% section 'article-template' %}
 </article>
 
 {% if blog.comments_enabled? %}
 	{% if number_of_comments > 0 %}
-		<hr class="border-t-0 my-20" aria-hidden="true" />
 		<div class="container">
 			<div class="flex flex-row">
-				<div class="md:w-5/6 medium-up--push-one-twelfth">
+				<div class="md:w-5/6">
 					<h2 class="h3">{{ 'blogs.comments.comments_with_count' | t: count: number_of_comments }}</h2>
 
 					{% paginate article.comments by 5 %}
@@ -62,7 +57,6 @@
 		</div>
 	{% endif %}
 
-	<hr class="border-t-0 my-20" aria-hidden="true" />
 	<div class="container">
 		<div class="flex flex-row">
 			<div class="md:w-5/6 medium-up--push-one-twelfth">
@@ -134,9 +128,9 @@
 	</div>
 {% endif %}
 
-<div class="text-center return-link-wrapper container">
-	<a href="{{ blog.url }}" class="btn btn--secondary btn--has-icon-before">
-		{% include 'icon-arrow-left', icon_class: "h-3 w-3 align-middle" %}
+<div class="text-center my-12">
+	<a href="{{ blog.url }}" class="border-red-600 btn fill-current text-red-500">
+		{% include 'icon-arrow-left', icon_class: "h-4 mr-2 self-center w-4" %}
 		{{ 'blogs.article.back_to_blog' | t: title: blog.title }}
 	</a>
 </div>

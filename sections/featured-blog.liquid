@@ -1,5 +1,8 @@
-<!-- src/static/sections/featured-blog.liquid -->
-<div class="container">
+<!-- sections/featured-blog.liquid -->
+<section
+	class="{{ section.settings.extra_class }}"
+	data-section-id="{{ section.id }}"
+	data-section-type="featured-blog">
 	{% if section.settings.title != blank %}
 		<header class="mb-8 text-center">
 			<h2 class="text-2xl tracking-wide uppercase mb-4">{{ section.settings.title | escape }}</h2>
@@ -9,28 +12,21 @@
 	{%- assign blog = blogs[section.settings.blog] -%}
 
 	{% unless blog.articles_count == 0 %}
-		<ul class="md:-mx-4 flex flex-row flex-wrap overflow-auto">
+		<div class="md:-mx-4 flex flex-row flex-wrap overflow-auto">
 			{% for article in blog.articles limit: section.settings.post_limit %}
-				<li class="md:w-1/3 px-4">
-					<article
-						aria-labelledby="FeaturedBlogTitle-{{ forloop.index0 }}-{{ section.id }}">
+				<div class="md:w-1/3 px-4">
+					<article aria-labelledby="FeaturedBlogTitle-{{ forloop.index0 }}-{{ section.id }}">
 						<header>
-							<a
-								href="{{ article.url }}"
-								class="block">
+							<a href="{{ article.url }}" class="block">
 								{% if article.image %}
 									{% capture img_id %}ArticleImage-{{ article.image.id }}{% endcapture %}
 									{% capture img_wrapper_id %}ArticleImageWrapper-{{ article.image.id }}{% endcapture %}
 									{%- assign img_url = article.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
-
 									{% include 'image-style', image: article.image, height: 345, wrapper_id: img_wrapper_id, img_id: img_id %}
-									<div
-										id="{{ img_wrapper_id }}"
-										class="mx-auto relative w-full js">
+									<div id="{{ img_wrapper_id }}" class="mx-auto relative w-full js">
 										<div
 											class="block relative mb-6 min-h-px w-full h-full"
-											style="padding-top:{{ 1 | divided_by: article.image.aspect_ratio | times: 100}}%;"
-											data-image-loading-animation>
+											style="padding-top:{{ 1 | divided_by: article.image.aspect_ratio | times: 100}}%;">
 											<img
 												id="{{ img_id }}"
 												class="mx-auto w-full absolute top-0 lazyload"
@@ -51,7 +47,7 @@
 								<h3
 									class="font-semibold leading-snug text-xl tracking-wide mb-3"
 									id="FeaturedBlogTitle-{{ forloop.index0 }}-{{ section.id }}">
-									{{ article.title }}
+									{{ article.title | escape }}
 								</h3>
 							</a>
 
@@ -95,7 +91,7 @@
 								<li class="mr-4">
 									<a
 										href="{{ article.url }}"
-										class="btn"
+										class="{{ section.settings.button_read_more_class }}"
 										aria-label="{{ 'blogs.article.read_more_title' | t: title: article.title }}">
 										{{ 'blogs.article.read_more' | t }}
 									</a>
@@ -106,7 +102,7 @@
 										<a
 											href="{{ article.url }}#comments"
 											style="border-color: transparent; border-bottom-color: currentColor; padding: 0 0 3px 0;"
-											class="btn">
+											class="{{ section.settings.button_read_more_class }}">
 											{{ 'blogs.comments.comments_with_count' | t: count: article.comments_count }}
 										</a>
 									</li>
@@ -114,9 +110,9 @@
 							</ul>
 						</div>
 					</article>
-				</li>
+				</div>
 			{% endfor %}
-		</ul>
+		</div>
 	{% else %}
 		<div class="flex flex-row overflow-auto">
 			{% for i in (1..section.settings.post_limit) %}
@@ -149,18 +145,16 @@
 	{% endunless %}
 
 	{% if section.settings.show_view_all %}
-		<hr class="border-t-0 my-20" aria-hidden="true" />
 		<div class="text-center">
 			<a
 				href="{{ blog.url }}"
-				class="bg-red-600 border-red-600 btn text-base text-white"
+				class="{{ section.settings.button_class }}"
 				aria-label="{{ 'blogs.article.view_all_blogs' | t }}">
 				{{ 'blogs.article.view_all' | t }}
 			</a>
 		</div>
 	{% endif %}
-</div>
-
+</section>
 
 {% schema %}
 {
@@ -169,14 +163,15 @@
 	"settings": [
 		{
 			"type": "text",
-			"id": "title",
-			"label": "Heading",
-			"default": "Blog posts"
+			"id": "extra_class",
+			"label": "Adicional CSS Classes",
+			"default": "container"
 		},
 		{
 			"type": "text",
-			"id": "extra_class",
-			"label": "Adicional CSS Classes"
+			"id": "title",
+			"label": "Heading",
+			"default": "Blog posts"
 		},
 		{
 			"id": "blog",
@@ -209,6 +204,18 @@
 			"id": "show_view_all",
 			"label": "Show 'View all' button",
 			"default": false
+		},
+		{
+			"type": "text",
+			"id": "button_read_more_class",
+			"label": "Button 'Read more' class",
+			"default": "btn"
+		},
+		{
+			"type": "text",
+			"id": "button_class",
+			"label": "Button class",
+			"default": "btn bg-red-600 border-red-600 text-base text-white"
 		}
 	],
 	"presets": [

@@ -1,8 +1,8 @@
-<!-- src/static/sections/product-recommendations.liquid -->
+<!-- sections/product-recommendations.liquid -->
 {%- if section.settings.show_product_recommendations -%}
 	{%- if recommendations.performed -%}
 		{%- if recommendations.products_count > 0 -%}
-			<div class="product-recommendations__inner">
+			<section class="product-recommendations__inner {{ section.settings.extra_class }}">
 				{%- if section.settings.heading != blank -%}
 					<div class="mb-8 text-center">
 						<h2 class="text-2xl tracking-wide uppercase mb-4">{{ section.settings.title | escape }}</h2>
@@ -15,16 +15,16 @@
 						</li>
 					{%- endfor -%}
 				</ul>
-			</div>
+			</section>
 		{%- endif -%}
 	{%- else -%}
-		<div
-			class="container"
+		<section
+			class="{{ section.settings.extra_class }}"
 			data-base-url="{{ routes.product_recommendations_url }}"
 			data-product-id="{{ product.id }}"
 			data-section-id="{{ section.id }}"
 			data-section-type="product-recommendations"
-		></div>
+		></section>
 	{%- endif -%}
 {%- endif -%}
 
@@ -32,6 +32,12 @@
 {
 	"name": "Product recommendations",
 	"settings": [
+		{
+			"type": "text",
+			"id": "extra_class",
+			"label": "Adicional CSS Classes",
+			"default": "container"
+		},
 		{
 			"type": "checkbox",
 			"id": "show_product_recommendations",

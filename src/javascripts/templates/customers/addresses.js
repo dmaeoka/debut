@@ -7,16 +7,16 @@
  * @namespace customerAddresses
  */
 
-import { AddressForm } from '@shopify/theme-addresses';
+import { AddressForm } from "@shopify/theme-addresses";
 
 const selectors = {
-	addressContainer: '[data-address]',
-	addressFields: '[data-address-fields]',
-	addressToggle: '[data-address-toggle]',
-	addressForm: '[data-address-form]',
-	addressDeleteForm: '[data-address-delete-form]',
+	addressContainer: "[data-address]",
+	addressFields: "[data-address-fields]",
+	addressToggle: "[data-address-toggle]",
+	addressForm: "[data-address-form]",
+	addressDeleteForm: "[data-address-delete-form]",
 };
-const hideClass = 'hide';
+const hideClass = "hide";
 
 function initializeAddressForm(container) {
 	const addressFields = container.querySelector(selectors.addressFields);
@@ -24,18 +24,25 @@ function initializeAddressForm(container) {
 	const deleteForm = container.querySelector(selectors.addressDeleteForm);
 
 	container.querySelectorAll(selectors.addressToggle).forEach((button) => {
-		button.addEventListener('click', () => {
+		button.addEventListener("click", () => {
 			addressForm.classList.toggle(hideClass);
 		});
 	});
 
-	AddressForm(addressFields, 'en');
+	AddressForm(addressFields, "en");
 
 	if (deleteForm) {
-		deleteForm.addEventListener('submit', (event) => {
-			const confirmMessage = deleteForm.getAttribute('data-confirm-message');
+		deleteForm.addEventListener("submit", (event) => {
+			const confirmMessage = deleteForm.getAttribute(
+				"data-confirm-message"
+			);
 
-			if (!window.confirm(confirmMessage || 'Are you sure you wish to delete this address?')) {
+			if (
+				!window.confirm(
+					confirmMessage ||
+						"Are you sure you wish to delete this address?"
+				)
+			) {
 				event.preventDefault();
 			}
 		});

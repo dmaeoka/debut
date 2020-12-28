@@ -1,4 +1,4 @@
-<!-- src/static/sections/video.liquid -->
+<!-- sections/video.liquid -->
 {%- case section.settings.height -%}
 	{%- when 'h-40 md:h-120' -%}
 		{%- assign mobile_height = 160 -%}
@@ -20,11 +20,10 @@
 		}
 	{% endstyle %}
 {%- endif -%}
-<div
-	class="container"
+<section
+	class="{{ section.settings.extra_class }}"
 	data-section-id="{{ section.id }}"
 	data-section-type="video-section">
-
 	{%- if section.settings.video_link != blank -%}
 		<div
 			class="overflow-hidden relative flex items-center justify-center w-full transition-all video-section-wrapper {{ section.settings.height }}
@@ -68,8 +67,7 @@
 					data-bgset="{% include 'bgset', image: section.settings.image %}"
 					data-sizes="auto"
 					data-parent-fit="contain"
-					style="background-position: {{ section.settings.image_position }};"
-					data-image-loading-animation>
+					style="background-position: {{ section.settings.image_position }};">
 				</div>
 			{%- endif -%}
 
@@ -136,7 +134,7 @@
 			{{ 'homepage.onboarding.no_content' | t }}
 		</div>
 	{%- endif -%}
-</div>
+</section>
 
 {% schema %}
 {
@@ -146,7 +144,8 @@
 		{
 			"type": "text",
 			"id": "extra_class",
-			"label": "Adicional CSS Classes"
+			"label": "Adicional CSS Classes",
+			"default": "container"
 		},
 		{
 			"type": "image_picker",

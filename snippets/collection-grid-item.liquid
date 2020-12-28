@@ -1,4 +1,4 @@
-<!-- /snippets/collection-grid-item.liquid -->
+<!-- snippets/collection-grid-item.liquid -->
 {% comment %}
 	Renders a list of products from a collection
 
@@ -30,8 +30,7 @@
 				class="relative block h-full w-full bg-cover bg-no-repeat bg-center box ratio-container lazyload js"
 				data-bgset="{% include 'bgset', image: collection_image %}"
 				data-sizes="auto"
-				data-parent-fit="cover"
-				data-image-loading-animation></div>
+				data-parent-fit="cover"></div>
 			<noscript>
 				<div class="relative block h-full w-full bg-cover bg-no-repeat bg-center" style="background-image: url('{{ collection_image | img_url: '1024x1024' }}')"></div>
 			</noscript>

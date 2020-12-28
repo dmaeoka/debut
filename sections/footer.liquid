@@ -1,4 +1,4 @@
-<!-- src/static/sections/footer.liquid -->
+<!-- sections/footer.liquid -->
 {%- assign social_icons = false -%}
 {%- assign show_payment_icons = false -%}
 
@@ -66,7 +66,7 @@
 {%- endcapture -%}
 
 <footer
-	class="site-footer py-12 bg-gray-100"
+	class="{{ section.settings.extra_class }}"
 	role="contentinfo"
 	data-section-id="{{ section.id }}"
 	data-section-type="footer-section">
@@ -94,7 +94,7 @@
 										<input type="email"
 											name="contact[email]"
 											id="{{ formId }}-email"
-											class="border border-gray-500 flex-1 px-3 w-full{% if form.errors %} border-red-500{% endif %}"
+											class="rounded-l border border-gray-500 flex-1 px-3 w-full{% if form.errors %} border-red-500{% endif %}"
 											value="{{ form.email }}"
 											placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
 											aria-label="{{ 'general.newsletter_form.email_placeholder' | t }}"
@@ -107,7 +107,10 @@
 												aria-describedby="{{ formId }}-email-error"
 												data-form-status
 											{% endif %}>
-										<button type="submit" class="bg-red-600 btn flex-shrink-0 text-base text-white -ml-px" name="commit" >
+										<button
+											type="submit"
+											class="bg-red-600 border-red-600 btn flex-shrink-0 text-base text-white -ml-px"
+											name="commit">
 											{{ 'general.newsletter_form.submit' | t }}
 										</button>
 									</div>
@@ -140,9 +143,7 @@
 										</li>
 									{%- endfor -%}
 								</ul>
-
 						{%- endcase -%}
-
 					</div>
 				</div>
 			{%- endfor -%}
@@ -193,12 +194,16 @@
 	</div>
 </footer>
 
-
 {% schema %}
 {
 	"name": "Footer",
 	"max_blocks": 4,
-	"settings": [
+	"settings": [{
+			"type": "text",
+			"id": "extra_class",
+			"label": "Adicional CSS Classes",
+			"default": "site-footer py-12 bg-gray-100"
+		},
 		{
 			"type": "header",
 			"content": "Payment methods"
@@ -212,12 +217,6 @@
 		{
 			"type": "header",
 			"content": "Color"
-		},
-		{
-			"type": "color",
-			"id": "color_footer_bg",
-			"label": "Background",
-			"default": "#f6f6f6"
 		},
 		{
 			"type": "color",
@@ -237,11 +236,14 @@
 			"default": true
 		}
 	],
-	"blocks": [
-		{
+	"blocks": [{
 			"type": "link_list",
 			"name": "Menu",
-			"settings": [
+			"settings": [{
+					"type": "text",
+					"id": "extra_class",
+					"label": "Adicional CSS Classes"
+				},
 				{
 					"type": "text",
 					"id": "title",
@@ -259,7 +261,11 @@
 		{
 			"type": "text",
 			"name": "Text",
-			"settings": [
+			"settings": [{
+					"type": "text",
+					"id": "extra_class",
+					"label": "Adicional CSS Classes"
+				},
 				{
 					"type": "text",
 					"id": "title",
@@ -278,7 +284,11 @@
 			"type": "newsletter",
 			"limit": 1,
 			"name": "Newsletter signup",
-			"settings": [
+			"settings": [{
+					"type": "text",
+					"id": "extra_class",
+					"label": "Adicional CSS Classes"
+				},
 				{
 					"type": "text",
 					"id": "title",

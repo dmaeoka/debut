@@ -207,8 +207,7 @@
 
 	{% section 'header' %}
 
-	<!-- transform: translate3d(0, 0, 0); -->
-	<div class="drawer-page-content overflow-hidden page-container relative" id="PageContainer">
+	<div id="PageContainer" class="overflow-hidden page-container relative z-0">
 
 		<main class="main-content js-focus-hidden" id="MainContent" role="main" tabindex="-1">
 			{{ content_for_layout }}
@@ -220,7 +219,6 @@
 			{{- 'sections.slideshow.navigation_instructions' | t -}}
 		</div>
 	</div>
-
 	<ul hidden>
 		<li id="a11y-refresh-page-message">{{ 'general.accessibility.refresh_page' | t }}</li>
 		<li id="a11y-selection-message">{{ 'general.accessibility.selection_help' | t }}</li>

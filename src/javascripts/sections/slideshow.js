@@ -20,7 +20,7 @@ let config = {
 	viewportMax: false,
 	slideBy: 1,
 	center: false,
-	controls: false,
+	controls: true,
 	controlsPosition: 'top',
 	controlsText: ['prev', 'next'],
 	controlsContainer: false,

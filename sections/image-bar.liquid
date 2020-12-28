@@ -1,7 +1,9 @@
-<!-- src/static/sections/image-bar.liquid -->
+<!-- sections/image-bar.liquid -->
 {%- assign block_height = section.settings.section_height -%}
-<div
-	class="flex md:flex-row flex-col overflow-hidden">
+<section
+	class="{{ section.settings.extra_class }}"
+	data-section-id="{{ section.id }}"
+	data-section-type="image-bar">
 	{% case section.blocks.size %}
 		{% when 1 %}
 			{%- assign column_size = '' -%}
@@ -24,8 +26,7 @@
 						data-bgset="{% include 'bgset', image: block.settings.image %}"
 						data-sizes="auto"
 						data-parent-fit="cover"
-						style="background-position: {{ block.settings.alignment }};"
-						data-image-loading-animation>
+						style="background-position: {{ block.settings.alignment }};">
 			{% elsif block.settings.image != blank %}
 				<div
 					class="block bg-no-repeat bg-center bg-cover text-white relative lazyload"
@@ -33,8 +34,7 @@
 					data-bgset="{% include 'bgset', image: block.settings.image %}"
 					data-sizes="auto"
 					data-parent-fit="cover"
-					style="background-position: {{ block.settings.alignment }};"
-					data-image-loading-animation>
+					style="background-position: {{ block.settings.alignment }};">
 			{% else %}
 				<div class="block bg-no-repeat bg-center bg-cover text-white">
 			{% endif %}
@@ -66,7 +66,7 @@
 			</div>
 		</noscript>
 	{% endfor %}
-</div>
+</section>
 
 {% if section.blocks.size == 0 %}
 	{% include 'no-blocks' %}
@@ -78,6 +78,12 @@
 	"class": "index-section index-section--flush",
 	"max_blocks": 4,
 	"settings": [
+		{
+			"type": "text",
+			"id": "extra_class",
+			"label": "Adicional CSS Classes",
+			"default": "flex md:flex-row flex-col overflow-hidden"
+		},
 		{
 			"type": "select",
 			"id": "section_height",
@@ -124,16 +130,16 @@
 					"default": "center",
 					"options": [
 						{
-							"value": "top",
-							"label": "Top"
+							"label": "Top",
+							"value": "top"
 						},
 						{
-							"value": "center",
-							"label": "Middle"
+							"label": "Middle",
+							"value": "center"
 						},
 						{
-							"value": "bottom",
-							"label": "Bottom"
+							"label": "Bottom",
+							"value": "bottom"
 						}
 					]
 				},

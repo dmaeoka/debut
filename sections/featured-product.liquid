@@ -1,12 +1,12 @@
-<!-- src/static/sections/featured-product.liquid -->
+<!-- sections/featured-product.liquid -->
 {%- assign product = all_products[section.settings.featured_product] -%}
 
 {% if product == empty %}
 	{%- assign section_onboarding = true -%}
 {% endif %}
 
-<div
-	class="container"
+<section
+	class="{{ section.settings.extra_class }}"
 	id="ProductSection-{{ section.id }}"
 	data-section-id="{{ section.id }}"
 	data-section-type="product"
@@ -53,10 +53,13 @@
 		}
 	{% endstylesheet %}
 
-	<div class="flex flex-row flex-wrap md:-mx-4 product-single{% if section.settings.enable_payment_button %} product-single--{{ section.settings.media_size }}-media{% endif %}">
-		<div
-			class="px-4 relative w-full {{ product_media_width }}{% if section.settings.media_size == 'full' %} mb-6{% endif %}"
-			data-product-single-media-group>
+	<!--
+		{% if section.settings.enable_payment_button %}
+			product-single--{{ section.settings.media_size }}-media
+		{% endif %}
+	-->
+	<div class="flex flex-row flex-wrap md:-mx-4 product-single">
+		<div class="px-4 relative w-full {{ product_media_width }}{% if section.settings.media_size == 'full' %} mb-6{% endif %}">
 			{% unless section_onboarding %}
 				{%- assign featured_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media -%}
 
@@ -376,7 +379,7 @@
 			{% endif %}
 		</div>
 	</div>
-</div>
+</section>
 
 {% unless product == empty %}
 	<script type="application/json" id="ProductJson-{{ section.id }}">
@@ -424,11 +427,18 @@
 }
 </script>
 
+
 {% schema %}
 {
 	"name": "Featured product",
 	"class": "index-section index-section--featured-product",
 	"settings": [
+		{
+			"type": "text",
+			"id": "extra_class",
+			"label": "Adicional CSS Classes",
+			"default": "container"
+		},
 		{
 			"type": "product",
 			"id": "featured_product",

@@ -1,4 +1,4 @@
-<!-- src/static/sections/header.liquid -->
+<!-- sections/header.liquid -->
 {% if section.settings.message %}
 	<style>
 		{% if section.settings.logo != blank %}
@@ -18,6 +18,7 @@
 {% include 'search-drawer' %}
 
 <div
+	class="relative z-1"
 	data-section-id="{{ section.id }}"
 	data-section-type="header-section"
 	data-header-section>
@@ -46,12 +47,12 @@
 			</style>
 
 			<div
-				class="announcement-bar border-b p-1 relative z-10"
+				class="announcement-bar border-b p-1 relative z-10 border-transparent"
 				role="region"
 				aria-label="{{ 'sections.header.announcement_bar_label' | t }}">
 
 				{%- unless section.settings.message_link == blank -%}
-					<a href="{{ section.settings.message_link }}" class="announcement-bar__link block font-normal px-16 py-3 text-white">
+					<a href="{{ section.settings.message_link }}" class="announcement-bar__link block font-normal px-16 py-1 text-white">
 				{%- endunless -%}
 						<p class="announcement-bar__message text-current text-white text-base font-normal text-center mb-0">{{ section.settings.message_text | escape }}</p>
 				{%- unless section.settings.message_link == blank -%}
@@ -63,7 +64,7 @@
 	{% endif %}
 
 	<header
-		class="site-header relative border-b md:border-transparent border-gray-300 bg-white"
+		class="{{ section.settings.extra_class }}"
 		role="banner">
 		<div class="container relative z-100">
 			<div class="flex flex-no-wrap flex-row justify-between">
@@ -75,25 +76,24 @@
 
 				{% if section.settings.logo %}
 					{%- assign img_url = section.settings.logo | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
-					<a
-						href="{{ routes.root_url }}"
-						class="block{% if section.settings.align_logo == 'center' %} site-header__logo-image--centered{% endif %}"
-						data-image-loading-animation>
+					<a href="{{ routes.root_url }}">
 						{% capture logo_alt %}{{ section.settings.logo.alt | default: shop.name }}{% endcapture %}
-						<img class="block lazyload js"
-								src="{{ section.settings.logo | img_url: '300x300' }}"
-								data-src="{{ img_url }}"
-								data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
-								data-aspectratio="{{ section.settings.logo.aspect_ratio }}"
-								data-sizes="auto"
-								alt="{{ logo_alt | escape }}"
-								style="max-width: {{ section.settings.logo_max_width }}px">
+						<img
+							class="lazyload js"
+							src="{{ section.settings.logo | img_url: '300x300' }}"
+							data-src="{{ img_url }}"
+							data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+							data-aspectratio="{{ section.settings.logo.aspect_ratio }}"
+							data-sizes="auto"
+							alt="{{ logo_alt | escape }}"
+							style="max-width: {{ section.settings.logo_max_width }}px">
 						<noscript>
 							{% capture image_size %}{{ section.settings.logo_max_width | escape }}x{% endcapture %}
-							<img src="{{ section.settings.logo | img_url: image_size }}"
-									srcset="{{ section.settings.logo | img_url: image_size }} 1x, {{ section.settings.logo | img_url: image_size, scale: 2 }} 2x"
-									alt="{{ section.settings.logo.alt | default: shop.name }}"
-									style="max-width: {{ section.settings.logo_max_width }}px;">
+							<img
+								src="{{ section.settings.logo | img_url: image_size }}"
+								srcset="{{ section.settings.logo | img_url: image_size }} 1x, {{ section.settings.logo | img_url: image_size, scale: 2 }} 2x"
+								alt="{{ section.settings.logo.alt | default: shop.name }}"
+								style="max-width: {{ section.settings.logo_max_width }}px;">
 						</noscript>
 					</a>
 				{% else %}
@@ -106,16 +106,19 @@
 					</div>
 				{% endif %}
 
-				<nav class="flex-col hidden items-center justify-center md:flex relative w-1/2" id="AccessibleNav" role="navigation">
+				<nav
+					id="AccessibleNav"
+					class="flex-col hidden items-center justify-center md:flex relative w-1/2"
+					role="navigation">
 					{% include 'site-nav', linklist: section.settings.main_linklist %}
 				</nav>
 
 				<div class="flex flex-col flex-shrink-0 justify-center md:w-1/4">
 					<div class="flex items-center justify-end relative w-full">
 						<button
+							id="SearchDrawer-btn"
 							type="button"
-							class="btn--link p-2"
-							data-predictive-search-open-drawer>
+							class="btn--link p-2">
 							{% include 'icon-search', icon_class: "h-auto w-5 align-middle" %}
 							<span class="sr-only">{{ 'layout.navigation.search' | t }}</span>
 						</button>
@@ -152,7 +155,9 @@
 						{% unless linklists[section.settings.main_linklist] == blank %}
 							<button
 								type="button"
-								class="md:hidden inline-block btn--link p-2 js-mobile-nav-toggle"
+								class="md:hidden inline-block btn--link p-2"
+								data-bs-toggle="collapse"
+								data-bs-target="#MobileNav"
 								aria-controls="MobileNav"
 								aria-expanded="false"
 								aria-label="{{ 'layout.navigation.menu' | t }}"
@@ -167,109 +172,76 @@
 		</div>
 
 		<nav
-			class="absolute hidden left-0 md:hidden overflow-hidden top-full mt-px w-full z-10"
+			id="MobileNav"
+			class="collapse transform duration-200 ease-linear transition-transform absolute left-0 md:hidden top-full mt-px w-full z-10"
 			role="navigation">
-			<ul
-				id="MobileNav"
-				class="flex flex-col w-full transform transition-all">
-				{% for link in linklists[section.settings.main_linklist].links %}
-					{%- assign outerLoopIndex = forloop.index -%}
+			<ul class="flex flex-col w-full">
+			{% for link in linklists[section.settings.main_linklist].links %}
+				{%- assign outerLoopIndex = forloop.index -%}
 
-					<li class="bg-white block w-full border-b border-gray-300">
-						{% if link.links != blank %}
-							{% capture child_list_handle %}{{ link.handle }}-{{ outerLoopIndex }}{% endcapture %}
-							<button
-								type="button"
-								class="flex flex-no-wrap px-5 py-4 relative text-base items-center w-full{% if link.child_active %} bg-gray-200 font-semibold{% endif %}"
-								data-target="{{ child_list_handle }}"
-								data-level="1"
-								aria-expanded="false">
-								<span class="border-b border-transparent">{{ link.title | escape }}</span>
-								<div class="ml-auto">
-									{% include 'icon-chevron-right', icon_class: "h-3 w-3 align-middle" %}
+				<li class="bg-white block w-full border-b border-gray-300">
+					{% if link.links != blank %}
+						{% capture child_list_handle %}{{ link.handle }}-{{ outerLoopIndex }}{% endcapture %}
+						<button
+							type="button"
+							class="flex flex-no-wrap px-5 py-4 relative text-base items-center w-full{% if link.child_active %} font-semibold{% endif %}"
+							data-level="1">
+							<span class="border-b border-transparent">{{ link.title | escape }}</span>
+							<div class="ml-auto">
+								{% include 'icon-chevron-right', icon_class: "h-3 w-3 align-middle" %}
+							</div>
+						</button>
+						<ul
+							id="{{ child_list_handle }}"
+							class="absolute top-0 transform translate-x-full w-full z-10">
+							<li class="sr-only" tabindex="-1">
+								{{- link.title -}} {{- 'layout.navigation.menu' | t -}}
+							</li>
+							<li class="bg-white block w-full border-b border-gray-300">
+								<div class="flex flex-row flex-no-wrap">
+									<button
+										class="border-r px-5"
+										type="button"
+										data-level="0"
+										aria-label="Back to {{- link.title -}}">
+										{% include 'icon-chevron-left', icon_class: "h-3 w-3 align-middle" %}
+									</button>
+									<span
+										class="block px-5 py-4 relative text-base w-full">
+										<span class="border-b border-transparent">{{ link.title | escape }}</span>
+									</span>
 								</div>
-							</button>
+							</li>
 
-							<ul
-								class="absolute top-0 transform translate-x-full w-full z-10"
-								data-parent="{{ child_list_handle }}"
-								data-level="2">
-								<li
-									class="sr-only"
-									tabindex="-1"
-									data-menu-title="2">
-									{{- link.title }} {{ 'layout.navigation.menu' | t -}}
-								</li>
-								<li class="bg-white block w-full border-b border-gray-300">
-									<div class="flex flex-row flex-no-wrap">
-										<button
-											class="border-r px-5"
-											type="button"
-											aria-expanded="true"
-											aria-label="{{ link.title }}">
-											{% include 'icon-chevron-left', icon_class: "h-3 w-3 align-middle" %}
-										</button>
-										<span
-											class="block px-5 py-4 relative text-base w-full">
-											<span class="border-b border-transparent">{{ link.title | escape }}</span>
-										</span>
+							{% for childlink in link.links %}
+							<li class="bg-white block w-full border-b border-gray-300">
+							{% if childlink.links != blank %}
+								{% capture grandchild_list_handle %}{{ childlink.handle }}-{{ outerLoopIndex }}-{{ forloop.index }}{% endcapture %}
+								<button
+									type="button"
+									class="flex flex-no-wrap px-5 py-4 relative text-base items-center w-full"
+									data-level="2">
+									<span class="border-b border-transparent">{{ childlink.title | escape }}</span>
+									<div class="ml-auto">
+										{% include 'icon-chevron-right', icon_class: "h-3 w-3 align-middle" %}
 									</div>
-								</li>
-
-								{% for childlink in link.links %}
+								</button>
+								<ul
+									class="absolute top-0 transform translate-x-full w-full z-10"
+									id="{{ grandchild_list_handle }}">
+									<li class="sr-only" tabindex="-1">
+										{{- childlink.title -}} {{- 'layout.navigation.menu' | t -}}
+									</li>
 									<li class="bg-white block w-full border-b border-gray-300">
-										{% if childlink.links != blank %}
-											{% capture grandchild_list_handle %}{{ childlink.handle }}-{{ outerLoopIndex }}-{{ forloop.index }}{% endcapture %}
+										<div class="flex flex-row flex-no-wrap">
 											<button
 												type="button"
-												class="flex flex-no-wrap px-5 py-4 relative text-base items-center w-full"
-												data-target="{{ grandchild_list_handle }}"
-												aria-expanded="false">
-												<span class="border-b border-transparent">{{ childlink.title | escape }}</span>
-												<div class="ml-auto">
-													{% include 'icon-chevron-right', icon_class: "h-3 w-3 align-middle" %}
-												</div>
+												class="border-r px-5"
+												data-level="1"
+												aria-expanded="true"
+												aria-label="{{ childlink.title }}">
+												{% include 'icon-chevron-left', icon_class: "h-3 w-3 align-middle" %}
 											</button>
-
-											<ul
-												class="absolute top-0 transform translate-x-full w-full z-10"
-												data-parent="{{ grandchild_list_handle }}"
-												data-level="3">
-												<li class="sr-only" tabindex="-1" data-menu-title="3">
-													{{- childlink.title }} {{ 'layout.navigation.menu' | t -}}
-												</li>
-												<li class="bg-white block w-full border-b border-gray-300">
-													<div class="flex flex-row flex-no-wrap">
-														<button
-															type="button"
-															class="border-r px-5"
-															data-target="{{ child_list_handle }}"
-															aria-expanded="true"
-															aria-label="{{ childlink.title }}">
-															{% include 'icon-chevron-left', icon_class: "h-3 w-3 align-middle" %}
-														</button>
-														<a
-															href="{{ childlink.url }}"
-															class="block px-5 py-4 relative text-base w-full"
-															{% if childlink.current %} aria-current="page"{% endif %}
-														>
-															<span class="border-b border-transparent">{{ childlink.title | escape }}</span>
-														</a>
-													</div>
-												</li>
-												{% for grandchildlink in childlink.links %}
-													<li class="bg-white block w-full border-b border-gray-300">
-														<a
-															href="{{ grandchildlink.url }}"
-															class="block px-5 py-4 relative text-base w-full"
-															{% if grandchildlink.current %} aria-current="page"{% endif %}
-														>
-															<span class="border-b border-transparent">{{ grandchildlink.title | escape }}</span>
-														</a>
-													</li>
-												{% endfor %}
-											</ul>
-										{% else %}
 											<a
 												href="{{ childlink.url }}"
 												class="block px-5 py-4 relative text-base w-full"
@@ -277,26 +249,47 @@
 											>
 												<span class="border-b border-transparent">{{ childlink.title | escape }}</span>
 											</a>
-										{% endif %}
+										</div>
 									</li>
-								{% endfor %}
-							</ul>
-						{% else %}
-							<a
-								href="{{ link.url }}"
-								class="block px-5 py-4 relative text-base w-full{% if link.active %} font-semibold{% endif %}"
-								{% if link.current %} aria-current="page"{% endif %}
-							>
-								<span class="border-b border-transparent">{{ link.title | escape }}</span>
-							</a>
-						{% endif %}
-					</li>
-				{% endfor %}
+									{% for grandchildlink in childlink.links %}
+										<li class="bg-white block w-full border-b border-gray-300">
+											<a
+												href="{{ grandchildlink.url }}"
+												class="block px-5 py-4 relative text-base w-full"
+												{% if grandchildlink.current %} aria-current="page"{% endif %}
+											>
+												<span class="border-b border-transparent">{{ grandchildlink.title | escape }}</span>
+											</a>
+										</li>
+									{% endfor %}
+								</ul>
+							{% else %}
+								<a
+									href="{{ childlink.url }}"
+									class="block px-5 py-4 relative text-base w-full"
+									{% if childlink.current %} aria-current="page"{% endif %}
+								>
+									<span class="border-b border-transparent">{{ childlink.title | escape }}</span>
+								</a>
+							{% endif %}
+							</li>
+							{% endfor %}
+						</ul>
+					{% else %}
+						<a
+							href="{{ link.url }}"
+							class="block px-5 py-4 relative text-base w-full{% if link.active %} font-semibold{% endif %}"
+							{% if link.current %} aria-current="page"{% endif %}
+						>
+							<span class="border-b border-transparent">{{ link.title | escape }}</span>
+						</a>
+					{% endif %}
+				</li>
+			{% endfor %}
 			</ul>
 		</nav>
 	</header>
 </div>
-
 
 <script type="application/ld+json">
 {
@@ -342,6 +335,12 @@
 {
 	"name": "Header",
 	"settings": [
+		{
+			"type": "text",
+			"id": "extra_class",
+			"label": "Adicional CSS Classes",
+			"default": "site-header relative border-b border-gray-300 bg-white"
+		},
 		{
 			"type": "radio",
 			"id": "align_logo",

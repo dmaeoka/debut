@@ -1,5 +1,8 @@
-<!-- src/static/sections/logo-bar.liquid -->
-<div class="container">
+<!-- sections/logo-bar.liquid -->
+<section
+	class="{{ section.settings.extra_class }}"
+	data-section-id="{{ section.id }}"
+	data-section-type="logo-bar">
 	{% if section.settings.title != blank %}
 		<div class="mb-8 text-center">
 			<h2 class="text-2xl tracking-wide uppercase mb-4">{{ section.settings.title | escape }}</h2>
@@ -31,9 +34,7 @@
 	{% if section.blocks.size == 0 %}
 		{% include 'no-blocks' %}
 	{% endif %}
-</div>
-
-
+</section>
 
 {% schema %}
 {
@@ -41,6 +42,12 @@
 	"class": "index-section",
 	"max_blocks": 20,
 	"settings": [
+		{
+			"type": "text",
+			"id": "extra_class",
+			"label": "Adicional CSS Classes",
+			"default": "container"
+		},
 		{
 			"type": "text",
 			"id": "title",

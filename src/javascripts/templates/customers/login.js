@@ -7,11 +7,11 @@
  */
 
 const selectors = {
-	recoverPasswordFormTriggers: '[data-recover-toggle]',
-	recoverPasswordForm: '[data-recover-form]',
-	loginForm: '[data-login-form]',
-	formState: '[data-form-state]',
-	resetSuccess: '[data-reset-success]',
+	recoverPasswordFormTriggers: "[data-recover-toggle]",
+	recoverPasswordForm: "[data-recover-form]",
+	loginForm: "[data-login-form]",
+	formState: "[data-form-state]",
+	resetSuccess: "[data-reset-success]",
 };
 
 function onShowHidePasswordForm(evt) {
@@ -23,7 +23,7 @@ function checkUrlHash() {
 	const hash = window.location.hash;
 
 	// Allow deep linking to recover password form
-	if (hash === '#recover') {
+	if (hash === "#recover") {
 		toggleRecoverPasswordForm();
 	}
 }
@@ -32,8 +32,10 @@ function checkUrlHash() {
  *  Show/Hide recover password form
  */
 function toggleRecoverPasswordForm() {
-	document.querySelector(selectors.recoverPasswordForm).classList.toggle('hide');
-	document.querySelector(selectors.loginForm).classList.toggle('hide');
+	document
+		.querySelector(selectors.recoverPasswordForm)
+		.classList.toggle("hide");
+	document.querySelector(selectors.loginForm).classList.toggle("hide");
 }
 
 /**
@@ -44,7 +46,7 @@ function resetPasswordSuccess() {
 	// successfully submitted and show success message.
 
 	if (document.querySelector(selectors.formState)) {
-		document.querySelector(selectors.resetSuccess).classList.remove('hide');
+		document.querySelector(selectors.resetSuccess).classList.remove("hide");
 	}
 }
 
@@ -52,7 +54,9 @@ if (document.querySelector(selectors.recoverPasswordForm)) {
 	checkUrlHash();
 	resetPasswordSuccess();
 
-	document.querySelectorAll(selectors.recoverPasswordFormTriggers).forEach((trigger) => {
-		trigger.addEventListener('click', onShowHidePasswordForm);
-	});
+	document
+		.querySelectorAll(selectors.recoverPasswordFormTriggers)
+		.forEach((trigger) => {
+			trigger.addEventListener("click", onShowHidePasswordForm);
+		});
 }

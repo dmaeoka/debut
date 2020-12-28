@@ -1,7 +1,7 @@
-<!-- /sections/collection-template.liquid -->
+<!-- sections/collection-template.liquid -->
 {% case section.settings.grid %}
 	{% when 2 %}
-		{%- assign max_height = 530 -%}
+		{%- assign max_height = 576 -%}
 	{% when 3 %}
 		{%- assign max_height = 345 -%}
 	{% when 4 %}
@@ -18,7 +18,8 @@
 
 {% paginate collection.products by limit %}
 
-<div
+<section
+	class="{{ secction.settings.extra_class }}"
 	data-section-id="{{ section.id }}"
 	data-section-type="collection-template">
 	<header class="collection-header">
@@ -28,40 +29,40 @@
 		{%- endif -%}
 
 		{% if section.settings.show_collection_image and collection.image %}
-			<div class="collection-hero">
+			<div class="collection-hero relative overflow-hidden">
 				<div
-					class="collection-hero__image ratio-container lazyload js"
+					class="bg-center bg-no-repeat bg-cover relative opacity-100 h-80 lazyload"
 					data-bgset="{% include 'bgset', image: collection.image %}"
 					data-sizes="auto"
 					data-parent-fit="cover"
-					data-image-loading-animation
 				></div>
 				<noscript>
-					<div class="collection-hero__image" style="background-image: url({{ collection.image | img_url: '2048x600', crop: 'top' }});"></div>
+					<div class="bg-center bg-no-repeat bg-cover relative opacity-100 h-80" style="background-image: url({{ collection.image | img_url: '2048x600', crop: 'top' }});"></div>
 				</noscript>
-				<div class="collection-hero__title-wrapper">
-					<h1 class="collection-hero__title container">
-							<span class="sr-only">{{ 'collections.general.collection_label' | t }}: </span>
-							{{ collection.title }}
+
+				<div class="bg-black absolute bottom-0 flex items-center top-0 w-full" style="--bg-opacity: .4">
+					<h1 class="container text-3xl text-center text-white">
+						<span class="sr-only">{{ 'collections.general.collection_label' | t }}: </span>
+						{{ collection.title }}
 					</h1>
 				</div>
 			</div>
 			{% if is_filter_by_available == false and section.settings.sort_enable == false %}
 				<div class="container">
-					<span class="filters-toolbar__product-count">{{ 'collections.general.items_with_count' | t: count: collection.products_count }}</span>
+					<span class="italic leading-10 mb-0 overflow-hidden truncate whitespace-no-wrap text-lg">{{ 'collections.general.items_with_count' | t: count: collection.products_count }}</span>
 				</div>
 			{% endif %}
 			{% if collection.description != blank %}
-				<div class="rte collection-description container">
+				<div class="rte container my-8">
 					{{ collection.description }}
 				</div>
 			{% endif %}
 		{% else %}
 			<div class="container">
-				<div class="mb-5 text-center">
-					<h1>
-							<span class="sr-only">{{ 'collections.general.collection_label' | t }}: </span>
-							{{ collection.title }}
+				<div class="my-12">
+					<h1 class="font-semibold mb-4 text-4xl tracking-wide text-center">
+						<span class="sr-only">{{ 'collections.general.collection_label' | t }}: </span>
+						{{ collection.title }}
 					</h1>
 					{% if collection.description != blank %}
 						<div class="rte">
@@ -69,83 +70,83 @@
 						</div>
 					{% endif %}
 					{% if is_filter_by_available == false and section.settings.sort_enable == false %}
-						<span class="filters-toolbar__product-count">{{ 'collections.general.items_with_count' | t: count: collection.products_count }}</span>
+						<span class="italic leading-10 mb-0 overflow-hidden truncate whitespace-no-wrap text-lg">{{ 'collections.general.items_with_count' | t: count: collection.products_count }}</span>
 					{% endif %}
 				</div>
 			</div>
 		{% endif %}
 
 		{% if is_filter_by_available or section.settings.sort_enable %}
-			<div class="filters-toolbar-wrapper{% if is_filter_by_available %} filters-toolbar--has-filter{% endif %}">
-				<div class="container">
-					<div class="filters-toolbar">
-						<div class="filters-toolbar__item-wrapper">
+			<div class="border-b border-gray-300 border-t mb-8 relative">
+				<div class="container md:px-12">
+					<div class="flex flex-wrap items-center w-full">
+						<div class="flex flex-no-wrap w-full flex-1 ">
 							{% if section.settings.tags_enable %}
 								{% unless collection.all_tags.size == 0 %}
-									<div class="filters-toolbar__item-child">
-										<label class="filters-toolbar__label select-label" for="FilterTags">{{ 'collections.filters.title_tags' | t }}</label>
-										<div class="filters-toolbar__input-wrapper select-group">
-											<select class="filters-toolbar__input hidden" name="FilterTags" id="FilterTags" aria-describedby="a11y-refresh-page-message a11y-selection-message" data-select-input>
+									<div class="md:mr-8">
+										<label class="inline-block text-sm" for="FilterTags">{{ 'collections.filters.title_tags' | t }}</label>
+										<div class="inline-flex items-center relative z-2">
+											<select
+												name="FilterTags"
+												id="FilterTags"
+												class="bg-none border-0 cursor-pointer h-12 p-3 relative truncate whitespace-no-wrap"
+												aria-describedby="a11y-refresh-page-message a11y-selection-message">
 												<option value="{{ collection.url }}">{{ 'collections.filters.all_tags' | t }}</option>
 												{% for tag in collection.all_tags %}
-													{%- assign new_url = tag | link_to_tag: tag | split: 'href="' | last | split: '"' | first -%}
-													<option value="{{ new_url }}"{% if current_tags contains tag %} selected="selected"{% endif %}>{{ tag }}</option>
+												{%- assign new_url = tag | link_to_tag: tag | split: 'href="' | last | split: '"' | first -%}
+												<option value="{{ new_url }}"{% if current_tags contains tag %} selected="selected"{% endif %}>{{ tag }}</option>
 												{% endfor %}
 											</select>
-											{% include 'icon-chevron-down', icon_class: "h-3 w-3 align-middle" %}
 										</div>
 									</div>
 								{% endunless %}
 							{% endif %}
 
 							{% if section.settings.sort_enable %}
-								<div class="filters-toolbar__item-child">
+								<div class="md:mr-8">
 									{%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
-									<label class="filters-toolbar__label select-label" for="SortBy">{{ 'collections.sorting.title' | t }}</label>
-									<div class="filters-toolbar__input-wrapper select-group">
-										<select name="sort_by" id="SortBy"
-											class="filters-toolbar__input hidden"
+									<label class="inline-block text-sm" for="SortBy">{{ 'collections.sorting.title' | t }}</label>
+									<div class="inline-flex items-center relative z-2">
+										<select
+											name="sort_by"
+											id="SortBy"
+											class="bg-none border-0 cursor-pointer h-12 p-3 relative truncate whitespace-no-wrap"
 											aria-describedby="a11y-refresh-page-message a11y-selection-message"
-											data-default-sortby="{{ collection.default_sort_by }}"
-											data-select-input
-										>
+											data-default-sortby="{{ collection.default_sort_by }}">
 											{%- for option in collection.sort_options -%}
-												<option value="{{ option.value }}" {% if option.value == sort_by %}selected="selected"{% endif %}>{{ option.name }}</option>
+											<option value="{{ option.value }}" {% if option.value == sort_by %}selected="selected"{% endif %}>{{ option.name }}</option>
 											{%- endfor -%}
 										</select>
-										{% include 'icon-chevron-down', icon_class: "h-3 w-3 align-middle" %}
 									</div>
 								</div>
 							{% endif %}
 						</div>
 
-						<div class="filters-toolbar__item filters-toolbar__item--count">
-							<span class="filters-toolbar__product-count">{{ 'collections.general.items_with_count' | t: count: collection.products_count }}</span>
+						<div class="flex-shrink min-w-0">
+							<span>{{ 'collections.general.items_with_count' | t: count: collection.products_count }}</span>
 						</div>
 					</div>
 				</div>
 			</div>
 		{% endif %}
 	</header>
-
-	<div class="container" id="Collection">
-		{% if section.settings.layout == 'grid' %}
+	<div class="container md:px-12" id="Collection">
+		{% if section.settings.layout == "grid" %}
 			{% case section.settings.grid %}
 			{% when 2 %}
-				{%- assign grid_item_width = 'md:w-1/2' -%}
+				{%- assign grid_item_width = "md:w-1/2" -%}
 			{% when 3 %}
-				{%- assign grid_item_width = 'sm:w-1/2 md:w-1/3' -%}
+				{%- assign grid_item_width = "sm:w-1/2 md:w-1/3" -%}
 			{% when 4 %}
-				{%- assign grid_item_width = 'sm:w-1/2 md:w-1/4' -%}
+				{%- assign grid_item_width = "sm:w-1/2 md:w-1/4" -%}
 			{% when 5 %}
-				{%- assign grid_item_width = 'sm:w-1/2 md:w-1/5' -%}
+				{%- assign grid_item_width = "sm:w-1/2 md:w-1/5" -%}
 			{% endcase %}
-			<ul class="flex flex-col mx-0 md:flex-row md:flex-wrap md:-mx-4{% if collection.products_count > 0 %} grid--view-items{% endif %}">
+			<div class="flex flex-col mx-0 md:flex-row md:flex-wrap md:-mx-4">
 				{% for product in collection.products %}
-					<li
-						class="px-4 {{ grid_item_width }}">
-						{% include 'product-card-grid', max_height: max_height, product: product, show_vendor: section.settings.show_vendor %}
-					</li>
+					<div class="px-4 mb-4 {{ grid_item_width }}">
+						{% include "product-card-grid", max_height: max_height, product: product, show_vendor: section.settings.show_vendor, aspect_ratio: section.settings.aspect_ratio %}
+					</div>
 				{% else %}
 					{% comment %}
 					Add default products to help with onboarding for collections/all only.
@@ -154,37 +155,51 @@
 					store has no products.
 					{% endcomment %}
 					{% if collection.handle == 'all' and collection.all_vendors.size == 0 and collection.all_types.size == 0 %}
-						<li>
-							<div class="flex flex-col mx-0 md:flex-row md:flex-wrap md:-mx-4">
-								{% for i in (1..limit) %}
-									<div class="{{ grid_item_width }}">
-										<div class="grid-view-item">
-											<a href="#" class="block">
-												<div class="block mx-auto w-full">
-													{% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
-													{{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
-												</div>
-												<div class="grid-view-item__title">{{ 'homepage.onboarding.product_title' | t }}</div>
-												<div class="grid-view-item__meta">
-													<span class="product-price__price">$19.99</span>
-												</div>
-											</a>
+						{% for i in (1..limit) %}
+							<div class="px-4 mb-4 {{ grid_item_width }}">
+								<div class="mx-auto relative">
+									<a class="block absolute top-0 right-0 bottom-0 left-0 z-2" href="#">
+										<div class="block mx-auto w-full">
+											{% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+											{{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
 										</div>
+									</a>
+								</div>
+								<div
+									class="border-b border-transparent inline font-body font-semibold text-xl"
+									aria-hidden="true"
+								>{{ 'homepage.onboarding.product_title' | t }}</div>
+								<dl class="flex flex-col items-start mt-0 mb-0">
+									<div class="text-gray-600 text-sm font-normal uppercase tracking-wide w-full flex-grow">
+										<dt>
+											<span class="sr-only">Vendor</span>
+										</dt>
+										<dd class="mb-2">Liam Fashions</dd>
 									</div>
-								{% endfor %}
+									<div>
+										<dt>
+											<span class="sr-only">Regular price</span>
+										</dt>
+										<dd class="mr-2">
+											<span class="text-xl text-gray-600">$19.99
+											</span>
+										</dd>
+									</div>
+								</dl>
+
 							</div>
-						</li>
+						{% endfor %}
 					{% else %}
 						{%- assign is_empty_collection = true -%}
 					{% endif %}
 				{% endfor %}
-			</ul>
+			</div>
 		{% else %}
-			<ul>
+			<div>
 				{% for product in collection.products %}
-					<li class="list-view-item mb-5">
+					<div class="list-view-item mb-5">
 						{% include 'product-card-list', product: product, show_vendor: section.settings.show_vendor %}
-					</li>
+					</div>
 				{% else %}
 
 					{% comment %}
@@ -195,7 +210,7 @@
 					{% endcomment %}
 					{% if collection.handle == 'all' and collection.all_vendors.size == 0 and collection.all_types.size == 0%}
 						{% for i in (1..4) %}
-							<li class="list-view-item mb-5">
+							<div class="list-view-item mb-5">
 
 								<a href="#" class="list-view-item__link table table-fixed w-full">
 									<div class="list-view-item__image-column">
@@ -215,13 +230,13 @@
 										<span>$19.99</span>
 									</div>
 								</a>
-							</li>
+							</div>
 						{% endfor %}
 					{% else %}
 						{%- assign is_empty_collection = true -%}
 					{% endif %}
 				{% endfor %}
-			</ul>
+			</div>
 		{% endif %}
 
 		{% if is_empty_collection %}
@@ -234,7 +249,7 @@
 			{% include 'pagination', paginate: paginate %}
 		{%- endif -%}
 	</div>
-</div>
+</section>
 
 {% endpaginate %}
 
@@ -244,6 +259,12 @@
 {
 	"name": "Collection pages",
 	"settings": [
+		{
+			"type": "text",
+			"id": "extra_class",
+			"label": "Adicional CSS Classes",
+			"default": "container"
+		},
 		{
 			"type": "select",
 			"id": "layout",
@@ -277,6 +298,30 @@
 			"min": 2,
 			"max": 8,
 			"step": 1
+		},
+		{
+			"type": "select",
+			"id": "aspect_ratio",
+			"label": "Product Aspect ratio",
+			"default": "100%",
+			"options": [
+				{
+					"value": "100%",
+					"label": "Squared"
+				},
+				{
+					"value": "75%",
+					"label": "4:3"
+				},
+				{
+					"value": "56.25%",
+					"label": "16:9"
+				},
+				{
+					"value": "42.85%",
+					"label": "21:9"
+				}
+			]
 		},
 		{
 			"type": "checkbox",

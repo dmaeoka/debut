@@ -1,5 +1,8 @@
-<!-- src/static/sections/feature-columns.liquid -->
-<div class="container">
+<!-- sections/feature-columns.liquid -->
+<section
+	class="{{ section.settings.extra_class }}"
+	data-section-id="{{ section.id }}"
+	data-section-type="feature-columns">
 	{% if section.settings.title != blank %}
 		<div class="mb-8 text-center">
 			<h2 class="text-2xl tracking-wide uppercase mb-4">{{ section.settings.title | escape }}</h2>
@@ -37,10 +40,7 @@
 						<div
 							id="{{ wrapper_id }}"
 							class="mx-auto mb-5 relative js">
-							<div
-								style="padding-top:{{ 1 | divided_by: block.settings.image.aspect_ratio | times: 100}}%;"
-								data-image-loading-animation
-							>
+							<div style="padding-top:{{ 1 | divided_by: block.settings.image.aspect_ratio | times: 100}}%;">
 								<img
 									id="{{ img_id }}"
 									class="block mx-auto absolute top-0 w-full lazyload"
@@ -95,9 +95,7 @@
 	{% if section.blocks.size == 0 %}
 		{% include 'no-blocks' %}
 	{% endif %}
-</div>
-
-
+</section>
 
 {% schema %}
 {
@@ -106,14 +104,15 @@
 	"settings": [
 		{
 			"type": "text",
-			"id": "title",
-			"label": "Heading",
-			"default": "Text columns with images"
+			"id": "extra_class",
+			"label": "Adicional CSS Classes",
+			"default": "container"
 		},
 		{
 			"type": "text",
-			"id": "extra_class",
-			"label": "Adicional CSS Classes"
+			"id": "title",
+			"label": "Heading",
+			"default": "Text columns with images"
 		},
 		{
 			"type": "select",

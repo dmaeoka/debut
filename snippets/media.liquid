@@ -1,4 +1,4 @@
-<!-- /snippets/media.liquid -->
+<!-- snippets/media.liquid -->
 {% comment %}
 	Renders a media element for the product gallery.
 	Media types include: image, video, external_video and model.
@@ -48,9 +48,7 @@
 				id="{{ zoom_media_id }}"
 				style="padding-top:{{ 1 | divided_by: media.preview_image.aspect_ratio | times: 100}}%;"
 				class="mx-auto min-h-px w-full h-full relative product-single__media{% if product.media.size > 1 %} product-single__media--has-thumbnails{% endif %}{% if enable_image_zoom %} js-zoom-enabled{% endif %}"
-				{% if enable_image_zoom %} data-image-zoom-wrapper data-zoom="{{ media | img_url: image_zoom_size, scale: image_scale }}"{% endif %}
-				data-image-loading-animation>
-
+				{% if enable_image_zoom %} data-image-zoom-wrapper data-zoom="{{ media | img_url: image_zoom_size, scale: image_scale }}"{% endif %}>
 				<img
 					id="{{ media_id }}"
 					class="absolute top-0 left-0 w-full max-w-full lazyload {{ media_class }} {% unless featured_media == media %} lazypreload{% endunless %}"

@@ -1,5 +1,8 @@
-<!-- /sections/list-collections-template.liquid  -->
-<div class="container">
+<!-- sections/list-collections-template.liquid  -->
+<section
+	class="{{ section.settings.extra_class }}"
+	data-section-id="{{ section.id }}"
+	data-section-type="list-collections-template">
 	<header class="mb-8 text-center">
 		<h1 class="text-2xl tracking-wide uppercase mb-4">{{ page_title }}</h1>
 	</header>
@@ -57,6 +60,12 @@
 {
 	"name": "Collections list page",
 	"settings": [
+		{
+			"type": "text",
+			"id": "extra_class",
+			"label": "Adicional CSS Classes",
+			"default": "container"
+		},
 		{
 			"type": "paragraph",
 			"content": "All of your collections are listed by default. To customize your list, choose 'Selected' and add collections."

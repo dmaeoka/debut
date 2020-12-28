@@ -1,6 +1,8 @@
-<!-- /sections/custom-content.liquid -->
-<div
-	class="container">
+<!-- sections/custom-content.liquid -->
+<section
+	class="{{ section.settings.extra_class }}"
+	data-section-id="{{ section.id }}"
+	data-section-type="custom-content">
 	{% if section.settings.title != blank %}
 		<div class="mb-5 text-center">
 			<h3 class="font-semibold text-3xl">{{ section.settings.title | escape }}</h3>
@@ -60,7 +62,7 @@
 										padding-top: {{ 1 | divided_by: block.settings.image.aspect_ratio | times: 100}}%;
 									}
 								{% endstyle %}
-								<div id="img--{{ block.id }}" data-image-loading-animation>
+								<div id="img--{{ block.id }}">
 									<img
 										id="{{ img_id }}"
 										class="w-full block absolute top-0 lazyload js"
@@ -176,9 +178,7 @@
 											class="relative block h-full w-full bg-cover bg-no-repeat bg-center box ratio-container js lazyload"
 											data-bgset="{% include 'bgset', image: img %}"
 											data-sizes="auto"
-											data-parent-fit="cover"
-											data-image-loading-animation
-										></div>
+											data-parent-fit="cover"></div>
 										<noscript>
 											<div
 												class="relative block h-full w-full bg-cover bg-no-repeat bg-center"
@@ -246,9 +246,7 @@
 												class="mx-auto relative w-full {{ wrapper }} js">
 												<div
 													class="block clear-both relative mr-auto mb-5 min-h-px w-full h-full"
-													style="padding-top:{{ 1 | divided_by: article.image.aspect_ratio | times: 100 }}%;"
-													data-image-loading-animation
-												>
+													style="padding-top:{{ 1 | divided_by: article.image.aspect_ratio | times: 100 }}%;">
 													<img
 														id="{{ img_id }}"
 														class="mx-auto w-full absolute top-0 lazyload"
@@ -370,25 +368,26 @@
 	{% if section.blocks.size == 0 %}
 		{% include 'no-blocks' %}
 	{% endif %}
-</div>
-
-
+</section>
 
 {% schema %}
 {
 	"name": "Custom content",
 	"class": "index-section",
-	"settings": [{
-		"type": "text",
-		"id": "title",
-		"label": "Heading",
-		"default": "Custom content"
-	},
-	{
-		"type": "text",
-		"id": "extra_class",
-		"label": "Adicional CSS Classes"
-	}],
+	"settings": [
+		{
+			"type": "text",
+			"id": "extra_class",
+			"label": "Adicional CSS Classes",
+			"default": "container"
+		},
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Heading",
+			"default": "Custom content"
+		}
+	],
 	"blocks": [{
 			"type": "text",
 			"name": "Text",

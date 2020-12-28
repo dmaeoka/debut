@@ -1,14 +1,15 @@
-<!-- src/static/templates/page.liquid -->
-<div class="container">
-	<div class="flex flex-row">
-		<div class="md:w-5/6 medium-up--push-one-twelfth">
-			<div class="mb-5 text-center">
-				<h1>{{ page.title }}</h1>
-			</div>
-
-			<div class="rte">
-				{{ page.content }}
+<!-- templates/page.liquid -->
+<article aria-labelledby="title-0">
+	<div class="container pb-12">
+		<div class="flex flex-col items-center">
+			<div class="md:w-3/4">
+				<header class="my-12">
+					<h1 class="font-semibold mb-4 text-4xl tracking-wide text-center" id="title-0">{{ page.title }}</h1>
+				</header>
+				<div class="text-gray-600">
+					{{ page.content }}
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
+</article>

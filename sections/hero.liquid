@@ -1,10 +1,11 @@
-<!-- src/static/sections/hero.liquid -->
-{%- if section.settings.hero_layout == 'full_width' and section.settings.hero_size == 'adapt' -%}
+<!-- sections/hero.liquid -->
+{%- if section.settings.hero_size == "adapt" -%}
 	{%- if section.settings.image.aspect_ratio == blank -%}
 		{%- assign min_aspect_ratio = 2.0 -%}
 	{%- else -%}
 		{%- assign min_aspect_ratio = section.settings.image.aspect_ratio -%}
 	{%- endif -%}
+
 	{%- assign wrapper_height = 100 | divided_by: min_aspect_ratio -%}
 	{%- style -%}
 		.hero-{{ section.id }} {
@@ -13,42 +14,34 @@
 	{%- endstyle -%}
 {%- endif -%}
 
-<div
+<section
+	class="{{ section.settings.extra_class }}"
 	data-section-id="{{ section.id }}"
 	data-section-type="hero-section">
-
-	{%- if section.settings.hero_layout == 'fixed_width' -%}
-		<div class="container">
-	{%- endif -%}
-
-	{%- if section.settings.hero_layout == 'fixed_width' and section.settings.hero_size == 'adapt' -%}
+	<div>
+	{%- if section.settings.hero_size == "adapt" -%}
 		{%- assign slide_width = 1090 -%}
 		{%- assign min_aspect_ratio = section.settings.image.aspect_ratio | default: 2.0 -%}
-		<div
-			class="relative max-h-screen"
-			id="Hero-{{ section.id }}"
-			data-layout="{{ section.settings.hero_layout }}"
-			data-image-loading-animation>
-
-			{%- assign img_url = section.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+		<div class="relative" id="Hero-{{ section.id }}">
+			{%- assign img_url = section.settings.image | img_url: "1x1" | replace: "_1x1.", "_{width}x." -%}
 			{%- if section.settings.image.width < max_width -%}
 				{%- assign slide_width = section.settings.image.width -%}
 			{%- endif -%}
 
-			<div class="absolute top-50 left-0 right-0 z-2" style="transform: translateY(-50%)">
+			<div class="absolute z-2 left-0 right-0 top-50 transform -translate-y-1/2">
 				<div class="container text-center">
 					{%- if section.settings.title != blank -%}
-						<h2 class="text-shadow text-white font-semibold mb-3{% if section.settings.text_size == 'large' %} text-6xl {% else %} text-4xl{% endif %}">{{ section.settings.title | escape }}</h2>
+						<h2 class="text-shadow text-white font-semibold mb-3{% if section.settings.text_size == "large" %} text-6xl {% else %} text-4xl{% endif %}">{{ section.settings.title | escape }}</h2>
 					{%- endif -%}
 
 					{%- if section.settings.text != blank -%}
-						<div class="max-w-lg mx-auto text-shadow text-white{% if section.settings.text_size == 'large' %} text-3xl font-semibold {% else %} text-xl{% endif %}">{{ section.settings.text }}</div>
+						<div class="max-w-lg mx-auto text-shadow text-white{% if section.settings.text_size == "large" %} text-3xl font-semibold {% else %} text-xl{% endif %}">{{ section.settings.text }}</div>
 					{%- endif -%}
 
 					{%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
 						<a
 							href="{{ section.settings.button_link }}"
-							class="bg-red-600 border-transparent btn mt-6 text-white">
+							class="btn {{ section.settings.button_class }}">
 							{{ section.settings.button_label | escape }}
 						</a>
 					{%- endif -%}
@@ -84,12 +77,8 @@
 	{%- else -%}
 
 		<div
-			class="relative flex flex-col bg-cover bg-no-repeat bg-center w-full bg-gray-100 lazyload js
-			hero--{{ section.settings.hero_size }}
-			hero-{{ section.id }}
-			{% if section.settings.title != blank or section.settings.text != blank or section.settings.button_label != blank %} hero__overlay{% endif %}"
+			class="relative flex flex-col bg-cover bg-no-repeat bg-center w-full bg-gray-100 lazyload js {% if section.settings.title != blank or section.settings.text != blank or section.settings.button_label != blank %} hero__overlay{% endif %}"
 			id="Hero-{{ section.id }}"
-			data-layout="{{ section.settings.hero_layout }}"
 			{%- if section.settings.image -%}
 			{% unless section.settings.image.alt == blank %}
 			role="img"
@@ -101,26 +90,26 @@
 			data-sizes="auto"
 			data-parent-fit="cover"
 			style="background-position: {{ section.settings.alignment }};"
-			data-image-loading-animation
 			{%- endif -%}
 		>
-		{%- if section.settings.image == blank -%}
+			{%- if section.settings.image == blank -%}
 			<div class="absolute top-0 right-0 bottom-0 left-0">
 				{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
 			</div>
-		{%- endif -%}
+			{%- endif -%}
+
 			<div
-				class="relative flex flex-col justify-center py-20 z-2">
+				class="{{ section.settings.hero_size }} relative flex flex-col justify-center py-20 z-2">
 				<div class="container text-center">
 					{%- if section.settings.title != blank -%}
-						<h2 class="text-shadow text-white font-semibold mb-3{% if section.settings.text_size == 'large' %} text-6xl {% else %} text-4xl{% endif %}">{{ section.settings.title | escape }}</h2>
+						<h2 class="text-shadow text-white font-semibold mb-3{% if section.settings.text_size == "large" %} text-6xl {% else %} text-4xl{% endif %}">{{ section.settings.title | escape }}</h2>
 					{%- endif -%}
 					{%- if section.settings.text != blank -%}
-						<div class="max-w-lg mx-auto text-shadow text-white{% if section.settings.text_size == 'large' %} text-3xl font-semibold {% else %} text-xl{% endif %}">{{ section.settings.text }}</div>
+						<div class="max-w-lg mx-auto text-shadow text-white{% if section.settings.text_size == "large" %} text-3xl font-semibold {% else %} text-xl{% endif %}">{{ section.settings.text }}</div>
 					{%- endif -%}
 
 					{%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
-						{%- capture ariaLabel -%}
+						{%- capture aria_label -%}
 							{{- section.settings.button_label -}}
 							{%- if section.settings.button_link.type == 'frontpage_link' -%}
 								: {{ 'homepage.general.title' | t -}}
@@ -133,8 +122,8 @@
 
 						<a
 							href="{{ section.settings.button_link }}"
-							class="bg-red-600 border-transparent btn mt-6 text-white"
-							aria-label="{{ ariaLabel }}">
+							class="btn {{ section.settings.button_class }}"
+							aria-label="{{ aria_label }}">
 							{{- section.settings.button_label | escape -}}
 						</a>
 					{%- endif -%}
@@ -144,7 +133,7 @@
 
 		<noscript>
 			<div
-				class="hero--{{ section.settings.hero_size }}
+				class="{{ section.settings.hero_size }}
 				{% if section.settings.title != blank or section.settings.text != blank or section.settings.button_label != blank %} hero__overlay{% endif %}"
 				{% if section.settings.image %}{% unless section.settings.image.alt == blank %}
 				role="img"
@@ -152,11 +141,8 @@
 				style="background-image: url('{{ section.settings.image | img_url: '2048x' }}'); background-position: center {{ section.settings.alignment }};"{% endif %}></div>
 		</noscript>
 	{%- endif -%}
-
-	{%- if section.settings.hero_layout == 'fixed_width' -%}
-		</div>
-	{%- endif -%}
-</div>
+	</div>
+</section>
 
 {% schema %}
 {
@@ -166,7 +152,8 @@
 		{
 			"type": "text",
 			"id": "extra_class",
-			"label": "Adicional CSS Classes"
+			"label": "Adicional CSS Classes",
+			"default": "container"
 		},
 		{
 			"type": "image_picker",
@@ -195,25 +182,9 @@
 		},
 		{
 			"type": "select",
-			"id": "hero_layout",
-			"label": "Layout",
-			"default": "full_width",
-			"options": [
-				{
-					"label": "Full width",
-					"value": "full_width"
-				},
-				{
-					"label": "Fixed width",
-					"value": "fixed_width"
-				}
-			]
-		},
-		{
-			"type": "select",
 			"id": "hero_size",
 			"label": "Section height",
-			"default": "medium",
+			"default": "h-128",
 			"options": [
 				{
 					"label": "Adapt to image",
@@ -221,23 +192,23 @@
 				},
 				{
 					"label": "Extra Small",
-					"value": "x-small"
+					"value": "h-64"
 				},
 				{
 					"label": "Small",
-					"value": "small"
+					"value": "h-96"
 				},
 				{
 					"label": "Medium",
-					"value": "medium"
+					"value": "h-128"
 				},
 				{
 					"label": "Large",
-					"value": "large"
+					"value": "h-144"
 				},
 				{
-					"label": "Extra Large",
-					"value": "x-large"
+					"label": "Full Screen",
+					"value": "h-screen"
 				}
 			]
 		},
@@ -270,14 +241,24 @@
 			"default": "<p>Use overlay text to give your customers insight into your brand. Select imagery and text that relates to your style and story.</p>"
 		},
 		{
+			"type": "header",
+			"content": "Hero Button"
+		},
+		{
 			"type": "text",
 			"id": "button_label",
-			"label": "Button label"
+			"label": "Button Label"
 		},
 		{
 			"type": "url",
 			"id": "button_link",
-			"label": "Button link"
+			"label": "Button Link"
+		},
+		{
+			"type": "text",
+			"id": "button_class",
+			"label": "Button Class",
+			"default": "bg-red-600 border-transparent mt-6 text-white"
 		}
 	],
 	"presets": [

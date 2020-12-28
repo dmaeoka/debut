@@ -1,7 +1,9 @@
-<!-- /sections/newsletter.liquid -->
-
-<div class="newsletter-section py-16 {% if section.settings.show_background %} bg-gray-200{% endif %}">
-	<div class="container">
+<!-- sections/newsletter.liquid -->
+<section
+	class="{{ section.settings.extra_class }}"
+	data-section-id="{{ section.id }}"
+	data-section-type="newsletter">
+	<div>
 		<div class="mb-8 text-center">
 			{% if section.settings.section_title != blank %}
 				<h2 class="text-2xl tracking-wide uppercase mb-4">{{ section.settings.section_title | escape }}</h2>
@@ -48,13 +50,19 @@
 			{%- endif -%}
 		{% endform %}
 	</div>
-</div>
+</section>
 
 {% schema %}
 {
 	"name": "Newsletter",
 	"class": "index-section index-section--flush",
 	"settings": [
+		{
+			"type": "text",
+			"id": "extra_class",
+			"label": "Adicional CSS Classes",
+			"default": "container py-16 bg-gray-200"
+		},
 		{
 			"type": "text",
 			"id": "section_title",
@@ -66,12 +74,6 @@
 			"id": "subheading",
 			"label":  "Subheading",
 			"default": "<p>Promotions, new products and sales. Directly to your inbox.</p>"
-		},
-		{
-			"id": "show_background",
-			"type": "checkbox",
-			"label":  "Show background",
-			"default": true
 		},
 		{
 			"type": "paragraph",

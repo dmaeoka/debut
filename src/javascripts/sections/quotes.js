@@ -3,37 +3,94 @@
  * ------------------------------------------------------------------------------
  * A file that contains scripts highly couple code to the Product template.
  *
- * @namespace product
+ * @namespace quotes
  */
-import { register } from '@shopify/theme-sections';
+import { tns } from "tiny-slider/src/tiny-slider";
+import { register } from "@shopify/theme-sections";
+// onLoad
+// onUnload
+// onSelect
+// onDeselect
+// onBlockSelect
+// onBlockDeselect
 
-var selectors = {
-	body: 'body',
-	navigation: '#AccessibleNav',
-	siteNavHasDropdown: '[data-has-dropdowns]',
-	siteNavChildLinks: '.site-nav__child-link',
-	siteNavActiveDropdown: '.site-nav--active-dropdown',
-	siteNavHasCenteredDropdown: '.site-nav--has-centered-dropdown',
-	siteNavCenteredDropdown: '.site-nav__dropdown--centered',
-	siteNavLinkMain: '.site-nav__link--main',
-	siteNavChildLink: '.site-nav__link--last',
-	siteNavDropdown: '.site-nav__dropdown',
-	siteHeader: '.site-header'
-};
-
-var config = {
-	activeClass: 'site-nav--active-dropdown',
-	childLinkClass: 'site-nav__child-link',
-	rightDropdownClass: 'site-nav__dropdown--right',
-	leftDropdownClass: 'site-nav__dropdown--left'
+let config = {
+	container: "[data-slider]",
+	items: 1,
+	gutter: 16,
+	edgePadding: 16,
+	fixedWidth: false,
+	autoWidth: false,
+	viewportMax: false,
+	slideBy: 1,
+	center: false,
+	controls: false,
+	controlsPosition: "bottom",
+	controlsText: ["prev", "next"],
+	controlsContainer: false,
+	prevButton: false,
+	nextButton: false,
+	nav: true,
+	navPosition: "bottom",
+	navContainer: false,
+	navAsThumbnails: false,
+	arrowKeys: false,
+	speed: 300,
+	animateIn: "tns-fadeIn",
+	animateOut: "tns-fadeOut",
+	animateNormal: "tns-normal",
+	animateDelay: false,
+	loop: true,
+	rewind: false,
+	autoHeight: false,
+	responsive: false,
+	lazyload: false,
+	lazyloadSelector: ".tns-lazy-img",
+	touch: true,
+	mouseDrag: true,
+	swipeAngle: 15,
+	nested: false,
+	preventActionWhenRunning: false,
+	preventScrollOnTouch: false,
+	freezable: true,
+	responsive: {
+		1024: {
+			items: 3
+		},
+		768: {
+			items: 2
+		}
+	}
 };
 
 var cache = {};
 
-register('quotes', {
+register("quotes", {
 	onLoad() {
 		try {
 			console.log("quotes");
+			cache = this.initSlider();
+		} catch (error) {
+			console.warn(error);
+		}
+	},
+	onUnload() {
+		try {
+			cache.destroy();
+			cache = {};
+		} catch (error) {
+			console.warn(error);
+		}
+	},
+	initSlider() {
+		try {
+			let mergedConfig = {
+				...config,
+				...{
+					container: this.container.querySelector("[data-slider]")
+				}
+			};
+			return tns(mergedConfig);
 		} catch (error) {
 			console.warn(error);
 		}

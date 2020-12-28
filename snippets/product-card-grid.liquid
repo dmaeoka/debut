@@ -1,4 +1,4 @@
-<!-- /snippets/product-card-grid.liquid -->
+<!-- snippets/product-card-grid.liquid -->
 {% comment %}
 	Renders a product card using "Grid" style
 	Accepts:
@@ -10,10 +10,8 @@
 	{% include 'product-card-grid', max_height: max_height, product: product, show_vendor: section.settings.show_vendor %}
 {% endcomment %}
 
-<div class="mx-auto relative mb-6 {% unless product.available %} grid-view-item--sold-out{% endunless %}">
-	<a
-		 class="block absolute top-0 right-0 bottom-0 left-0 z-2"
-		 href="{{ product.url | within: collection }}">
+<div class="mx-auto relative {% unless product.available %} grid-view-item--sold-out{% endunless %}">
+	<a class="block absolute top-0 right-0 bottom-0 left-0 z-2" href="{{ product.url | within: collection }}">
 		<span class="sr-only">{{ product.title }}</span>
 	</a>
 
@@ -22,17 +20,12 @@
 	{%- assign preview_image = product.featured_media.preview_image -%}
 	{%- assign img_url = preview_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
 
-	{% unless preview_image == blank %}
-		{% include 'image-style', image: preview_image, height: max_height, wrapper_id: wrapper_id, img_id: img_id %}
-	{% endunless %}
-
-	<div class="relative" data-image-loading-animation>
-
-		<div id="{{ wrapper_id }}" class="js mb-4">
-			<div style="padding-top:{% unless preview_image == blank %}{{ 1 | divided_by: preview_image.aspect_ratio | times: 100 }}%{% else %}100%{% endunless %};">
+	<div class="relative">
+		<div id="{{ wrapper_id }}" class="mb-4">
+			<div class="pt-full overflow-hidden" style="padding-top: {{ aspect_ratio }}">
 				<img
 					id="{{ img_id }}"
-					class="block mx-auto w-full absolute top-0 lazyload"
+					class="block mx-auto w-full h-full absolute top-0 left-0 object-cover lazyload"
 					alt="{{ preview_image.alt }}"
 					data-src="{{ img_url }}"
 					data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
