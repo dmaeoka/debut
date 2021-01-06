@@ -46,6 +46,11 @@ p {
 		color: var(--color-text);
 		text-align: left;
 	}
+
+	&--block {
+		@apply w-full;
+		@apply block;
+	}
 }
 
 .text-link {

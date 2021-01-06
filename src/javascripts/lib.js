@@ -9,10 +9,5 @@ import "lazysizes/plugins/bgset/ls.bgset";
 import "lazysizes";
 import "lazysizes/plugins/respimg/ls.respimg";
 
-// TODO: MOVE TO ALPINE.JS????
-// import "alpinejs";
-
-// import PubSub from "pubsub-js";
-// window.PubSub = PubSub;
-// window._ = require("lodash");
+import "./libs/alpine";
 // window.Instafeed = require("instafeed.js");

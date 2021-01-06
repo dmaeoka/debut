@@ -47,31 +47,53 @@
 	{{ 'theme.css' | asset_url | stylesheet_tag }}
 	{{ 'gift-card.css' | asset_url | stylesheet_tag }}
 
+	<script src="{{ 'lib.js' | asset_url }}" defer="defer"></script>
 	<script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer="defer"></script>
 	<script src="{{ 'gift_card.js' | asset_url }}" defer="defer"></script>
 
+	{% capture asset_file %}{{ 'theme.js' | asset_url }}{% endcapture %}
+	{% assign asset_path = asset_file | split: 'theme.js' | first %}
 	<script>
-		var theme = {
-			strings: {
-				qrImageAlt: {{ 'gift_cards.issued.qr_image_alt' | t | json }}
-			}
-		};
-	</script>
+		window.__webpack_public_path__ = "{{ asset_path }}";
+		(function() {
+			/**
+			 * Application namespace.
+			 * @class THEME
+			 * @for window
+			 * @namespace window
+			 * @static
+			 */
+			this.theme = {
+				strings: {
+					addressError: {{ 'sections.map.address_error' | t | json }},
+					addressNoResults: {{ 'sections.map.address_no_results' | t | json }},
+					addressQueryLimit: {{ 'sections.map.address_query_limit_html' | t | json }},
+					authError: {{ 'sections.map.auth_error_html' | t | json }},
+					qrImageAlt: {{ 'gift_cards.issued.qr_image_alt' | t | json }}
+				},
+				breakpoints: {
+					medium: 750,
+					large: 990,
+					widescreen: 1400
+				}
+			};
 
-	<script type="text/javascript">
-		if (window.MSInputMethodContext && document.documentMode) {
-			var scripts = document.getElementsByTagName('script')[0];
-			var polyfill = document.createElement("script");
-			polyfill.defer = true;
-			polyfill.src = "{{ 'ie11CustomProperties.min.js' | asset_url }}";
-			scripts.parentNode.insertBefore(polyfill, scripts);
-		}
+			if (window.MSInputMethodContext && document.documentMode) {
+				var scripts = document.getElementsByTagName('script')[0];
+				var polyfill = document.createElement("script");
+				polyfill.defer = true;
+				polyfill.src = "{{ 'ie11CustomProperties.js' | asset_url }}";
+				scripts.parentNode.insertBefore(polyfill, scripts);
+			}
+		}).call(window);
+
+		document.documentElement.className = document.documentElement.className.replace("no-js", "js");
 	</script>
 
 	{{ content_for_header }}
 </head>
 
-<body class="template-giftcard">
+<body class="template-giftcard debug-screens" x-data="theme">
 	{{ content_for_layout }}
 	<ul class="sr-only" aria-hidden="true">
 		<li id="a11y-new-window-message">{{ 'general.accessibility.link_messages.new_window' | t }}</li>

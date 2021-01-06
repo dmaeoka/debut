@@ -39,19 +39,20 @@ register('product-section', {
 	async onLoad() {
 		console.log("Loading product.js");
 		const productFormElement = document.querySelector(selectors.productForm);
+		const productHandle = productFormElement.dataset.productHandle || "1-new-and-sale-badge-product";
 
-		this.product = await this.getProductJson(
-			productFormElement.dataset.productHandle,
-		);
-		this.productForm = new ProductForm(productFormElement, this.product, {
-			onOptionChange: this.onFormOptionChange.bind(this),
-		});
+		if (productHandle) {
+			this.product = await this.getProductJson(productHandle);
+			this.productForm = new ProductForm(productFormElement, this.product, {
+				onOptionChange: this.onFormOptionChange.bind(this),
+			});
 
-		this.onThumbnailClick = this.onThumbnailClick.bind(this);
-		this.onThumbnailKeyup = this.onThumbnailKeyup.bind(this);
+			this.onThumbnailClick = this.onThumbnailClick.bind(this);
+			this.onThumbnailKeyup = this.onThumbnailKeyup.bind(this);
 
-		this.container.addEventListener('click', this.onThumbnailClick);
-		this.container.addEventListener('keyup', this.onThumbnailKeyup);
+			this.container.addEventListener('click', this.onThumbnailClick);
+			this.container.addEventListener('keyup', this.onThumbnailKeyup);
+		}
 	},
 
 	onUnload() {

@@ -1,3 +1,4 @@
+<!-- sections/slideshow.liquid -->
 {% if section.blocks.size > 0 %}
 	<section
 		class="slideshow-wrapper {{ section.settings.extra_class }}"
@@ -35,10 +36,7 @@
 							{%- endunless -%}
 
 							{%- unless block.settings.title == blank -%}
-								<h2
-									data-slide-id="{{ forloop.index }}"
-									class="{{ block.settings.title_class }} {% if section.blocks.size == 1 %} active{% endif %}"
-								>
+								<h2 data-slide-id="{{ forloop.index }}" class="{{ block.settings.title_class }} {% if section.blocks.size == 1 %} active{% endif %}">
 									{{ block.settings.title | escape }}
 								</h2>
 							{%- endunless -%}

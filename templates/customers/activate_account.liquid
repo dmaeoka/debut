@@ -1,12 +1,12 @@
 <!-- templates/customers/activate_account.liquid -->
-<div class="container text-center">
-	<div class="flex flex-row">
-		<div class="md:w-1/2 medium-up--push-one-quarter">
-			<div class="mb-5">
-				<h1>{{ 'customer.activate_account.title' | t }}</h1>
-				<p>{{ 'customer.activate_account.subtext' | t }}</p>
-			</div>
+<div class="container pb-12">
+	<div>
+		<header class="my-12 text-center">
+			<h1 class="font-semibold mb-4 text-4xl tracking-wide">{{ 'customer.activate_account.title' | t }}</h1>
+			<p>{{ 'customer.activate_account.subtext' | t }}</p>
+		</header>
 
+		<div class="md:w-1/2 ">
 			<div class="form-vertical">
 				{% form 'activate_customer_password' %}
 
@@ -15,14 +15,27 @@
 							{{ form.errors | default_errors }}
 						</div>
 					{%- endif -%}
-
-					<label for="CustomerPassword" class="sr-only">{{ 'customer.activate_account.password' | t }}</label>
-					<input type="password" value="" name="customer[password]" id="CustomerPassword" placeholder="{{ 'customer.activate_account.password' | t }}">
-
-					<label for="CustomerPasswordConfirmation" class="sr-only">{{ 'customer.activate_account.password_confirm' | t }}</label>
-					<input type="password" value="" name="customer[password_confirmation]" id="CustomerPasswordConfirmation" placeholder="{{ 'customer.activate_account.password_confirm' | t }}">
-
-					<input type="submit" class="btn" value="{{ 'customer.activate_account.submit' | t }}">
+					<div>
+						<label for="CustomerPassword" class="sr-only">{{ 'customer.activate_account.password' | t }}</label>
+						<input
+							type="password"
+							value=""
+							name="customer[password]"
+							id="CustomerPassword"
+							class="bg-white border border-gray-600 px-3 py-2 text-gray-800 w-full rounded"
+							placeholder="{{ 'customer.activate_account.password' | t }}">
+					</div>
+					<div>
+						<label for="CustomerPasswordConfirmation" class="sr-only">{{ 'customer.activate_account.password_confirm' | t }}</label>
+						<input
+							type="password"
+							value=""
+							name="customer[password_confirmation]"
+							id="CustomerPasswordConfirmation"
+							class="bg-white border border-gray-600 px-3 py-2 text-gray-800 w-full rounded"
+							placeholder="{{ 'customer.activate_account.password_confirm' | t }}">
+					</div>
+					<input type="submit" class="bg-red-600 border-red-600 btn text-white text-base" value="{{ 'customer.activate_account.submit' | t }}">
 					<div><input type="submit" name="decline" value="{{ 'customer.activate_account.cancel' | t }}"></div>
 				{% endform %}
 			</div>

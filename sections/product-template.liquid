@@ -38,7 +38,7 @@
 	{% endcase %}
 
 	<div
-		class="flex flex-row md:-mx-4 product-single{% if section.settings.enable_payment_button %} product-single--{{ section.settings.media_size }}-media{% endif %}">
+		class="flex flex-col flex-wrap py-12 md:flex-row md:-mx-4{% if section.settings.enable_payment_button %} product-single--{{ section.settings.media_size }}-media{% endif %}">
 		<div
 			class="px-4 relative {{ product_media_width }}{% if section.settings.media_size == 'full' %} mb-6{% endif %}"
 			data-product-single-media-group
@@ -160,7 +160,6 @@
 			<div class="product-single__meta">
 
 				<h1 class="font-semibold leading-snug text-4xl tracking-wide">{{ product.title }}</h1>
-				<script>window.performance.mark('debut:product:title_visible');</script>
 
 				<div class="text-xl">
 					{% include 'product-price', variant: current_variant, show_vendor: section.settings.show_vendor %}
@@ -185,11 +184,11 @@
 
 					{% form 'product', product, class:form_classes, novalidate: 'novalidate', data-product-form: '' %}
 						{% unless product.has_only_default_variant %}
-							<div class="flex flex-wrap">
+							<div class="flex flex-wrap -mx-4">
 								{% for option in product.options_with_values %}
-									<div class="selector-wrapper js flex-grow-0 w-full mb-2 py-0 md:w-1/2">
+									<div class="selector-wrapper js flex-grow-0 w-full mb-2 py-0 md:w-1/2 px-4">
 										<label
-											class="block mb-1"
+											class="block mb-1 text-lg"
 											for="SingleOptionSelector-{{ forloop.index0 }}">
 											{{ option.name }}
 										</label>
@@ -210,7 +209,7 @@
 						<select
 							name="id"
 							id="ProductSelect-{{ section.id }}"
-							class="product-form__variants no-js">
+							class="sr-only">
 							{% for variant in product.variants %}
 								<option value="{{ variant.id }}"
 									{%- if variant == current_variant %} selected="selected" {%- endif -%}
@@ -223,7 +222,9 @@
 						{% if section.settings.show_quantity_selector %}
 							<div class="flex flex-wrap">
 								<div class="flex-grow-0 w-full mb-2 p-0">
-									<label for="Quantity-{{ section.id }}">{{ 'products.product.quantity' | t }}</label>
+									<label
+										class="block mb-1 text-lg"
+										for="Quantity-{{ section.id }}">{{ 'products.product.quantity' | t }}</label>
 									<input
 										type="number"
 										id="Quantity-{{ section.id }}"
@@ -239,12 +240,12 @@
 						{% endif %}
 
 						<div
-							class="flex w-full py-2 mb-5 mx-3 product-form__error-message-wrapper"
+							class="flex w-full py-2 mb-5"
 							role="alert"
 							data-error-message-wrapper
 						>
 							<span class="sr-only">{{ 'general.accessibility.error' | t }}</span>
-							{% include 'icon-error', icon_class: "h-3 w-3 align-middle" %}
+							{% include 'icon-error', icon_class: "align-middle fill-current h-4 w-4 inline-block text-red-600" %}
 							<span
 								class="ml-2 text-sm leading-tight text-gray-700 product-form__error-message"
 								data-error-message
@@ -252,26 +253,21 @@
 						</div>
 
 						<div class="flex flex-wrap mt-4">
-							<div class="flex-grow-0 w-full mb-2 p-0 product-form__item--submit
-								{%- if section.settings.enable_payment_button %} w-full {%- endif -%}
-								{%- if product.has_only_default_variant %} product-form__item--no-variants {%- endif -%}"
-							>
+							<div class="flex-grow-0 w-full mb-2 p-0 {%- if section.settings.enable_payment_button %} w-full {%- endif -%} {%- if product.has_only_default_variant %} product-form__item--no-variants {%- endif -%}">
 								<button
 									type="submit"
 									name="add"
 									{% unless current_variant.available %} aria-disabled="true"{% endunless %}
 									aria-label="{% unless current_variant.available %}{{ 'products.product.sold_out' | t }}{% else %}{{ 'products.product.add_to_cart' | t }}{% endunless %}"
-									class="btn block w-full leading-normal px-2 whitespace-normal mt-0 mb-3 bg-transparent text-red-600 border-red-600 product-form__cart-submit{% if section.settings.enable_payment_button %} btn--secondary-accent{% endif %}"
+									class="btn btn--block leading-normal px-2 mt-0 mb-3 bg-transparent text-red-600 border-red-600 product-form__cart-submit"
 									{% if settings.enable_ajax %}aria-haspopup="dialog"{% endif %}
 									data-add-to-cart>
-									<span data-add-to-cart-text>
-										{% unless current_variant.available %}
-											{{ 'products.product.sold_out' | t }}
-										{% else %}
-											{{ 'products.product.add_to_cart' | t }}
-										{% endunless %}
-									</span>
-									<span class="hidden" data-loader>
+									{% unless current_variant.available %}
+										{{ 'products.product.sold_out' | t }}
+									{% else %}
+										{{ 'products.product.add_to_cart' | t }}
+									{% endunless %}
+									<span class="hidden">
 										{% include 'icon-spinner', icon_class: "h-3 w-3 align-middle" %}
 									</span>
 								</button>

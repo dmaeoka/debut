@@ -3,8 +3,6 @@ import * as cart from "@shopify/theme-cart";
 
 import "bootstrap";
 
-console.log(jQuery.fn.modal);
-
 __webpack_public_path__ = window.__webpack_public_path__;
 
 document.addEventListener("DOMContentLoaded", (e) => {
@@ -22,6 +20,8 @@ document.addEventListener("DOMContentLoaded", (e) => {
 
 		// TODO RETURN TO LAZYLOAD
 		require("./templates");
+
+		document.body.classList.replace("no-js", "js");
 	} catch (error) {
 		console.warn(error);
 	}
@@ -53,3 +53,11 @@ data-section-type="rich-text"
 data-section-type="slideshow-section"
 data-section-type="video-section"
 */
+
+(function(global) {
+	var THEME = global.THEME || {};
+	THEME.validate = {
+		timeStamp: 0
+	}
+	global.THEME = THEME;
+})(window);

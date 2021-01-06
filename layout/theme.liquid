@@ -17,9 +17,10 @@
 	<link rel="preconnect" href="https://fonts.shopify.com" crossorigin />
 	<link rel="preconnect" href="https://monorail-edge.shopifysvc.com" />
 
-	<link rel="preload" as="font" href="{{ header_font | font_url }}" type="font/woff2" crossorigin />
-	<link rel="preload" as="font" href="{{ base_font | font_url }}" type="font/woff2" crossorigin />
-	<link rel="preload" as="font" href="{{ base_font_bold | font_url }}" type="font/woff2" crossorigin />
+	<link rel="preload" href="{{ 'theme.css' | asset_url }}" as="style">
+	<link rel="preload" as="font" href="{{ header_font | font_url }}" type="font/woff2" crossorigin>
+	<link rel="preload" as="font" href="{{ base_font | font_url }}" type="font/woff2" crossorigin>
+	<link rel="preload" as="font" href="{{ base_font_bold | font_url }}" type="font/woff2" crossorigin>
 
 	{%- if canonical_url != blank -%}
 		<link rel="canonical" href="{{ canonical_url }}">
@@ -58,20 +59,19 @@
 	<!-- CSS ================================================== -->
 	{% include 'css-variables' %}
 
-	{% style %}
+	<style>
 		{{ header_font | font_face: font_display: 'swap' }}
 		{{ base_font | font_face: font_display: 'swap' }}
 		{{ base_font_bold | font_face: font_display: 'swap' }}
 		{{ base_font_bolder | font_face: font_display: 'swap' }}
 		{{ base_font_italic | font_face: font_display: 'swap' }}
 		{{ base_font_bold_italic | font_face: font_display: 'swap' }}
-	{% endstyle %}
+	</style>
 
-	{% capture randomFile %}{{ 'theme.js' | asset_url }}{% endcapture %}
-	{% assign assetsPath = randomFile | split: 'theme.js' | first %}
-
+	{% capture asset_file %}{{ 'theme.js' | asset_url }}{% endcapture %}
+	{% assign asset_path = asset_file | split: 'theme.js' | first %}
 	<script>
-		window.__webpack_public_path__ = "{{ assetsPath }}";
+		window.__webpack_public_path__ = "{{ asset_path }}";
 
 		/**
 		* Configurables and Namespace.
@@ -80,13 +80,12 @@
 		*/
 		(function() {
 			/**
-			* Application namespace.
-			* @class THEME
-			* @for window
-			* @namespace window
-			* @static
-			*/
-
+			 * Application namespace.
+			 * @class THEME
+			 * @for window
+			 * @namespace window
+			 * @static
+			 */
 			var theme = {
 				moneyFormat : {{ shop.money_format | json }},
 				moneyFormatWithCurrency : {{ shop.money_with_currency_format | json }},
@@ -149,7 +148,7 @@
 				}
 			};
 
-			this.theme = Object.assign(this.theme || {},theme);
+			this.theme = Object.assign(this.theme || {}, theme);
 
 			this.texture_obj = (function() {
 				{%- assign str = '{' -%}
@@ -167,14 +166,19 @@
 			})();
 
 			this.performance.mark('debut:theme_stylesheet_loaded.start');
-			this.onLoadStylesheet = function($this) {
-				var href = $this.href;
+			this.onLoadStylesheet = function($el) {
 				this.performance.mark('debut:theme_stylesheet_loaded.end');
 				this.performance.measure('debut:theme_stylesheet_loaded', 'debut:theme_stylesheet_loaded.start', 'debut:theme_stylesheet_loaded.end');
-				var url = "{{ 'theme.css' | asset_url }}";
-				var link = document.querySelector('link[href="' + url + '"]');
-				link.loaded = true;
-				link.dispatchEvent(new Event('load'));
+				$el.loaded = true;
+				$el.dispatchEvent(new Event("load"));
+			}
+
+			if (window.MSInputMethodContext && document.documentMode) {
+				var scripts = document.getElementsByTagName('script')[0];
+				var polyfill = document.createElement("script");
+				polyfill.defer = true;
+				polyfill.src = "{{ 'ie11CustomProperties.js' | asset_url }}";
+				scripts.parentNode.insertBefore(polyfill, scripts);
 			}
 
 			{%- if settings.show_helper -%}
@@ -184,7 +188,8 @@
 
 		}).call(window);
 
-		document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+		document.documentElement.className = document.documentElement.className.replace("no-js", "js");
+
 	</script>
 
 	{%- if request.page_type contains 'customers/' -%}
@@ -197,7 +202,7 @@
 	{{ content_for_header }}
 </head>
 
-<body class="template-{{ request.page_type | handle }} debug-screens">
+<body class="template-{{ request.page_type | handle }} debug-screens" x-data="theme">
 
 	<a class="in-page-link skip-link sr-only" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
 
@@ -209,7 +214,7 @@
 
 	<div id="PageContainer" class="overflow-hidden page-container relative z-0">
 
-		<main class="main-content js-focus-hidden" id="MainContent" role="main" tabindex="-1">
+		<main class="main-content" id="MainContent" role="main" tabindex="-1">
 			{{ content_for_layout }}
 		</main>
 

@@ -1,58 +1,57 @@
 <!-- templates/customers/account.liquid -->
-<div class="container">
-	<div class="mb-5 text-center">
-		<h1>{{ 'customer.account.title' | t }}</h1>
-		{{ 'layout.customer.log_out' | t | customer_logout_link }}
-	</div>
+<div class="container pb-12">
+	<div>
+		<header class="my-12 text-center">
+			<h1 class="font-semibold mb-4 text-4xl tracking-wide">{{ 'customer.account.title' | t }}</h1>
+			{{ 'layout.customer.log_out' | t | customer_logout_link | replace: "<a", "<a class='text-link text-link--accent text-red-600 text-lg'" }}
+		</header>
+		<div class="flex flex-col items-stretch mx-0 md:flex-row md:flex-wrap md:-mx-4">
+			<div class="px-4 md:w-1/2 w-full">
+				<h2 class="font-semibold leading-snug text-2xl tracking-wide mb-3">{{ 'customer.orders.title' | t }}</h2>
 
-	<div class="flex flex-col mx-0 md:flex-row md:flex-wrap md:-mx-4 myaccount">
-		<div class="myaccount__order-history">
-			<h2>{{ 'customer.orders.title' | t }}</h2>
+				{% paginate customer.orders by 20 %}
+					{% if customer.orders.size != 0 %}
 
-			{% paginate customer.orders by 20 %}
-				{% if customer.orders.size != 0 %}
-
-					<table class="responsive-table">
-						<thead>
-							<tr>
-								<th scope="col">{{ 'customer.orders.order_number' | t }}</th>
-								<th scope="col">{{ 'customer.orders.date' | t }}</th>
-								<th scope="col">{{ 'customer.orders.payment_status' | t }}</th>
-								<th scope="col">{{ 'customer.orders.fulfillment_status' | t }}</th>
-								<th scope="col">{{ 'customer.orders.total' | t }}</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for order in customer.orders %}
+						<table class="responsive-table">
+							<thead>
 								<tr>
-									<th data-label="{{ 'customer.orders.order_number' | t }}" scope="row">
-										<a href="{{ order.customer_url }}" class="btn btn--secondary btn--small" aria-label="{{ 'customer.orders.order_number_link' | t: number: order.name }}">{{ order.name }}</a>
-									</th>
-									<td data-label="{{ 'customer.orders.date' | t }}">{{ order.created_at | time_tag: format: 'date' }}</td>
-									<td data-label="{{ 'customer.orders.payment_status' | t }}">{{ order.financial_status_label }}</td>
-									<td data-label="{{ 'customer.orders.fulfillment_status' | t }}">{{ order.fulfillment_status_label }}</td>
-									<td data-label="{{ 'customer.orders.total' | t }}">{{ order.total_price | money }}</td>
+									<th scope="col">{{ 'customer.orders.order_number' | t }}</th>
+									<th scope="col">{{ 'customer.orders.date' | t }}</th>
+									<th scope="col">{{ 'customer.orders.payment_status' | t }}</th>
+									<th scope="col">{{ 'customer.orders.fulfillment_status' | t }}</th>
+									<th scope="col">{{ 'customer.orders.total' | t }}</th>
 								</tr>
-							{% endfor %}
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								{% for order in customer.orders %}
+									<tr>
+										<th data-label="{{ 'customer.orders.order_number' | t }}" scope="row">
+											<a href="{{ order.customer_url }}" class="btn btn--secondary btn--small" aria-label="{{ 'customer.orders.order_number_link' | t: number: order.name }}">{{ order.name }}</a>
+										</th>
+										<td data-label="{{ 'customer.orders.date' | t }}">{{ order.created_at | time_tag: format: 'date' }}</td>
+										<td data-label="{{ 'customer.orders.payment_status' | t }}">{{ order.financial_status_label }}</td>
+										<td data-label="{{ 'customer.orders.fulfillment_status' | t }}">{{ order.fulfillment_status_label }}</td>
+										<td data-label="{{ 'customer.orders.total' | t }}">{{ order.total_price | money }}</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
 
-				{% else %}
+					{% else %}
 
-					<p>{{ 'customer.orders.none' | t }}</p>
+						<p>{{ 'customer.orders.none' | t }}</p>
 
-				{% endif %}
-				{%- if paginate.pages > 1 -%}
-					{% include 'pagination', paginate: paginate %}
-				{%- endif -%}
-			{% endpaginate %}
-		</div>
-		<div class="myaccount__account-details">
-			<h2>{{ 'customer.account.details' | t }}</h2>
-
-			{{ customer.default_address | format_address }}
-
-			<p><a href="{{ routes.account_addresses_url }}" class="btn btn--small">{{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})</a></p>
+					{% endif %}
+					{%- if paginate.pages > 1 -%}
+						{% include 'pagination', paginate: paginate %}
+					{%- endif -%}
+				{% endpaginate %}
+			</div>
+			<div class="px-4 md:w-1/2 w-full">
+				<h2 class="font-semibold leading-snug text-2xl tracking-wide mb-3">{{ 'customer.account.details' | t }}</h2>
+				{{ customer.default_address | format_address }}
+				<p><a href="{{ routes.account_addresses_url }}" class="bg-red-600 border-red-600 btn text-white text-base">{{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})</a></p>
+			</div>
 		</div>
 	</div>
 </div>

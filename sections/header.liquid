@@ -146,9 +146,11 @@
 							class="p-2 relative inline-block">
 							{% include 'icon-cart', icon_class: "h-5 w-5 align-middle" %}
 							<span class="sr-only">{{ 'layout.cart.title' | t }}</span>
-							<div id="CartCount" class="site-header__cart-count{% if cart.item_count == 0 %} hidden{% endif %} hidden" data-cart-count-bubble>
-								<span data-cart-count>{{ cart.item_count }}</span>
-								<span class="sr-only md:hidden">{{ 'layout.cart.items_count' | t: count: cart.item_count }}</span>
+							<div
+								id="CartCount"
+								class="-m-1 absolute bg-red-600 flex font-semibold items-center justify-center leading-3 p-1 right-0 rounded-full text-white text-xs top-0 w-5{% if cart.item_count == 0 %} hidden{% endif %}">
+								<span>{{ cart.item_count }}</span>
+								<span class="sr-only">{{ 'layout.cart.items_count' | t: count: cart.item_count }}</span>
 							</div>
 						</a>
 

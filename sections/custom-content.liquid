@@ -57,11 +57,11 @@
 						{% when 'image' %}
 							{% if block.settings.image != blank %}
 								{%- assign img_url = block.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
-								{% style %}
+								<style>
 									#img--{{ block.id }} {
 										padding-top: {{ 1 | divided_by: block.settings.image.aspect_ratio | times: 100}}%;
 									}
-								{% endstyle %}
+								</style>
 								<div id="img--{{ block.id }}">
 									<img
 										id="{{ img_id }}"
@@ -91,11 +91,11 @@
 							</div>
 
 						{% when 'video' %}
-							{% style %}
+							<style>
 								#img--{{ block.id }} {
 									padding-bottom: 56.25%;
 								}
-							{% endstyle %}
+							</style>
 							<div id="img--{{ block.id }}" class="relative overflow-hidden max-w-full h-0">
 								{% if block.settings.video_url == blank %}
 									<iframe class="absolute top-0 left-0 w-full h-full" src="//www.youtube.com/embed/_9VUPq3SxOc?rel=0&showinfo=0&vq=720" width="850" height="480" frameborder="0" allowfullscreen></iframe>
@@ -235,12 +235,12 @@
 
 											{% render 'image-style', image: article.image, height: 600, wrapper_id: img_wrapper_id, img_id: img_id %}
 
-											{%- style -%}
+											<style>
 												#Article-{{ article.image.id }} .article__link:not([disabled]):hover .article__grid-image-wrapper::before,
 												#Article-{{ article.image.id }} .article__link:focus .article__grid-image-wrapper::before {
 													padding-top:{{ 1 | divided_by: article.image.aspect_ratio | times: 100 }}%;
 												}
-											{%- endstyle -%}
+											</style>
 											<div
 												id="{{ img_wrapper_id }}"
 												class="mx-auto relative w-full {{ wrapper }} js">

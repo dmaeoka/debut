@@ -12,13 +12,13 @@
 {%- endcase -%}
 
 {%- if section.settings.image == blank -%}
-	{% style %}
+	<style>
 		@media screen and (max-width: 749px) {
 			.video-section-wrapper--{{ section.id }} .video__image {
 				opacity: 0;
 			}
 		}
-	{% endstyle %}
+	</style>
 {%- endif -%}
 <section
 	class="{{ section.settings.extra_class }}"

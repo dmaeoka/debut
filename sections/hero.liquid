@@ -7,11 +7,11 @@
 	{%- endif -%}
 
 	{%- assign wrapper_height = 100 | divided_by: min_aspect_ratio -%}
-	{%- style -%}
+	<style>
 		.hero-{{ section.id }} {
 			height: {{- wrapper_height -}}vw !important;
 		}
-	{%- endstyle -%}
+	</style>
 {%- endif -%}
 
 <section

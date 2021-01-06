@@ -1,5 +1,5 @@
 <!-- snippets/image-style.liquid -->
-{% style %}
+<style>
 	{%- if image.height <= height %}
 		{% assign maximum_height = image.height %}
 	{% else %}
@@ -16,4 +16,4 @@
 	#{{ wrapper_id }} {
 		max-width: {{ maximum_width }}px;
 	}
-{% endstyle %}
+</style>

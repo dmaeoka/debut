@@ -1,11 +1,10 @@
 <!-- snippets/cart-popup.liquid -->
-{%- style -%}
+<style>
 	{% assign cart_popup_box_shadow = settings.color_borders | color_modify: 'alpha', 0.5 %}
-
 	.cart-popup {
 		box-shadow: 1px 1px 10px 2px {{ cart_popup_box_shadow }};
 	}
-{%- endstyle -%}
+</style>
 
 <div class="cart-popup-wrapper cart-popup-wrapper--hidden hidden -translate-y-full bg-white border border-transparent fixed right-0 top-0 transform transition-transform w-96 z-50" role="dialog" aria-modal="true" aria-labelledby="CartPopupHeading" data-cart-popup-wrapper>
 	<div class="cart-popup pb-4 pt-2 px-6" data-cart-popup tabindex="-1">

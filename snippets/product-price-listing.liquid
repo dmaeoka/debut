@@ -30,15 +30,21 @@
 	endif
 
 	assign money_price = price | money
+
+	if align == "right"
+		assign align_class = "items-end"
+	else
+		assign align_class = "items-start"
+	endif
 -%}
 
-<dl class="flex flex-col items-start mt-0 mb-0">
+<dl class="flex flex-col mt-0 mb-0 {{ align_class }}">
 	{% if show_vendor and product %}
-		<div class="text-gray-600 text-sm font-normal uppercase tracking-wide w-full flex-grow">
+		<div class="w-full flex-grow">
 			<dt>
 				<span class="sr-only">{{ 'products.product.vendor' | t }}</span>
 			</dt>
-			<dd class="mb-2">{{ product.vendor }}</dd>
+			<dd class="mb-2 text-gray-600 text-sm font-normal uppercase tracking-wide">{{ product.vendor }}</dd>
 		</div>
 	{% endif %}
 
@@ -77,7 +83,7 @@
 				{%- endif -%}
 			</span>
 		</dd>
-		<div class="price__compare">
+		<div>
 			<dt>
 				<span class="sr-only">{{ 'products.product.regular_price' | t }}</span>
 			</dt>
