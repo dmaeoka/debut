@@ -5,7 +5,7 @@
 	data-section-type="featured-blog">
 	{% if section.settings.title != blank %}
 		<header class="mb-8 text-center">
-			<h2 class="text-2xl tracking-wide uppercase mb-4">{{ section.settings.title | escape }}</h2>
+			<h2 class="mb-4 text-xl tracking-wide uppercase font-semibold leading-snug">{{ section.settings.title | escape }}</h2>
 		</header>
 	{% endif %}
 
@@ -45,7 +45,7 @@
 								{% endif %}
 
 								<h3
-									class="font-semibold leading-snug text-xl tracking-wide mb-3"
+									class="font-semibold leading-snug text-lg tracking-wide mb-3"
 									id="FeaturedBlogTitle-{{ forloop.index0 }}-{{ section.id }}">
 									{{ article.title | escape }}
 								</h3>
@@ -119,7 +119,7 @@
 				<div class="md:w-1/3">
 					<div class="mb-5">
 						<h3
-							class="font-semibold leading-snug text-xl tracking-wide mb-3">
+							class="font-semibold leading-snug text-lg tracking-wide mb-3">
 							<a href="#">{{ 'homepage.onboarding.blog_title' | t }}</a>
 						</h3>
 

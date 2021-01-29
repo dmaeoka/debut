@@ -750,7 +750,7 @@ slate.Variants = (function() {
 		 * @return {event} variantPriceChange
 		 */
 		_updatePrice: function(variant) {
-			if (variant.price === this.currentVariant.price && variant.compare_at_price === this.currentVariant.compare_at_price) {
+			if (variant.price === this.currentVariant.price && variant.compare_at_price === this.currentVariant.compare_at_price && variant.unit_price === this.currentVariant.unit_price) {
 				return;
 			}
 
@@ -919,8 +919,9 @@ this.Shopify.theme.PredictiveSearch = (function() {
 		return error;
 	}
 
-	function request(configParams, query, onSuccess, onError) {
+	function request(searchUrl, queryParams, query, onSuccess, onError) {
 		var xhr = new XMLHttpRequest();
+		var route = searchUrl + '/suggest.json';
 
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState !== XMLHttpRequest.DONE) {
@@ -1005,7 +1006,7 @@ this.Shopify.theme.PredictiveSearch = (function() {
 			return;
 		};
 
-		xhr.open('get', '/search/suggest.json?q=' + encodeURIComponent(query) + '&' + configParams);
+		xhr.open('get', route + '?q=' + encodeURIComponent(query) + '&' + queryParams);
 
 		xhr.setRequestHeader('Content-Type', 'application/json');
 
@@ -1154,10 +1155,12 @@ this.Shopify.theme.PredictiveSearch = (function() {
 	var DEBOUNCE_RATE = 10;
 	var requestDebounced = debounce(request, DEBOUNCE_RATE);
 
-	function PredictiveSearch(config) {
-		if (!config) {
-			throw new TypeError('No config object was specified');
+	function PredictiveSearch(params, searchUrl) {
+		if (!params) {
+			throw new TypeError('No params object was specified');
 		}
+
+		this.searchUrl = searchUrl;
 
 		this._retryAfter = null;
 		this._currentQuery = null;
@@ -1166,7 +1169,8 @@ this.Shopify.theme.PredictiveSearch = (function() {
 		this.cache = new Cache({
 			bucketSize: 40
 		});
-		this.configParams = objectToQueryParams(config);
+
+		this.queryParams = objectToQueryParams(params);
 	}
 
 	PredictiveSearch.TYPES = {
@@ -1212,7 +1216,7 @@ this.Shopify.theme.PredictiveSearch = (function() {
 			return this;
 		}
 
-		requestDebounced(this.configParams, query, function(result) {
+		requestDebounced(this.searchUrl, this.queryParams, query, function(result) {
 				this.cache.set(normalizeQuery(result.query), result);
 				if (normalizeQuery(result.query) === this._currentQuery) {
 					this._retryAfter = null;
@@ -1289,6 +1293,8 @@ this.Shopify.theme.PredictiveSearchComponent = (function(PredictiveSearch) {
 			return;
 		}
 
+		this.searchUrl = config.searchUrl || '/search';
+
 		// Store the keyword that was used for the search
 		this._searchKeyword = '';
 
@@ -1334,7 +1340,7 @@ this.Shopify.theme.PredictiveSearchComponent = (function(PredictiveSearch) {
 		this._toggleClearButtonVisibility();
 
 		// Instantiate Predictive Search API
-		this.predictiveSearch = new PredictiveSearch(config.PredictiveSearchAPIConfig ? config.PredictiveSearchAPIConfig : DEFAULT_PREDICTIVE_SEARCH_API_CONFIG);
+		this.predictiveSearch = new PredictiveSearch(config.PredictiveSearchAPIConfig ? config.PredictiveSearchAPIConfig : DEFAULT_PREDICTIVE_SEARCH_API_CONFIG, this.searchUrl);
 
 		// Add predictive search success event listener
 		this.predictiveSearch.on('success', this._handlePredictiveSearchSuccess.bind(this));
@@ -1344,8 +1350,8 @@ this.Shopify.theme.PredictiveSearchComponent = (function(PredictiveSearch) {
 	}
 
 	/**
-	 * Private methods
-	 */
+		* Private methods
+		*/
 	function findNodes(selectors) {
 		return {
 			input: document.querySelector(selectors.input),
@@ -1393,20 +1399,20 @@ this.Shopify.theme.PredictiveSearchComponent = (function(PredictiveSearch) {
 	}
 
 	/**
-	 * Public variables
-	 */
+		* Public variables
+		*/
 	PredictiveSearchComponent.prototype.isResultVisible = false;
 	PredictiveSearchComponent.prototype.results = {};
 
 	/**
-	 * "Private" variables
-	 */
+		* "Private" variables
+		*/
 	PredictiveSearchComponent.prototype._latencyTimer = null;
 	PredictiveSearchComponent.prototype._resultNodeClicked = false;
 
 	/**
-	 * "Private" instance methods
-	 */
+		* "Private" instance methods
+		*/
 	PredictiveSearchComponent.prototype._addInputEventListeners = function() {
 		var input = this.nodes.input;
 		var reset = this.nodes.reset;
@@ -1461,8 +1467,8 @@ this.Shopify.theme.PredictiveSearchComponent = (function(PredictiveSearch) {
 	};
 
 	/**
-	 * Event handlers
-	 */
+		* Event handlers
+		*/
 	PredictiveSearchComponent.prototype._handleBodyMousedown = function(evt) {
 		if (this.isResultVisible && this.nodes !== null) {
 			if (evt.target.isEqualNode(this.nodes.input) || this.nodes.input.contains(evt.target) || evt.target.isEqualNode(this.nodes.result) || this.nodes.result.contains(evt.target)) {
@@ -1768,8 +1774,8 @@ this.Shopify.theme.PredictiveSearchComponent = (function(PredictiveSearch) {
 	};
 
 	/**
-	 * Public methods
-	 */
+		* Public methods
+		*/
 	PredictiveSearchComponent.prototype.open = function() {
 		if (this.isResultVisible) {
 			return;
@@ -1853,8 +1859,8 @@ this.Shopify.theme.PredictiveSearchComponent = (function(PredictiveSearch) {
 	};
 
 	/**
-	 * Utilities
-	 */
+		* Utilities
+		*/
 	function getTypeOf(value) {
 		return Object.prototype.toString.call(value);
 	}
@@ -2067,7 +2073,7 @@ theme.TouchEvents.prototype = Object.assign({}, theme.TouchEvents.prototype, {
 
 /* ================ GLOBAL ================ */
 /*============================================================================
-  Drawer modules
+Drawer modules
 ==============================================================================*/
 theme.Drawers = (function() {
 	function Drawer(id, position, options) {
@@ -2364,11 +2370,11 @@ theme.Helpers = (function() {
 	}
 
 	/*!
-	 * Serialize all form data into a SearchParams string
-	 * (c) 2020 Chris Ferdinandi, MIT License, https://gomakethings.com
-	 * @param  {Node}   form The form to serialize
-	 * @return {String}      The serialized form data
-	 */
+	* Serialize all form data into a SearchParams string
+	* (c) 2020 Chris Ferdinandi, MIT License, https://gomakethings.com
+	* @param  {Node}   form The form to serialize
+	* @return {String}      The serialized form data
+	*/
 	function serialize(form) {
 		var arr = [];
 		Array.prototype.slice.call(form.elements).forEach(function(field) {
@@ -2929,6 +2935,133 @@ theme.MobileNav = (function() {
 	};
 })();
 
+window.Modals = (function() {
+	function Modal(id, name, options) {
+		var defaults = {
+			close: '.js-modal-close',
+			open: '.js-modal-open-' + name,
+			openClass: 'modal--is-active',
+			closeModalOnClick: false
+		};
+
+		this.modal = document.getElementById(id);
+
+		if (!this.modal)
+			return false;
+
+		this.nodes = {
+			parents: [document.querySelector('html'), document.body]
+		};
+
+		this.config = Object.assign(defaults, options);
+
+		this.modalIsOpen = false;
+
+		this.focusOnOpen = this.config.focusOnOpen ? document.getElementById(this.config.focusOnOpen) : this.modal;
+
+		this.openElement = document.querySelector(this.config.open);
+		this.init();
+	}
+
+	Modal.prototype.init = function() {
+		this.openElement.addEventListener('click', this.open.bind(this));
+
+		this.modal.querySelector(this.config.close).addEventListener('click', this.closeModal.bind(this));
+	};
+
+	Modal.prototype.open = function(evt) {
+		var self = this;
+		// Keep track if modal was opened from a click, or called by another function
+		var externalCall = false;
+
+		if (this.modalIsOpen)
+			return;
+
+		// Prevent following href if link is clicked
+		if (evt) {
+			evt.preventDefault();
+		} else {
+			externalCall = true;
+		}
+
+		// Without this, the modal opens, the click event bubbles up
+		// which closes the modal.
+		if (evt && evt.stopPropagation) {
+			evt.stopPropagation();
+		}
+
+		if (this.modalIsOpen && !externalCall) {
+			this.closeModal();
+		}
+
+		this.modal.classList.add(this.config.openClass);
+
+		this.nodes.parents.forEach(function(node) {
+			node.classList.add(self.config.openClass);
+		});
+
+		this.modalIsOpen = true;
+
+		slate.a11y.trapFocus({
+			container: this.modal,
+			elementToFocus: this.focusOnOpen
+		});
+
+		this.bindEvents();
+	};
+
+	Modal.prototype.closeModal = function() {
+		if (!this.modalIsOpen)
+			return;
+
+		document.activeElement.blur();
+
+		this.modal.classList.remove(this.config.openClass);
+
+		var self = this;
+
+		this.nodes.parents.forEach(function(node) {
+			node.classList.remove(self.config.openClass);
+		});
+
+		this.modalIsOpen = false;
+
+		slate.a11y.removeTrapFocus({
+			container: this.modal
+		});
+
+		this.openElement.focus();
+
+		this.unbindEvents();
+	};
+
+	Modal.prototype.bindEvents = function() {
+		this.keyupHandler = this.keyupHandler.bind(this);
+		this.clickHandler = this.clickHandler.bind(this);
+		document.body.addEventListener('keyup', this.keyupHandler);
+		document.body.addEventListener('click', this.clickHandler);
+	};
+
+	Modal.prototype.unbindEvents = function() {
+		document.body.removeEventListener('keyup', this.keyupHandler);
+		document.body.removeEventListener('click', this.clickHandler);
+	};
+
+	Modal.prototype.keyupHandler = function(event) {
+		if (event.keyCode === 27) {
+			this.closeModal();
+		}
+	};
+
+	Modal.prototype.clickHandler = function(event) {
+		if (this.config.closeModalOnClick && !this.modal.contains(event.target)) {
+			this.closeModal();
+		}
+	};
+
+	return Modal;
+})();
+
 (function() {
 	var selectors = {
 		backButton: '.return-link'
@@ -3055,30 +3188,30 @@ theme.Slideshow = (function() {
 
 	Slideshow.prototype = Object.assign({}, Slideshow.prototype, {
 		/**
-		 * Moves to the previous slide
-		 */
+			* Moves to the previous slide
+			*/
 		previousSlide: function() {
 			this._move();
 		},
 
 		/**
-		 * Moves to the next slide
-		 */
+			* Moves to the next slide
+			*/
 		nextSlide: function() {
 			this._move('next');
 		},
 
 		/**
-		 * Moves to the specified slide
-		 * @param {Number} index - The index of the slide to move to
-		 */
+			* Moves to the specified slide
+			* @param {Number} index - The index of the slide to move to
+			*/
 		setSlide: function(index) {
 			this._setPosition(Number(index));
 		},
 
 		/**
-		 * Starts autoplaying the slider if autoplay is enabled
-		 */
+			* Starts autoplaying the slider if autoplay is enabled
+			*/
 		startAutoplay: function() {
 			this.isAutoPlaying = true;
 
@@ -3092,8 +3225,8 @@ theme.Slideshow = (function() {
 		},
 
 		/**
-		 * Stops autoplaying the slider if autoplay is enabled
-		 */
+			* Stops autoplaying the slider if autoplay is enabled
+			*/
 		stopAutoplay: function() {
 			this.isAutoPlaying = false;
 
@@ -3101,9 +3234,9 @@ theme.Slideshow = (function() {
 		},
 
 		/**
-		 * Set active states for sliders and indicators
-		 * @param {index} integer - Slide index to set up slider from
-		 */
+			* Set active states for sliders and indicators
+			* @param {index} integer - Slide index to set up slider from
+			*/
 		setupSlider: function(index) {
 			this.slideIndex = index;
 
@@ -3115,10 +3248,10 @@ theme.Slideshow = (function() {
 		},
 
 		/**
-		 * Removes event listeners, among other things when wanting to destroy the
-		 * slider instance. This method needs to be called manually and will most
-		 * likely be included in a section's onUnload() method.
-		 */
+			* Removes event listeners, among other things when wanting to destroy the
+			* slider instance. This method needs to be called manually and will most
+			* likely be included in a section's onUnload() method.
+			*/
 		destroy: function() {
 			if (this.adaptHeight) {
 				window.removeEventListener('resize', this.eventHandlers.debounceResize);
@@ -3231,9 +3364,9 @@ theme.Slideshow = (function() {
 		},
 
 		/**
-		 * Set slideshop for "slide-in" effect
-		 * @param {Boolean} onResize if function call came from resize event
-		 */
+			* Set slideshop for "slide-in" effect
+			* @param {Boolean} onResize if function call came from resize event
+			*/
 		_setupSlideType: function(onResize) {
 			this.sliderItemWidth = Math.floor(this.sliderContainer.offsetWidth / this.options.slidesToShow);
 			this.sliderTranslateXMove = this.sliderItemWidth * this.options.slidesToScroll;
@@ -3341,9 +3474,9 @@ theme.Slideshow = (function() {
 		},
 
 		/**
-		 * Events handlers for next and previous button
-		 * @param {Object} event event handler
-		 */
+			* Events handlers for next and previous button
+			* @param {Object} event event handler
+			*/
 		_onClickButton: function(event) {
 			// prevent multiple clicks
 			if (event.detail > 1)
@@ -3560,13 +3693,13 @@ theme.Slideshow = (function() {
 		},
 
 		/**
-		 * Loops through all slide items
-		 * Set the active state depending the direction and slide indexes
-		 * Because slide-in effect can have multiple items in 1 slide, we need to target multiple active elements
-		 * @param {String} direction "next" for next slides or empty string for previous
-		 * @param {*} minIndex the current active minimum index
-		 * @param {*} maxIndex the current active maximum index
-		 */
+			* Loops through all slide items
+			* Set the active state depending the direction and slide indexes
+			* Because slide-in effect can have multiple items in 1 slide, we need to target multiple active elements
+			* @param {String} direction "next" for next slides or empty string for previous
+			* @param {*} minIndex the current active minimum index
+			* @param {*} maxIndex the current active maximum index
+			*/
 		_setupMultipleActiveSlide: function(minIndex, maxIndex) {
 			this.slides.forEach(function(slide) {
 				var sliderIndex = Number(slide.getAttribute('data-slider-slide-index'));
@@ -3613,12 +3746,12 @@ theme.Slideshow = (function() {
 		},
 
 		/**
-		 * Increase or decrease index position of the slideshow
-		 * Automatically auto-rotate
-		 * - Last slide goes to first slide when clicking "next"
-		 * - First slide goes to last slide when clicking "previous"
-		 * @param {String} direction "next" as a String, other empty string is previous slide
-		 */
+			* Increase or decrease index position of the slideshow
+			* Automatically auto-rotate
+			* - Last slide goes to first slide when clicking "next"
+			* - First slide goes to last slide when clicking "previous"
+			* @param {String} direction "next" as a String, other empty string is previous slide
+			*/
 		_getNextSlideIndex: function(direction) {
 			var counter = direction === 'next' ? 1 : -1;
 
@@ -3634,9 +3767,9 @@ theme.Slideshow = (function() {
 		},
 
 		/**
-		 * In "slide-in" type, multiple items are active in 1 slide
-		 * This will return an array containing their indexes
-		 */
+			* In "slide-in" type, multiple items are active in 1 slide
+			* This will return an array containing their indexes
+			*/
 		_getActiveSlidesIndex: function() {
 			var currentActiveSlides = this.slides.filter(function(sliderItem) {
 				if (sliderItem.classList.contains(this.options.slideActiveClass)) {
@@ -3651,10 +3784,10 @@ theme.Slideshow = (function() {
 		},
 
 		/**
-		 * This checks the next "translateX" value and verifies
-		 * If it's at the last slide or beginning of the slide
-		 * So we can disable the arrow buttons
-		 */
+			* This checks the next "translateX" value and verifies
+			* If it's at the last slide or beginning of the slide
+			* So we can disable the arrow buttons
+			*/
 		_disableArrows: function() {
 			if (this.buttons.length === 0)
 				return;
@@ -3678,9 +3811,9 @@ theme.Slideshow = (function() {
 		},
 
 		/**
-		 * Verify if translateX reaches at first or last slide
-		 * @param {Number} translateXValue
-		 */
+			* Verify if translateX reaches at first or last slide
+			* @param {Number} translateXValue
+			*/
 		_verifyFirstLastSlideTranslateX: function(translateXValue) {
 			// first slide
 			if (this._isNextTranslateXFirst(translateXValue)) {
@@ -3779,8 +3912,8 @@ theme.Video = (function() {
 	};
 
 	/**
-	 * Public functions
-	 */
+		* Public functions
+		*/
 	function init(video) {
 		if (!video)
 			return;
@@ -3846,8 +3979,8 @@ theme.Video = (function() {
 	}
 
 	/**
-	 * Private functions
-	 */
+		* Private functions
+		*/
 
 	function privatePlayVideo(id, clicked) {
 		var videoData = videos[id];
@@ -4974,16 +5107,19 @@ window.theme = window.theme || {};
 		};
 
 		var componentInstance;
-		var searchInput = document.querySelector(selectors.searchInput);
-		var searchSubmit = document.querySelector(selectors.searchSubmit);
 
 		function init(config) {
+			var searchInput = document.querySelector(selectors.searchInput);
+			var searchSubmit = document.querySelector(selectors.searchSubmit);
+			var searchUrl = searchInput.dataset.baseUrl;
+
 			componentInstance = new window.Shopify.theme.PredictiveSearchComponent({
 				selectors: {
 					input: selectors.searchInput,
 					reset: selectors.searchReset,
 					result: selectors.searchResults
 				},
+				searchUrl: searchUrl,
 				resultTemplateFct: window.theme.SearchResultsTemplate,
 				numberOfResultsTemplateFct: numberOfResultsTemplateFct,
 				loadingResultsMessageTemplateFct: loadingResultsMessageTemplateFct,
@@ -5032,15 +5168,18 @@ window.theme = window.theme || {};
 		};
 
 		var componentInstance;
-		var searchInput = document.querySelector(selectors.searchInput);
-		var searchSubmit = document.querySelector(selectors.searchSubmit);
 
 		function init(config) {
+			var searchInput = document.querySelector(selectors.searchInput);
+			var searchSubmit = document.querySelector(selectors.searchSubmit);
+			var searchUrl = searchInput.dataset.baseUrl;
+
 			componentInstance = new window.Shopify.theme.PredictiveSearchComponent({
 				selectors: {
 					input: selectors.searchInput,
 					result: selectors.searchResults
 				},
+				searchUrl: searchUrl,
 				resultTemplateFct: window.theme.SearchResultsTemplate,
 				numberOfResultsTemplateFct: numberOfResultsTemplateFct,
 				numberOfResults: config.numberOfResults,
@@ -5435,11 +5574,11 @@ theme.Zoom = (function() {
 		},
 
 		/**
-		 * Sets the correct coordinates top and left position in px
-		 * It sets a limit within between 0 and the max height of the image
-		 * So when the mouse leaves the target image, it could
-		 * never go above or beyond the target image zone
-		 */
+			* Sets the correct coordinates top and left position in px
+			* It sets a limit within between 0 and the max height of the image
+			* So when the mouse leaves the target image, it could
+			* never go above or beyond the target image zone
+			*/
 		_setTopLeftMaxValues: function(top, left) {
 			return {
 				left: Math.max(Math.min(left, this.sourceWidth), 0),
@@ -5464,10 +5603,10 @@ theme.Zoom = (function() {
 		},
 
 		/**
-		 * This loads a high resolution image
-		 * via the data attributes url
-		 * It adds all necessary CSS styles and adds to the container
-		 */
+			* This loads a high resolution image
+			* via the data attributes url
+			* It adds all necessary CSS styles and adds to the container
+			*/
 		_duplicateImage: function() {
 			this._loadImage().then(function(image) {
 					this.cache.targetImage = image;
@@ -5605,10 +5744,10 @@ theme.customerTemplates = (function() {
 	}
 
 	/**
-	 *
-	 *  Show/Hide recover password form
-	 *
-	 */
+		*
+		*  Show/Hide recover password form
+		*
+		*/
 
 	function showRecoverPasswordForm() {
 		document.getElementById('RecoverPasswordForm').classList.remove('hide');
@@ -5625,10 +5764,10 @@ theme.customerTemplates = (function() {
 	}
 
 	/**
-	 *
-	 *  Show reset password success message
-	 *
-	 */
+		*
+		*  Show reset password success message
+		*
+		*/
 	function resetPasswordSuccess() {
 		var formState = document.querySelector('.reset-password-success');
 
@@ -5644,10 +5783,10 @@ theme.customerTemplates = (function() {
 	}
 
 	/**
-	 *
-	 *  Show/hide customer address forms
-	 *
-	 */
+		*
+		*  Show/hide customer address forms
+		*
+		*/
 	function customerAddressForm() {
 		var newAddressForm = document.getElementById('AddressNewForm');
 		var newAddressFormButton = document.getElementById('AddressNewButton');
@@ -5719,10 +5858,10 @@ theme.customerTemplates = (function() {
 	}
 
 	/**
-	 *
-	 *  Check URL for reset password hash
-	 *
-	 */
+		*
+		*  Check URL for reset password hash
+		*
+		*/
 	function checkUrlHash() {
 		var hash = window.location.hash;
 
@@ -5775,6 +5914,7 @@ theme.Cart = (function() {
 		cartItemRegularPrice: '[data-cart-item-regular-price]',
 		cartItemTitle: '[data-cart-item-title]',
 		cartItemOption: '[data-cart-item-option]',
+		cartItemSellingPlanName: '[data-cart-item-selling-plan-name]',
 		cartLineItems: '[data-cart-line-items]',
 		cartNote: '[data-cart-notes]',
 		cartQuantityErrorMessage: '[data-cart-quantity-error-message]',
@@ -5820,8 +5960,7 @@ theme.Cart = (function() {
 		this.container = container;
 		this.thumbnails = this.container.querySelectorAll(selectors.thumbnails);
 		this.quantityInputs = this.container.querySelectorAll(selectors.inputQty);
-
-		this.ajaxEnabled = this.container.getAttribute('data-ajax-enabled');
+		this.ajaxEnabled = this.container.getAttribute('data-ajax-enabled') === 'true';
 
 		this._handleInputQty = theme.Helpers.debounce(this._handleInputQty.bind(this), 500);
 		this.setQuantityFormControllers = this.setQuantityFormControllers.bind(this);
@@ -5846,11 +5985,11 @@ theme.Cart = (function() {
 
 		if (this.ajaxEnabled) {
 			/**
-			 * Because the entire cart is recreated when a cart item is updated,
-			 * we cannot cache the elements in the cart. Instead, we add the event
-			 * listeners on the cart's container to allow us to retain the event
-			 * listeners after rebuilding the cart when an item is updated.
-			 */
+				* Because the entire cart is recreated when a cart item is updated,
+				* we cannot cache the elements in the cart. Instead, we add the event
+				* listeners on the cart's container to allow us to retain the event
+				* listeners after rebuilding the cart when an item is updated.
+				*/
 			this.container.addEventListener('click', this._onRemoveItem);
 			this.container.addEventListener('change', this._onNoteChange);
 
@@ -5875,6 +6014,8 @@ theme.Cart = (function() {
 			this.itemOptionTemplate = this.itemTemplate.querySelector(selectors.cartItemOption).cloneNode(true);
 
 			this.itemPropertyTemplate = this.itemTemplate.querySelector(selectors.cartItemProperty).cloneNode(true);
+
+			this.itemSellingPlanNameTemplate = this.itemTemplate.querySelector(selectors.cartItemSellingPlanName).cloneNode(true);
 		},
 
 		_handleInputQty: function(evt) {
@@ -5934,6 +6075,9 @@ theme.Cart = (function() {
 						return;
 					}
 
+					// Cache current in-focus element, used later to restore focus
+					var inFocus = document.activeElement;
+
 					this._createCart(state);
 
 					if (!value) {
@@ -5941,17 +6085,20 @@ theme.Cart = (function() {
 						return;
 					}
 
-					var lineItem = document.querySelector("[data-cart-item-key='" + key + "']");
-
 					var item = this.getItem(key, state);
-
-					var inputSelector = this.mql.matches ? selectors.quantityInputDesktop : selectors.quantityInputMobile;
 
 					this._updateLiveRegion(item);
 
-					if (!lineItem)
+					// Restore focus to the "equivalent" element after the DOM has been updated
+					if (!inFocus)
 						return;
-					lineItem.querySelector(inputSelector).focus();
+					var row = inFocus.closest('[' + attributes.cartItemIndex + ']');
+					if (!row)
+						return;
+					var target = this.container.querySelector('[' + attributes.cartItemIndex + '="' + row.getAttribute(attributes.cartItemIndex) + '"] [data-role="' + inFocus.getAttribute('data-role') + '"]');
+					if (!target)
+						return;
+					target.focus();
 				}
 				.bind(this)).catch(function() {
 					this._showCartError(null);
@@ -6040,7 +6187,7 @@ theme.Cart = (function() {
 				discountWrapper.classList.remove(classes.hide);
 			}
 
-			this.container.querySelector(selectors.cartSubtotal).textContent = theme.Currency.formatMoney(state.total_price, theme.moneyFormatWithCurrency);
+			this.container.querySelector(selectors.cartSubtotal).innerHTML = theme.Currency.formatMoney(state.total_price, theme.moneyFormatWithCurrency);
 		},
 
 		_createCartDiscountList: function(cart) {
@@ -6049,7 +6196,7 @@ theme.Cart = (function() {
 
 					discountNode.querySelector(selectors.cartDiscountTitle).textContent = discount.title;
 
-					discountNode.querySelector(selectors.cartDiscountAmount).textContent = theme.Currency.formatMoney(discount.total_allocated_amount, theme.moneyFormat);
+					discountNode.querySelector(selectors.cartDiscountAmount).innerHTML = theme.Currency.formatMoney(discount.total_allocated_amount, theme.moneyFormat);
 
 					return discountNode;
 				}
@@ -6069,7 +6216,9 @@ theme.Cart = (function() {
 					cartItemTitle.textContent = item.product_title;
 					cartItemTitle.setAttribute('href', item.url);
 
-					var productDetailsList = this._createProductDetailsList(item.product_has_only_default_variant, item.options_with_values, item.properties);
+					var selling_plan_name = item.selling_plan_allocation ? item.selling_plan_allocation.selling_plan.name : null;
+
+					var productDetailsList = this._createProductDetailsList(item.product_has_only_default_variant, item.options_with_values, item.properties, selling_plan_name);
 
 					this._setProductDetailsList(itemNode, productDetailsList);
 
@@ -6204,11 +6353,15 @@ theme.Cart = (function() {
 			item.querySelector(selectors.cartItemLinePrice).innerHTML = price.outerHTML;
 		},
 
-		_createProductDetailsList: function(product_has_only_default_variant, options, properties) {
+		_createProductDetailsList: function(product_has_only_default_variant, options, properties, selling_plan_name) {
 			var optionsPropertiesHTML = [];
 
 			if (!product_has_only_default_variant) {
 				optionsPropertiesHTML = optionsPropertiesHTML.concat(this._getOptionList(options));
+			}
+
+			if (selling_plan_name) {
+				optionsPropertiesHTML = optionsPropertiesHTML.concat(this._getSellingPlanName(selling_plan_name));
 			}
 
 			if (properties !== null && Object.keys(properties).length !== 0) {
@@ -6233,23 +6386,25 @@ theme.Cart = (function() {
 		_getPropertyList: function(properties) {
 			var propertiesArray = properties !== null ? Object.entries(properties) : [];
 
-			return propertiesArray.map(function(property) {
+			var filteredPropertiesArray = propertiesArray.filter(function(property) {
+				// Line item properties prefixed with an underscore are not to be displayed
+				// if the property value has a length of 0 (empty), don't display it
+				if (property[0].charAt(0) === '_' || property[1].length === 0) {
+					return false;
+				} else {
+					return true;
+				}
+			});
+
+			return filteredPropertiesArray.map(function(property) {
 					var propertyElement = this.itemPropertyTemplate.cloneNode(true);
 
-					// Line item properties prefixed with an underscore are not to be displayed
-					if (property[0].charAt(0) === '_')
-						return;
-
-					// if the property value has a length of 0 (empty), don't display it
-					if (property[1].length === 0)
-						return;
-
-					propertyElement.querySelector(selectors.cartItemPropertyName).textContent = property[0];
+					propertyElement.querySelector(selectors.cartItemPropertyName).textContent = property[0] + ': ';
 
 					if (property[0].indexOf('/uploads/') === -1) {
-						propertyElement.querySelector(selectors.cartItemPropertyValue).textContent = ': ' + property[1];
+						propertyElement.querySelector(selectors.cartItemPropertyValue).textContent = property[1];
 					} else {
-						propertyElement.querySelector(selectors.cartItemPropertyValue).innerHTML = ': <a href="' + property[1] + '"> ' + property[1].split('/').pop() + '</a>';
+						propertyElement.querySelector(selectors.cartItemPropertyValue).innerHTML = '<a href="' + property[1] + '"> ' + property[1].split('/').pop() + '</a>';
 					}
 
 					propertyElement.classList.remove(classes.hide);
@@ -6257,6 +6412,15 @@ theme.Cart = (function() {
 					return propertyElement;
 				}
 				.bind(this));
+		},
+
+		_getSellingPlanName: function(selling_plan_name) {
+			var sellingPlanNameElement = this.itemSellingPlanNameTemplate.cloneNode(true);
+
+			sellingPlanNameElement.textContent = selling_plan_name;
+			sellingPlanNameElement.classList.remove(classes.hide);
+
+			return sellingPlanNameElement;
 		},
 
 		_createItemPrice: function(original_price, final_price) {
@@ -6300,7 +6464,7 @@ theme.Cart = (function() {
 
 					discountNode.querySelector(selectors.cartItemDiscountTitle).textContent = discount.discount_application.title;
 
-					discountNode.querySelector(selectors.cartItemDiscountAmount).textContent = theme.Currency.formatMoney(discount.amount, theme.moneyFormat);
+					discountNode.querySelector(selectors.cartItemDiscountAmount).innerHTML = theme.Currency.formatMoney(discount.amount, theme.moneyFormat);
 
 					return discountNode;
 				}
@@ -6839,7 +7003,8 @@ theme.Product = (function() {
 			salePrice: '[data-sale-price]',
 			unitPrice: '[data-unit-price]',
 			unitPriceBaseUnit: '[data-unit-price-base-unit]',
-			productPolicies: '[data-product-policies]'
+			productPolicies: '[data-product-policies]',
+			storeAvailabilityContainer: '[data-store-availability-container]'
 		};
 
 		this.classes = {
@@ -6862,10 +7027,16 @@ theme.Product = (function() {
 
 		this.quantityInput = container.querySelector(this.selectors.quantity);
 		this.errorMessageWrapper = container.querySelector(this.selectors.errorMessageWrapper);
+		this.productForm = container.querySelector(this.selectors.productForm);
 		this.addToCart = container.querySelector(this.selectors.addToCart);
 		this.addToCartText = this.addToCart.querySelector(this.selectors.addToCartText);
 		this.shopifyPaymentButton = container.querySelector(this.selectors.shopifyPaymentButton);
+		this.priceContainer = container.querySelector(this.selectors.priceContainer);
 		this.productPolicies = container.querySelector(this.selectors.productPolicies);
+		this.storeAvailabilityContainer = container.querySelector(this.selectors.storeAvailabilityContainer);
+		if (this.storeAvailabilityContainer) {
+			this._initStoreAvailability();
+		}
 
 		this.loader = this.addToCart.querySelector(this.selectors.loader);
 		this.loaderStatus = container.querySelector(this.selectors.loaderStatus);
@@ -6880,6 +7051,14 @@ theme.Product = (function() {
 		}
 
 		this.productSingleObject = JSON.parse(productJson.innerHTML);
+
+		// Initial state for global productState object
+		this.productState = {
+			available: true,
+			soldOut: false,
+			onSale: false,
+			showUnitPrice: false
+		};
 
 		this.settings.zoomEnabled = this.imageZoomWrapper.length > 0 ? this.imageZoomWrapper[0].classList.contains(this.classes.jsZoomEnabled) : false;
 
@@ -6908,6 +7087,19 @@ theme.Product = (function() {
 		_stringOverrides: function() {
 			theme.productStrings = theme.productStrings || {};
 			theme.strings = Object.assign({}, theme.strings, theme.productStrings);
+		},
+
+		_initStoreAvailability: function() {
+			this.storeAvailability = new theme.StoreAvailability(this.storeAvailabilityContainer);
+
+			var storeAvailabilityModalOpenedCallback = function(event) {
+				if (this.cartPopupWrapper && !this.cartPopupWrapper.classList.contains(this.classes.cartPopupWrapperHidden)) {
+					this._hideCartPopup(event);
+				}
+			};
+
+			// hide cart popup modal if the store availability modal is also opened
+			this.storeAvailabilityContainer.addEventListener('storeAvailabilityModalOpened', storeAvailabilityModalOpenedCallback.bind(this));
 		},
 
 		_initMobileBreakpoint: function() {
@@ -6954,6 +7146,9 @@ theme.Product = (function() {
 			};
 
 			this.variants = new slate.Variants(options);
+			if (this.storeAvailability && this.variants.currentVariant.available) {
+				this.storeAvailability.updateContent(this.variants.currentVariant.id);
+			}
 
 			this.eventHandlers.updateAvailability = this._updateAvailability.bind(this);
 			this.eventHandlers.updateMedia = this._updateMedia.bind(this);
@@ -6990,8 +7185,7 @@ theme.Product = (function() {
 		},
 
 		_initAddToCart: function() {
-			var productForm = this.container.querySelector(this.selectors.productForm);
-			productForm.addEventListener('submit', function(evt) {
+			this.productForm.addEventListener('submit', function(evt) {
 					if (this.addToCart.getAttribute('aria-disabled') === 'true') {
 						evt.preventDefault();
 						return;
@@ -7015,8 +7209,7 @@ theme.Product = (function() {
 						// disable the addToCart and dynamic checkout button while
 						// request/cart popup is loading and handle loading state
 						this._handleButtonLoadingState(true);
-						var form = this.container.querySelector(this.selectors.productForm);
-						this._addItemToCart(form);
+						this._addItemToCart(this.productForm);
 						return;
 					}
 				}
@@ -7057,6 +7250,7 @@ theme.Product = (function() {
 
 			fetch('/cart/add.js', {
 				method: 'POST',
+				credentials: 'same-origin',
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded',
 					'X-Requested-With': 'XMLHttpRequest'
@@ -7146,15 +7340,19 @@ theme.Product = (function() {
 
 			var quantity = this.quantityInput ? this.quantityInput.value : 1;
 
+			var selling_plan_name = item.selling_plan_allocation ? item.selling_plan_allocation.selling_plan.name : null;
+
 			this.cartPopupTitle.textContent = item.product_title;
 			this.cartPopupQuantity.textContent = quantity;
 			this.cartPopupQuantityLabel.textContent = theme.strings.quantityLabel.replace('[count]', quantity);
 
 			this._setCartPopupPlaceholder(item.featured_image.url);
 			this._setCartPopupImage(item.featured_image.url, item.featured_image.alt);
-			this._setCartPopupProductDetails(item.product_has_only_default_variant, item.options_with_values, item.properties);
+			this._setCartPopupProductDetails(item.product_has_only_default_variant, item.options_with_values, item.properties, selling_plan_name);
 
-			fetch('/cart.js').then(function(response) {
+			fetch('/cart.js', {
+				credentials: 'same-origin'
+			}).then(function(response) {
 				return response.json();
 			}).then(function(cart) {
 				self._setCartQuantity(cart.item_count);
@@ -7211,12 +7409,16 @@ theme.Product = (function() {
 				.bind(this);
 		},
 
-		_setCartPopupProductDetails: function(product_has_only_default_variant, options, properties) {
+		_setCartPopupProductDetails: function(product_has_only_default_variant, options, properties, selling_plan_name) {
 			this.cartPopupProductDetails = this.cartPopupProductDetails || document.querySelector(this.selectors.cartPopupProductDetails);
 			var variantPropertiesHTML = '';
 
 			if (!product_has_only_default_variant) {
 				variantPropertiesHTML = variantPropertiesHTML + this._getVariantOptionList(options);
+			}
+
+			if (selling_plan_name) {
+				variantPropertiesHTML = variantPropertiesHTML + this._getSellingPlanHTML(selling_plan_name);
 			}
 
 			if (properties !== null && Object.keys(properties).length !== 0) {
@@ -7260,6 +7462,12 @@ theme.Product = (function() {
 			});
 
 			return propertyListHTML;
+		},
+
+		_getSellingPlanHTML: function(selling_plan_name) {
+			var sellingPlanHTML = '<li class="product-details__item product-details__item--property">' + selling_plan_name + '</li>';
+
+			return sellingPlanHTML;
 		},
 
 		_setCartQuantity: function(quantity) {
@@ -7457,13 +7665,13 @@ theme.Product = (function() {
 			// Dummy content for live region
 			var liveRegionText = '[Availability] [Regular] [$$] [Sale] [$]. [UnitPrice] [$$$]';
 
-			if (!variant) {
+			if (!this.productState.available) {
 				liveRegionText = theme.strings.unavailable;
 				return liveRegionText;
 			}
 
 			// Update availability
-			var availability = variant.available ? '' : theme.strings.soldOut + ',';
+			var availability = this.productState.soldOut ? theme.strings.soldOut + ',' : '';
 			liveRegionText = liveRegionText.replace('[Availability]', availability);
 
 			// Update pricing information
@@ -7474,14 +7682,14 @@ theme.Product = (function() {
 			var unitLabel = '';
 			var unitPrice = '';
 
-			if (variant.compare_at_price > variant.price) {
+			if (this.productState.onSale) {
 				regularLabel = theme.strings.regularPrice;
 				regularPrice = theme.Currency.formatMoney(variant.compare_at_price, theme.moneyFormat) + ',';
 				saleLabel = theme.strings.sale;
 				salePrice = theme.Currency.formatMoney(variant.price, theme.moneyFormat);
 			}
 
-			if (variant.unit_price) {
+			if (this.productState.showUnitPrice) {
 				unitLabel = theme.strings.unitPrice;
 				unitPrice = theme.Currency.formatMoney(variant.unit_price, theme.moneyFormat) + ' ' + theme.strings.unitPriceSeparator + ' ' + this._getBaseUnit(variant);
 			}
@@ -7502,43 +7710,85 @@ theme.Product = (function() {
 			}, 1000);
 		},
 
-		_updateAddToCart: function(evt) {
-			var variant = evt.detail.variant;
-			var addToCartText = this.container.querySelector(this.selectors.addToCartText);
-			var productForm = this.container.querySelector(this.selectors.productForm);
+		_enableAddToCart: function(message) {
+			this.addToCart.removeAttribute('aria-disabled');
+			this.addToCart.setAttribute('aria-label', message);
+			this.addToCartText.innerHTML = message;
+			this.productForm.classList.remove(this.classes.variantSoldOut);
+		},
 
-			if (variant) {
-				if (variant.available) {
-					this.addToCart.removeAttribute('aria-disabled');
-					this.addToCart.setAttribute('aria-label', theme.strings.addToCart);
-					addToCartText.innerHTML = theme.strings.addToCart;
-					productForm.classList.remove(this.classes.variantSoldOut);
-				} else {
-					// Variant is sold out, disable submit button and change the text.
-					this.addToCart.setAttribute('aria-disabled', true);
-					this.addToCart.setAttribute('aria-label', theme.strings.soldOut);
-					addToCartText.innerHTML = theme.strings.soldOut;
-					productForm.classList.add(this.classes.variantSoldOut);
-				}
-			} else {
-				// The variant doesn't exist, disable submit button and change the text.
-				this.addToCart.setAttribute('aria-disabled', true);
-				this.addToCart.setAttribute('aria-label', theme.strings.unavailable);
-				addToCartText.innerHTML = theme.strings.unavailable;
-				productForm.classList.add(this.classes.variantSoldOut);
+		_disableAddToCart: function(message) {
+			message = message || theme.strings.unavailable;
+			this.addToCart.setAttribute('aria-disabled', true);
+			this.addToCart.setAttribute('aria-label', message);
+			this.addToCartText.innerHTML = message;
+			this.productForm.classList.add(this.classes.variantSoldOut);
+		},
+
+		_updateAddToCart: function() {
+			if (!this.productState.available) {
+				this._disableAddToCart(theme.strings.unavailable);
+				return;
 			}
+			if (this.productState.soldOut) {
+				this._disableAddToCart(theme.strings.soldOut);
+				return;
+			}
+
+			this._enableAddToCart(theme.strings.addToCart);
+		},
+
+		/**
+			* The returned productState object keeps track of a number of properties about the current variant and product
+			* Multiple functions within product.js leverage the productState object to determine how to update the page's UI
+			* @param {object} evt - object returned from variant change event
+			* @return {object} productState - current product variant's state
+			*                  productState.available - true if current product options result in valid variant
+			*                  productState.soldOut - true if variant is sold out
+			*                  productState.onSale - true if variant is on sale
+			*                  productState.showUnitPrice - true if variant has unit price value
+			*/
+		_setProductState: function(evt) {
+			var variant = evt.detail.variant;
+
+			if (!variant) {
+				this.productState.available = false;
+				return;
+			}
+
+			this.productState.available = true;
+			this.productState.soldOut = !variant.available;
+			this.productState.onSale = variant.compare_at_price > variant.price;
+			this.productState.showUnitPrice = !!variant.unit_price;
 		},
 
 		_updateAvailability: function(evt) {
 			// remove error message if one is showing
 			this._hideErrorMessage();
 
+			// set product state
+			this._setProductState(evt);
+
+			// update store availabilities info
+			this._updateStoreAvailabilityContent(evt);
 			// update form submit
-			this._updateAddToCart(evt);
+			this._updateAddToCart();
 			// update live region
 			this._updateLiveRegion(evt);
 
-			this._updatePrice(evt);
+			this._updatePriceComponentStyles(evt);
+		},
+
+		_updateStoreAvailabilityContent: function(evt) {
+			if (!this.storeAvailability) {
+				return;
+			}
+
+			if (this.productState.available && !this.productState.soldOut) {
+				this.storeAvailability.updateContent(evt.detail.variant.id);
+			} else {
+				this.storeAvailability.clearContent();
+			}
 		},
 
 		_updateMedia: function(evt) {
@@ -7550,55 +7800,77 @@ theme.Product = (function() {
 			this._setActiveThumbnail(sectionMediaId);
 		},
 
-		_updatePrice: function(evt) {
+		_hidePriceComponent: function() {
+			this.priceContainer.classList.add(this.classes.productUnavailable);
+			this.priceContainer.setAttribute('aria-hidden', true);
+			if (this.productPolicies) {
+				this.productPolicies.classList.add(this.classes.visibilityHidden);
+			}
+		},
+
+		_updatePriceComponentStyles: function(evt) {
 			var variant = evt.detail.variant;
 
-			var priceContainer = this.container.querySelector(this.selectors.priceContainer);
-			var regularPrice = priceContainer.querySelector(this.selectors.regularPrice);
-			var salePrice = priceContainer.querySelector(this.selectors.salePrice);
-			var unitPrice = priceContainer.querySelector(this.selectors.unitPrice);
-			var unitPriceBaseUnit = priceContainer.querySelector(this.selectors.unitPriceBaseUnit);
+			var unitPriceBaseUnit = this.priceContainer.querySelector(this.selectors.unitPriceBaseUnit);
 
-			// Reset product price state
-
-			priceContainer.classList.remove(this.classes.productUnavailable, this.classes.productOnSale, this.classes.productUnitAvailable, this.classes.productSoldOut);
-			priceContainer.removeAttribute('aria-hidden');
-
-			if (this.productPolicies) {
-				this.productPolicies.classList.remove(this.classes.visibilityHidden);
-			}
-
-			// Unavailable
-			if (!variant) {
-				priceContainer.classList.add(this.classes.productUnavailable);
-				priceContainer.setAttribute('aria-hidden', true);
-
-				if (this.productPolicies) {
-					this.productPolicies.classList.add(this.classes.visibilityHidden);
-				}
+			if (!this.productState.available) {
+				this._hidePriceComponent();
 				return;
 			}
 
-			// Sold out
-			if (!variant.available) {
-				priceContainer.classList.add(this.classes.productSoldOut);
+			if (this.productState.soldOut) {
+				this.priceContainer.classList.add(this.classes.productSoldOut);
+			} else {
+				this.priceContainer.classList.remove(this.classes.productSoldOut);
 			}
 
+			if (this.productState.showUnitPrice) {
+				unitPriceBaseUnit.innerHTML = this._getBaseUnit(variant);
+				this.priceContainer.classList.add(this.classes.productUnitAvailable);
+			} else {
+				this.priceContainer.classList.remove(this.classes.productUnitAvailable);
+			}
+
+			if (this.productState.onSale) {
+				this.priceContainer.classList.add(this.classes.productOnSale);
+			} else {
+				this.priceContainer.classList.remove(this.classes.productOnSale);
+			}
+
+			this.priceContainer.classList.remove(this.classes.productUnavailable);
+			this.priceContainer.removeAttribute('aria-hidden');
+			if (this.productPolicies) {
+				this.productPolicies.classList.remove(this.classes.visibilityHidden);
+			}
+		},
+
+		_updatePrice: function(evt) {
+			var variant = evt.detail.variant;
+
+			var regularPrices = this.priceContainer.querySelectorAll(this.selectors.regularPrice);
+			var salePrice = this.priceContainer.querySelector(this.selectors.salePrice);
+			var unitPrice = this.priceContainer.querySelector(this.selectors.unitPrice);
+
+			var formatRegularPrice = function(regularPriceElement, price) {
+				regularPriceElement.innerHTML = theme.Currency.formatMoney(price, theme.moneyFormat);
+			};
+
 			// On sale
-			if (variant.compare_at_price > variant.price) {
-				regularPrice.innerHTML = theme.Currency.formatMoney(variant.compare_at_price, theme.moneyFormat);
+			if (this.productState.onSale) {
+				regularPrices.forEach(function(regularPrice) {
+					formatRegularPrice(regularPrice, variant.compare_at_price);
+				});
 				salePrice.innerHTML = theme.Currency.formatMoney(variant.price, theme.moneyFormat);
-				priceContainer.classList.add(this.classes.productOnSale);
 			} else {
 				// Regular price
-				regularPrice.innerHTML = theme.Currency.formatMoney(variant.price, theme.moneyFormat);
+				regularPrices.forEach(function(regularPrice) {
+					formatRegularPrice(regularPrice, variant.price);
+				});
 			}
 
 			// Unit price
-			if (variant.unit_price) {
+			if (this.productState.showUnitPrice) {
 				unitPrice.innerHTML = theme.Currency.formatMoney(variant.unit_price, theme.moneyFormat);
-				unitPriceBaseUnit.innerHTML = this._getBaseUnit(variant);
-				priceContainer.classList.add(this.classes.productUnitAvailable);
 			}
 		},
 
@@ -7830,6 +8102,98 @@ theme.SlideshowSection.prototype = Object.assign({}, theme.SlideshowSection.prot
 	}
 });
 
+window.theme = window.theme || {};
+
+theme.StoreAvailability = (function() {
+	var selectors = {
+		storeAvailabilityModalOpen: '[data-store-availability-modal-open]',
+		storeAvailabilityModalProductTitle: '[data-store-availability-modal-product-title]',
+		storeAvailabilityModalVariantTitle: '[data-store-availability-modal-variant-title]'
+	};
+
+	var classes = {
+		hidden: 'hide'
+	};
+
+	function StoreAvailability(container) {
+		this.container = container;
+		this.productTitle = this.container.dataset.productTitle;
+		this.hasOnlyDefaultVariant = this.container.dataset.hasOnlyDefaultVariant === 'true';
+	}
+
+	StoreAvailability.prototype = Object.assign({}, StoreAvailability.prototype, {
+		updateContent: function(variantId) {
+			var variantSectionUrl = this.container.dataset.baseUrl + '/variants/' + variantId + '/?section_id=store-availability';
+			var self = this;
+
+			var storeAvailabilityModalOpen = self.container.querySelector(selectors.storeAvailabilityModalOpen);
+
+			this.container.style.opacity = 0.5;
+			if (storeAvailabilityModalOpen) {
+				storeAvailabilityModalOpen.disabled = true;
+				storeAvailabilityModalOpen.setAttribute('aria-busy', true);
+			}
+
+			fetch(variantSectionUrl).then(function(response) {
+				return response.text();
+			}).then(function(storeAvailabilityHTML) {
+				if (storeAvailabilityHTML.trim() === '') {
+					return;
+				}
+				self.container.innerHTML = storeAvailabilityHTML;
+				self.container.innerHTML = self.container.firstElementChild.innerHTML;
+				self.container.style.opacity = 1;
+
+				// Need to query this again because we updated the DOM
+				storeAvailabilityModalOpen = self.container.querySelector(selectors.storeAvailabilityModalOpen);
+
+				if (!storeAvailabilityModalOpen) {
+					return;
+				}
+
+				storeAvailabilityModalOpen.addEventListener('click', self._onClickModalOpen.bind(self));
+
+				self.modal = self._initModal();
+				self._updateProductTitle();
+				if (self.hasOnlyDefaultVariant) {
+					self._hideVariantTitle();
+				}
+			});
+		},
+
+		clearContent: function() {
+			this.container.innerHTML = '';
+		},
+
+		_onClickModalOpen: function() {
+			this.container.dispatchEvent(new CustomEvent('storeAvailabilityModalOpened', {
+				bubbles: true,
+				cancelable: true
+			}));
+		},
+
+		_initModal: function() {
+			return new window.Modals('StoreAvailabilityModal', 'store-availability-modal', {
+				close: '.js-modal-close-store-availability-modal',
+				closeModalOnClick: true,
+				openClass: 'store-availabilities-modal--active'
+			});
+		},
+
+		_updateProductTitle: function() {
+			var storeAvailabilityModalProductTitle = this.container.querySelector(selectors.storeAvailabilityModalProductTitle);
+			storeAvailabilityModalProductTitle.textContent = this.productTitle;
+		},
+
+		_hideVariantTitle: function() {
+			var storeAvailabilityModalVariantTitle = this.container.querySelector(selectors.storeAvailabilityModalVariantTitle);
+			storeAvailabilityModalVariantTitle.classList.add(classes.hidden);
+		}
+	});
+
+	return StoreAvailability;
+})();
+
 theme.VideoSection = (function() {
 	function VideoSection(container) {
 		container.querySelectorAll('.video').forEach(function(el) {
@@ -7913,6 +8277,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	sections.register('header-section', theme.HeaderSection);
 	sections.register('map', theme.Maps);
 	sections.register('slideshow-section', theme.SlideshowSection);
+	sections.register('store-availability', theme.StoreAvailability);
 	sections.register('video-section', theme.VideoSection);
 	sections.register('quotes', theme.Quotes);
 	sections.register('hero-section', theme.HeroSection);

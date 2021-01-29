@@ -59,7 +59,7 @@
 						{% endif %}
 
 						<h3
-							class="font-semibold leading-snug text-xl tracking-wide mb-3"
+							class="font-semibold leading-snug text-lg tracking-wide mb-3"
 							id="FeaturedBlogTitle-{{ forloop.index0 }}-{{ section.id }}">
 							{{ article.title | escape }}
 						</h3>
@@ -124,7 +124,7 @@
 		{% for article in blog.articles %}
 		<div class="flex flex-col items-center md:flex-row md:flex-wrap md:justify-center">
 			<div class="md:w-3/4{% unless forloop.last %} border-b mb-12 pb-12 border-gray-300{% endunless %}">
-				<h2 class="font-semibold leading-snug text-2xl tracking-wide mb-3">
+				<h2 class="mb-4 text-xl tracking-wide uppercase font-semibold leading-snug3">
 					<a href="{{ article.url }}">{{ article.title }}</a>
 				</h2>
 				{% if section.settings.blog_show_author %}

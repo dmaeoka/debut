@@ -560,144 +560,188 @@ Grid Columns
 /*================ Build Responsive Grid Classes ================*/
 
 @media only screen and (max-width: 749px) {
+
 	/* Whole */
 	.small--one-whole {
 		width: 100% !important;
 	}
+
 	/* Halves */
 	.small--one-half {
 		width: 50% !important;
 	}
+
 	/* Thirds */
 	.small--one-third {
 		width: 33.33333% !important;
 	}
+
 	.small--two-thirds {
 		width: 66.66667% !important;
 	}
+
 	/* Quarters */
 	.small--one-quarter {
 		width: 25% !important;
 	}
+
 	.small--two-quarters {
 		width: 50% !important;
 	}
+
 	.small--three-quarters {
 		width: 75% !important;
 	}
+
 	/* Fifths */
 	.small--one-fifth {
 		width: 20% !important;
 	}
+
 	.small--two-fifths {
 		width: 40% !important;
 	}
+
 	.small--three-fifths {
 		width: 60% !important;
 	}
+
 	.small--four-fifths {
 		width: 80% !important;
 	}
+
 	/* Sixths */
 	.small--one-sixth {
 		width: 16.66667% !important;
 	}
+
 	.small--two-sixths {
 		width: 33.33333% !important;
 	}
+
 	.small--three-sixths {
 		width: 50% !important;
 	}
+
 	.small--four-sixths {
 		width: 66.66667% !important;
 	}
+
 	.small--five-sixths {
 		width: 83.33333% !important;
 	}
+
 	/* Eighths */
 	.small--one-eighth {
 		width: 12.5% !important;
 	}
+
 	.small--two-eighths {
 		width: 25% !important;
 	}
+
 	.small--three-eighths {
 		width: 37.5% !important;
 	}
+
 	.small--four-eighths {
 		width: 50% !important;
 	}
+
 	.small--five-eighths {
 		width: 62.5% !important;
 	}
+
 	.small--six-eighths {
 		width: 75% !important;
 	}
+
 	.small--seven-eighths {
 		width: 87.5% !important;
 	}
+
 	/* Tenths */
 	.small--one-tenth {
 		width: 10% !important;
 	}
+
 	.small--two-tenths {
 		width: 20% !important;
 	}
+
 	.small--three-tenths {
 		width: 30% !important;
 	}
+
 	.small--four-tenths {
 		width: 40% !important;
 	}
+
 	.small--five-tenths {
 		width: 50% !important;
 	}
+
 	.small--six-tenths {
 		width: 60% !important;
 	}
+
 	.small--seven-tenths {
 		width: 70% !important;
 	}
+
 	.small--eight-tenths {
 		width: 80% !important;
 	}
+
 	.small--nine-tenths {
 		width: 90% !important;
 	}
+
 	/* Twelfths */
 	.small--one-twelfth {
 		width: 8.33333% !important;
 	}
+
 	.small--two-twelfths {
 		width: 16.66667% !important;
 	}
+
 	.small--three-twelfths {
 		width: 25% !important;
 	}
+
 	.small--four-twelfths {
 		width: 33.33333% !important;
 	}
+
 	.small--five-twelfths {
 		width: 41.66667% !important;
 	}
+
 	.small--six-twelfths {
 		width: 50% !important;
 	}
+
 	.small--seven-twelfths {
 		width: 58.33333% !important;
 	}
+
 	.small--eight-twelfths {
 		width: 66.66667% !important;
 	}
+
 	.small--nine-twelfths {
 		width: 75% !important;
 	}
+
 	.small--ten-twelfths {
 		width: 83.33333% !important;
 	}
+
 	.small--eleven-twelfths {
 		width: 91.66667% !important;
 	}
+
 	.grid--uniform .small--one-half:nth-child(2n+1),
 	.grid--uniform .small--one-third:nth-child(3n+1),
 	.grid--uniform .small--one-quarter:nth-child(4n+1),
@@ -716,162 +760,211 @@ Grid Columns
 	.grid--uniform .small--six-twelfths:nth-child(2n+1) {
 		clear: both;
 	}
+
 	.small--show {
 		display: block !important;
 	}
+
 	.small--hide {
 		display: none !important;
 	}
+
 	.small--text-left {
 		text-align: left !important;
 	}
+
 	.small--text-right {
 		text-align: right !important;
 	}
+
 	.small--text-center {
 		text-align: center !important;
 	}
 }
 
 @media only screen and (min-width: 750px) {
+
 	/* Whole */
 	.medium-up--one-whole {
 		width: 100% !important;
 	}
+
 	/* Halves */
 	.medium-up--one-half {
 		width: 50% !important;
 	}
+
 	/* Thirds */
 	.medium-up--one-third {
 		width: 33.33333% !important;
 	}
+
 	.medium-up--two-thirds {
 		width: 66.66667% !important;
 	}
+
 	/* Quarters */
 	.medium-up--one-quarter {
 		width: 25% !important;
 	}
+
 	.medium-up--two-quarters {
 		width: 50% !important;
 	}
+
 	.medium-up--three-quarters {
 		width: 75% !important;
 	}
+
 	/* Fifths */
 	.medium-up--one-fifth {
 		width: 20% !important;
 	}
+
 	.medium-up--two-fifths {
 		width: 40% !important;
 	}
+
 	.medium-up--three-fifths {
 		width: 60% !important;
 	}
+
 	.medium-up--four-fifths {
 		width: 80% !important;
 	}
+
 	/* Sixths */
 	.medium-up--one-sixth {
 		width: 16.66667% !important;
 	}
+
 	.medium-up--two-sixths {
 		width: 33.33333% !important;
 	}
+
 	.medium-up--three-sixths {
 		width: 50% !important;
 	}
+
 	.medium-up--four-sixths {
 		width: 66.66667% !important;
 	}
+
 	.medium-up--five-sixths {
 		width: 83.33333% !important;
 	}
+
 	/* Eighths */
 	.medium-up--one-eighth {
 		width: 12.5% !important;
 	}
+
 	.medium-up--two-eighths {
 		width: 25% !important;
 	}
+
 	.medium-up--three-eighths {
 		width: 37.5% !important;
 	}
+
 	.medium-up--four-eighths {
 		width: 50% !important;
 	}
+
 	.medium-up--five-eighths {
 		width: 62.5% !important;
 	}
+
 	.medium-up--six-eighths {
 		width: 75% !important;
 	}
+
 	.medium-up--seven-eighths {
 		width: 87.5% !important;
 	}
+
 	/* Tenths */
 	.medium-up--one-tenth {
 		width: 10% !important;
 	}
+
 	.medium-up--two-tenths {
 		width: 20% !important;
 	}
+
 	.medium-up--three-tenths {
 		width: 30% !important;
 	}
+
 	.medium-up--four-tenths {
 		width: 40% !important;
 	}
+
 	.medium-up--five-tenths {
 		width: 50% !important;
 	}
+
 	.medium-up--six-tenths {
 		width: 60% !important;
 	}
+
 	.medium-up--seven-tenths {
 		width: 70% !important;
 	}
+
 	.medium-up--eight-tenths {
 		width: 80% !important;
 	}
+
 	.medium-up--nine-tenths {
 		width: 90% !important;
 	}
+
 	/* Twelfths */
 	.medium-up--one-twelfth {
 		width: 8.33333% !important;
 	}
+
 	.medium-up--two-twelfths {
 		width: 16.66667% !important;
 	}
+
 	.medium-up--three-twelfths {
 		width: 25% !important;
 	}
+
 	.medium-up--four-twelfths {
 		width: 33.33333% !important;
 	}
+
 	.medium-up--five-twelfths {
 		width: 41.66667% !important;
 	}
+
 	.medium-up--six-twelfths {
 		width: 50% !important;
 	}
+
 	.medium-up--seven-twelfths {
 		width: 58.33333% !important;
 	}
+
 	.medium-up--eight-twelfths {
 		width: 66.66667% !important;
 	}
+
 	.medium-up--nine-twelfths {
 		width: 75% !important;
 	}
+
 	.medium-up--ten-twelfths {
 		width: 83.33333% !important;
 	}
+
 	.medium-up--eleven-twelfths {
 		width: 91.66667% !important;
 	}
+
 	.grid--uniform .medium-up--one-half:nth-child(2n+1),
 	.grid--uniform .medium-up--one-third:nth-child(3n+1),
 	.grid--uniform .medium-up--one-quarter:nth-child(4n+1),
@@ -890,18 +983,23 @@ Grid Columns
 	.grid--uniform .medium-up--six-twelfths:nth-child(2n+1) {
 		clear: both;
 	}
+
 	.medium-up--show {
 		display: block !important;
 	}
+
 	.medium-up--hide {
 		display: none !important;
 	}
+
 	.medium-up--text-left {
 		text-align: left !important;
 	}
+
 	.medium-up--text-right {
 		text-align: right !important;
 	}
+
 	.medium-up--text-center {
 		text-align: center !important;
 	}
@@ -911,274 +1009,358 @@ Grid Columns
 /*================ Build Grid Push Classes ================*/
 
 @media only screen and (max-width: 749px) {
+
 	/* Halves */
 	.small--push-one-half {
 		left: 50%;
 	}
+
 	/* Thirds */
 	.small--push-one-third {
 		left: 33.33333%;
 	}
+
 	.small--push-two-thirds {
 		left: 66.66667%;
 	}
+
 	/* Quarters */
 	.small--push-one-quarter {
 		left: 25%;
 	}
+
 	.small--push-two-quarters {
 		left: 50%;
 	}
+
 	.small--push-three-quarters {
 		left: 75%;
 	}
+
 	/* Fifths */
 	.small--push-one-fifth {
 		left: 20%;
 	}
+
 	.small--push-two-fifths {
 		left: 40%;
 	}
+
 	.small--push-three-fifths {
 		left: 60%;
 	}
+
 	.small--push-four-fifths {
 		left: 80%;
 	}
+
 	/* Sixths */
 	.small--push-one-sixth {
 		left: 16.66667%;
 	}
+
 	.small--push-two-sixths {
 		left: 33.33333%;
 	}
+
 	.small--push-three-sixths {
 		left: 50%;
 	}
+
 	.small--push-four-sixths {
 		left: 66.66667%;
 	}
+
 	.small--push-five-sixths {
 		left: 83.33333%;
 	}
+
 	/* Eighths */
 	.small--push-one-eighth {
 		left: 12.5%;
 	}
+
 	.small--push-two-eighths {
 		left: 25%;
 	}
+
 	.small--push-three-eighths {
 		left: 37.5%;
 	}
+
 	.small--push-four-eighths {
 		left: 50%;
 	}
+
 	.small--push-five-eighths {
 		left: 62.5%;
 	}
+
 	.small--push-six-eighths {
 		left: 75%;
 	}
+
 	.small--push-seven-eighths {
 		left: 87.5%;
 	}
+
 	/* Tenths */
 	.small--push-one-tenth {
 		left: 10%;
 	}
+
 	.small--push-two-tenths {
 		left: 20%;
 	}
+
 	.small--push-three-tenths {
 		left: 30%;
 	}
+
 	.small--push-four-tenths {
 		left: 40%;
 	}
+
 	.small--push-five-tenths {
 		left: 50%;
 	}
+
 	.small--push-six-tenths {
 		left: 60%;
 	}
+
 	.small--push-seven-tenths {
 		left: 70%;
 	}
+
 	.small--push-eight-tenths {
 		left: 80%;
 	}
+
 	.small--push-nine-tenths {
 		left: 90%;
 	}
+
 	/* Twelfths */
 	.small--push-one-twelfth {
 		left: 8.33333%;
 	}
+
 	.small--push-two-twelfths {
 		left: 16.66667%;
 	}
+
 	.small--push-three-twelfths {
 		left: 25%;
 	}
+
 	.small--push-four-twelfths {
 		left: 33.33333%;
 	}
+
 	.small--push-five-twelfths {
 		left: 41.66667%;
 	}
+
 	.small--push-six-twelfths {
 		left: 50%;
 	}
+
 	.small--push-seven-twelfths {
 		left: 58.33333%;
 	}
+
 	.small--push-eight-twelfths {
 		left: 66.66667%;
 	}
+
 	.small--push-nine-twelfths {
 		left: 75%;
 	}
+
 	.small--push-ten-twelfths {
 		left: 83.33333%;
 	}
+
 	.small--push-eleven-twelfths {
 		left: 91.66667%;
 	}
 }
 
 @media only screen and (min-width: 750px) {
+
 	/* Halves */
 	.medium-up--push-one-half {
 		left: 50%;
 	}
+
 	/* Thirds */
 	.medium-up--push-one-third {
 		left: 33.33333%;
 	}
+
 	.medium-up--push-two-thirds {
 		left: 66.66667%;
 	}
+
 	/* Quarters */
 	.medium-up--push-one-quarter {
 		left: 25%;
 	}
+
 	.medium-up--push-two-quarters {
 		left: 50%;
 	}
+
 	.medium-up--push-three-quarters {
 		left: 75%;
 	}
+
 	/* Fifths */
 	.medium-up--push-one-fifth {
 		left: 20%;
 	}
+
 	.medium-up--push-two-fifths {
 		left: 40%;
 	}
+
 	.medium-up--push-three-fifths {
 		left: 60%;
 	}
+
 	.medium-up--push-four-fifths {
 		left: 80%;
 	}
+
 	/* Sixths */
 	.medium-up--push-one-sixth {
 		left: 16.66667%;
 	}
+
 	.medium-up--push-two-sixths {
 		left: 33.33333%;
 	}
+
 	.medium-up--push-three-sixths {
 		left: 50%;
 	}
+
 	.medium-up--push-four-sixths {
 		left: 66.66667%;
 	}
+
 	.medium-up--push-five-sixths {
 		left: 83.33333%;
 	}
+
 	/* Eighths */
 	.medium-up--push-one-eighth {
 		left: 12.5%;
 	}
+
 	.medium-up--push-two-eighths {
 		left: 25%;
 	}
+
 	.medium-up--push-three-eighths {
 		left: 37.5%;
 	}
+
 	.medium-up--push-four-eighths {
 		left: 50%;
 	}
+
 	.medium-up--push-five-eighths {
 		left: 62.5%;
 	}
+
 	.medium-up--push-six-eighths {
 		left: 75%;
 	}
+
 	.medium-up--push-seven-eighths {
 		left: 87.5%;
 	}
+
 	/* Tenths */
 	.medium-up--push-one-tenth {
 		left: 10%;
 	}
+
 	.medium-up--push-two-tenths {
 		left: 20%;
 	}
+
 	.medium-up--push-three-tenths {
 		left: 30%;
 	}
+
 	.medium-up--push-four-tenths {
 		left: 40%;
 	}
+
 	.medium-up--push-five-tenths {
 		left: 50%;
 	}
+
 	.medium-up--push-six-tenths {
 		left: 60%;
 	}
+
 	.medium-up--push-seven-tenths {
 		left: 70%;
 	}
+
 	.medium-up--push-eight-tenths {
 		left: 80%;
 	}
+
 	.medium-up--push-nine-tenths {
 		left: 90%;
 	}
+
 	/* Twelfths */
 	.medium-up--push-one-twelfth {
 		left: 8.33333%;
 	}
+
 	.medium-up--push-two-twelfths {
 		left: 16.66667%;
 	}
+
 	.medium-up--push-three-twelfths {
 		left: 25%;
 	}
+
 	.medium-up--push-four-twelfths {
 		left: 33.33333%;
 	}
+
 	.medium-up--push-five-twelfths {
 		left: 41.66667%;
 	}
+
 	.medium-up--push-six-twelfths {
 		left: 50%;
 	}
+
 	.medium-up--push-seven-twelfths {
 		left: 58.33333%;
 	}
+
 	.medium-up--push-eight-twelfths {
 		left: 66.66667%;
 	}
+
 	.medium-up--push-nine-twelfths {
 		left: 75%;
 	}
+
 	.medium-up--push-ten-twelfths {
 		left: 83.33333%;
 	}
+
 	.medium-up--push-eleven-twelfths {
 		left: 91.66667%;
 	}
@@ -1394,6 +1576,7 @@ select,
 }
 
 @media only screen and (max-width: 989px) {
+
 	input,
 	textarea,
 	select,
@@ -1444,6 +1627,7 @@ h3,
 }
 
 @media only screen and (max-width: 749px) {
+
 	h3,
 	.h3 {
 		font-size: calc(((var(--font-h3-mobile)) / (var(--font-size-base))) * 1em);
@@ -1456,6 +1640,7 @@ h4,
 }
 
 @media only screen and (max-width: 749px) {
+
 	h4,
 	.h4 {
 		font-size: calc(((var(--font-h4-mobile)) / (var(--font-size-base))) * 1em);
@@ -1468,6 +1653,7 @@ h5,
 }
 
 @media only screen and (max-width: 749px) {
+
 	h5,
 	.h5 {
 		font-size: calc(((var(--font-h5-mobile)) / (var(--font-size-base))) * 1em);
@@ -1480,6 +1666,7 @@ h6,
 }
 
 @media only screen and (max-width: 749px) {
+
 	h6,
 	.h6 {
 		font-size: calc(((var(--font-h6-mobile)) / (var(--font-size-base))) * 1em);
@@ -1576,6 +1763,7 @@ h6,
 }
 
 @media only screen and (min-width: 750px) {
+
 	.mega-title,
 	.mega-subtitle {
 		text-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
@@ -1601,6 +1789,7 @@ h6,
 		font-size: calc(((var(--font-size-base) + 4) / (var(--font-size-base))) * 1em);
 		margin: 0 auto;
 	}
+
 	.text-center .mega-subtitle {
 		max-width: 75%;
 	}
@@ -1828,6 +2017,7 @@ a[href^="tel"] {
 }
 
 @media only screen and (min-width: 750px) {
+
 	.btn,
 	.shopify-payment-button .shopify-payment-button__button--unbranded {
 		padding: 10px 18px;
@@ -2026,6 +2216,7 @@ Responsive tables, defined with .responsive-table on table element.
 	.responsive-table thead {
 		display: none;
 	}
+
 	.responsive-table th,
 	.responsive-table td {
 		float: left;
@@ -2036,6 +2227,7 @@ Responsive tables, defined with .responsive-table on table element.
 		border: 0;
 		margin: 0;
 	}
+
 	.responsive-table th::before,
 	.responsive-table td::before {
 		content: attr(data-label);
@@ -2045,12 +2237,14 @@ Responsive tables, defined with .responsive-table on table element.
 		padding-right: 10px;
 		font-weight: normal;
 	}
+
 	.responsive-table__row+.responsive-table__row,
 	tfoot>.responsive-table__row:first-child {
 		position: relative;
 		margin-top: 10px;
 		padding-top: 55px;
 	}
+
 	.responsive-table__row+.responsive-table__row::after,
 	tfoot>.responsive-table__row:first-child::after {
 		content: '';
@@ -2301,6 +2495,7 @@ select,
 }
 
 @media only screen and (min-width: 750px) {
+
 	select,
 	.disclosure__toggle {
 		padding-top: 10px;
@@ -2394,6 +2589,7 @@ textarea {
 }
 
 @media only screen and (min-width: 750px) {
+
 	input,
 	textarea {
 		padding: 10px 18px;
@@ -2457,6 +2653,7 @@ textarea {
 }
 
 @media only screen and (min-width: 750px) {
+
 	.note,
 	.form-message {
 		padding: 10px;
@@ -2543,6 +2740,7 @@ textarea {
 }
 
 @media only screen and (min-width: 750px) {
+
 	.input-group__field,
 	.input-group__field input,
 	.input-group__btn .btn,
@@ -2803,6 +3001,7 @@ hr {
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
+
 	100% {
 		-ms-transform: rotate(360deg);
 		-webkit-transform: rotate(360deg);
@@ -2816,6 +3015,7 @@ hr {
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
+
 	100% {
 		-ms-transform: rotate(360deg);
 		-webkit-transform: rotate(360deg);
@@ -2829,6 +3029,7 @@ hr {
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
+
 	100% {
 		-ms-transform: rotate(360deg);
 		-webkit-transform: rotate(360deg);
@@ -2842,6 +3043,7 @@ hr {
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
+
 	100% {
 		-ms-transform: rotate(360deg);
 		-webkit-transform: rotate(360deg);
@@ -2853,9 +3055,11 @@ hr {
 	0% {
 		background-color: var(--global-color-image-loader-primary);
 	}
+
 	50% {
 		background-color: var(--global-color-image-loader-primary);
 	}
+
 	100% {
 		background-color: var(--global-color-image-loader-primary);
 	}
@@ -2865,9 +3069,11 @@ hr {
 	0% {
 		background-color: var(--global-color-image-loader-primary);
 	}
+
 	50% {
 		background-color: var(--global-color-image-loader-primary);
 	}
+
 	100% {
 		background-color: var(--global-color-image-loader-primary);
 	}
@@ -2877,9 +3083,11 @@ hr {
 	0% {
 		background-color: var(--global-color-image-loader-primary);
 	}
+
 	50% {
 		background-color: var(--global-color-image-loader-primary);
 	}
+
 	100% {
 		background-color: var(--global-color-image-loader-primary);
 	}
@@ -2889,9 +3097,11 @@ hr {
 	0% {
 		background-color: var(--global-color-image-loader-primary);
 	}
+
 	50% {
 		background-color: var(--global-color-image-loader-primary);
 	}
+
 	100% {
 		background-color: var(--global-color-image-loader-primary);
 	}
@@ -2991,6 +3201,7 @@ hr {
 }
 
 @media only screen and (max-width: 749px) {
+
 	.grid-view-item__title,
 	.grid-view-item__meta {
 		font-size: calc(((var(--font-size-base) - 1) / (var(--font-size-base))) * 1em);
@@ -3048,6 +3259,7 @@ hr {
 		border-bottom: 1px solid var(--color-border);
 		padding-bottom: 22px;
 	}
+
 	.list-view-item:last-child {
 		padding-bottom: 0;
 		border-bottom: 0;
@@ -3190,6 +3402,7 @@ Slick slider overrides
 }
 
 @media only screen and (min-width: 750px) {
+
 	.slideshow__arrows .slick-dots li button,
 	.slideshow__arrows .slick-dots li a {
 		width: 12px;
@@ -3210,6 +3423,7 @@ Slick slider overrides
 }
 
 @media only screen and (min-width: 750px) {
+
 	.slideshow__arrows .slick-dots li button::before,
 	.slideshow__arrows .slick-dots li a::before {
 		width: 12px;
@@ -3664,6 +3878,7 @@ Slick slider overrides
 		flex-basis: 50%;
 		padding: 0 5px;
 	}
+
 	.product-single--large-image .product-form__item {
 		flex-basis: 100%;
 	}
@@ -3692,6 +3907,7 @@ Slick slider overrides
 }
 
 @media only screen and (min-width: 990px) {
+
 	.product-single--small-media .product-form__item--payment-button,
 	.product-single--full-media .product-form__item--payment-button {
 		display: inline-flex;
@@ -3920,6 +4136,7 @@ Slick slider overrides
 	.product-single__media-group {
 		margin-bottom: 30px;
 	}
+
 	.product-single__media--has-thumbnails {
 		margin-bottom: 30px;
 	}
@@ -4022,15 +4239,18 @@ Slick slider overrides
 	.template-product .main-content {
 		padding-top: 22px;
 	}
+
 	.product-single__media-group {
 		position: relative;
 	}
+
 	.thumbnails-wrapper {
 		position: relative;
 		top: 10px;
 		text-align: center;
 		margin: 0 2px 30px 2px;
 	}
+
 	.thumbnails-slider__btn {
 		position: absolute;
 		top: 50%;
@@ -4038,16 +4258,20 @@ Slick slider overrides
 		padding-top: 10px;
 		padding-bottom: 10px;
 	}
+
 	.thumbnails-slider__btn .icon {
 		height: 14px;
 		width: 14px;
 	}
+
 	.thumbnails-slider__prev {
 		left: -15px;
 	}
+
 	.thumbnails-slider__next {
 		right: -15px;
 	}
+
 	.product-single__thumbnail {
 		margin: 0 auto;
 	}
@@ -4066,6 +4290,7 @@ Slick slider overrides
 		margin-top: 0;
 		justify-content: center;
 	}
+
 	.slider-active .product-single__thumbnails {
 		display: block;
 		margin: 0 auto;
@@ -4081,11 +4306,13 @@ Slick slider overrides
 		top: 0;
 		display: block;
 	}
+
 	.product-single__thumbnails-slider-track:before,
 	.product-single__thumbnails-slider-track:after {
 		content: "";
 		display: table;
 	}
+
 	.product-single__thumbnails-slider-track:after {
 		clear: both;
 	}
@@ -4110,6 +4337,7 @@ Slick slider overrides
 		padding-right: 2.5px;
 		vertical-align: middle;
 	}
+
 	.thumbnails-slider--active .product-single__thumbnails-item.slick-slide {
 		padding-top: 5px;
 		padding-bottom: 5px;
@@ -4342,6 +4570,7 @@ Slick slider overrides
 }
 
 @media only screen and (max-width: 749px) {
+
 	.cart td:nth-child(3),
 	.cart th:nth-child(2) {
 		padding-left: 0;
@@ -4617,6 +4846,7 @@ Slick slider overrides
 		min-height: auto;
 		width: auto;
 	}
+
 	.cart__submit+.cart__submit {
 		margin-top: 0;
 		margin-left: 10px;
@@ -4635,6 +4865,7 @@ Slick slider overrides
 }
 
 @media only screen and (max-width: 749px) {
+
 	.cart-note__label,
 	.cart-note__input {
 		margin: 0 auto;
@@ -4706,6 +4937,7 @@ Slick slider overrides
 	.cart-message {
 		padding-top: 20px;
 	}
+
 	.cart__qty-label {
 		position: inherit !important;
 		overflow: auto;
@@ -4831,11 +5063,13 @@ Slick slider overrides
 		padding-top: 1.25em;
 		padding-bottom: 1.25em;
 	}
+
 	.order-table tbody tr th,
 	.order-table tbody tr td {
 		padding-top: 1.25em;
 		padding-bottom: 1.25em;
 	}
+
 	.order-table tfoot tr td,
 	.order-table tfoot tr th {
 		vertical-align: bottom;
@@ -4846,9 +5080,11 @@ Slick slider overrides
 	.order-table {
 		border: 0;
 	}
+
 	.order-table thead {
 		display: none;
 	}
+
 	.order-table th,
 	.order-table td {
 		float: left;
@@ -4859,6 +5095,7 @@ Slick slider overrides
 		border: 0;
 		margin: 0;
 	}
+
 	.order-table th::before,
 	.order-table td::before {
 		content: attr(data-label);
@@ -4867,12 +5104,15 @@ Slick slider overrides
 		padding-right: 2em;
 		max-width: 80%;
 	}
+
 	.order-table tbody tr th:first-child {
 		padding-top: 1.25em;
 	}
+
 	.order-table tbody tr td:last-child {
 		padding-bottom: 1.25em;
 	}
+
 	.order-table tbody th::before,
 	.order-table tbody td::before {
 		font-weight: var(--font-weight-body--bold);
@@ -4978,6 +5218,7 @@ Slick slider overrides
 	.site-header {
 		padding: 0 55px;
 	}
+
 	.site-header.logo--center {
 		padding-top: 30px;
 	}
@@ -5004,6 +5245,7 @@ Slick slider overrides
 		padding-left: 22px;
 		text-align: left;
 	}
+
 	.site-header__logo img {
 		margin: 0;
 	}
@@ -5052,6 +5294,7 @@ Slick slider overrides
 		width: auto;
 		padding-right: 13px;
 	}
+
 	.site-header__icons .btn--link,
 	.site-header__icons .site-header__cart {
 		font-size: calc(((var(--font-size-base)) / (var(--font-size-base))) * 1em);
@@ -5096,6 +5339,7 @@ Slick slider overrides
 }
 
 @media only screen and (min-width: 750px) {
+
 	.site-header__account,
 	.site-header__cart {
 		padding: 10px 11px;
@@ -6241,6 +6485,7 @@ Blog/article card
 }
 
 @media only screen and (min-width: 750px) {
+
 	.predictive-search__list .predictive-search-view-all:first-child,
 	.predictive-search__list .predictive-search-loading:first-child {
 		border-top: none;
@@ -6710,6 +6955,7 @@ Extra specificity in selectors is used to override defaults.
 	.slideshow__text-content.slideshow__text-content--vertical-top {
 		top: 120px;
 	}
+
 	.slideshow__text-content.slideshow__text-content--vertical-bottom {
 		top: auto;
 		bottom: 40px;
@@ -6756,6 +7002,7 @@ Extra specificity in selectors is used to override defaults.
 	.slideshow__text-content--mobile {
 		padding-top: 0;
 	}
+
 	.slideshow__text-content--mobile::after {
 		display: none;
 	}
@@ -6771,6 +7018,7 @@ Extra specificity in selectors is used to override defaults.
 }
 
 @media only screen and (max-width: 749px) {
+
 	.slideshow__title,
 	.slideshow__subtitle {
 		display: none;
@@ -6792,6 +7040,7 @@ Extra specificity in selectors is used to override defaults.
 }
 
 @media only screen and (max-width: 749px) {
+
 	.slideshow__subtitle--mobile,
 	.slideshow__title--mobile {
 		display: block;
@@ -6875,6 +7124,7 @@ Extra specificity in selectors is used to override defaults.
 }
 
 @media only screen and (min-width: 750px) {
+
 	.slideshow__controls:hover .slideshow__arrows,
 	.slideshow__controls:focus .slideshow__arrows,
 	.slideshow__controls--hover .slideshow__arrows {
@@ -6946,6 +7196,7 @@ Extra specificity in selectors is used to override defaults.
 }
 
 @media only screen and (min-width: 750px) {
+
 	.slideshow__arrows .slick-dots li button::before,
 	.slideshow__arrows .slick-dots li a::before {
 		color: rgba(255, 255, 255, 0.5);
@@ -6998,6 +7249,7 @@ Extra specificity in selectors is used to override defaults.
 }
 
 @media only screen and (min-width: 750px) {
+
 	.slideshow__controls:hover .slideshow__pause,
 	.slideshow__controls:focus .slideshow__pause,
 	.slideshow__controls--hover .slideshow__pause {
@@ -7260,15 +7512,18 @@ Extra specificity in selectors is used to override defaults.
 	.filters-toolbar--has-filter {
 		border-bottom: none;
 	}
+
 	.filters-toolbar--has-filter .filters-toolbar__item-child {
 		flex-basis: 50%;
 	}
+
 	.filters-toolbar--has-filter .filters-toolbar__item-wrapper {
 		-ms-flex-preferred-size: 100%;
 		-webkit-flex-basis: 100%;
 		-moz-flex-basis: 100%;
 		flex-basis: 100%;
 	}
+
 	.filters-toolbar--has-filter .filters-toolbar__item--count {
 		-ms-flex-preferred-size: 100%;
 		-webkit-flex-basis: 100%;
@@ -7276,6 +7531,7 @@ Extra specificity in selectors is used to override defaults.
 		flex-basis: 100%;
 		text-align: left;
 	}
+
 	.filters-toolbar--has-filter .filters-toolbar__item--count:before {
 		background-color: var(--color-border);
 		content: "";
@@ -7445,6 +7701,7 @@ Extra specificity in selectors is used to override defaults.
 }
 
 @media only screen and (min-width: 750px) {
+
 	.site-footer h4,
 	.site-footer .h4 {
 		min-height: calc(var(--font-size-header) * 0.7);
@@ -7524,30 +7781,35 @@ Extra specificity in selectors is used to override defaults.
 		-ms-flex: 1 1 100%;
 		flex: 1 1 100%;
 	}
+
 	.site-footer__item--one-half {
 		-webkit-flex: 1 1 50%;
 		-moz-flex: 1 1 50%;
 		-ms-flex: 1 1 50%;
 		flex: 1 1 50%;
 	}
+
 	.site-footer__item--one-third {
 		-webkit-flex: 1 1 33%;
 		-moz-flex: 1 1 33%;
 		-ms-flex: 1 1 33%;
 		flex: 1 1 33%;
 	}
+
 	.site-footer__item--one-quarter {
 		-webkit-flex: 1 1 25%;
 		-moz-flex: 1 1 25%;
 		-ms-flex: 1 1 25%;
 		flex: 1 1 25%;
 	}
+
 	.site-footer__item--one-fifth {
 		-webkit-flex: 1 1 20%;
 		-moz-flex: 1 1 20%;
 		-ms-flex: 1 1 20%;
 		flex: 1 1 20%;
 	}
+
 	.site-footer-newsletter__one-half {
 		-webkit-flex: 1 1 50%;
 		-moz-flex: 1 1 50%;
@@ -7562,6 +7824,7 @@ Extra specificity in selectors is used to override defaults.
 		-ms-justify-content: center;
 		justify-content: center;
 	}
+
 	.site-footer__item--center>* {
 		text-align: center;
 	}
@@ -7687,6 +7950,7 @@ Extra specificity in selectors is used to override defaults.
 		margin-bottom: 15px;
 		height: 46px;
 	}
+
 	.site-footer-item-tall .site-footer__icon-list {
 		padding-bottom: 0;
 	}
@@ -7774,6 +8038,7 @@ Extra specificity in selectors is used to override defaults.
 	.feature-row__text--left {
 		padding-left: 35px;
 	}
+
 	.feature-row__text--right {
 		padding-right: 35px;
 	}
@@ -7801,6 +8066,7 @@ Extra specificity in selectors is used to override defaults.
 }
 
 @media only screen and (min-width: 750px) {
+
 	.hero--adapt,
 	.hero-fixed-width__image {
 		max-height: 80vh;
@@ -7831,15 +8097,19 @@ Extra specificity in selectors is used to override defaults.
 	.hero--x-small {
 		height: 125px;
 	}
+
 	.hero--small {
 		height: 300px;
 	}
+
 	.hero--medium {
 		height: 475px;
 	}
+
 	.hero--large {
 		height: 650px;
 	}
+
 	.hero--x-large {
 		height: 775px;
 	}
@@ -8349,22 +8619,27 @@ Extra specificity in selectors is used to override defaults.
 }
 
 @media only screen and (min-width: 750px) {
+
 	.image-bar--x-small .image-bar__content,
 	.image-bar--x-small .image-bar__item {
 		height: 125px;
 	}
+
 	.image-bar--small .image-bar__content,
 	.image-bar--small .image-bar__item {
 		height: 300px;
 	}
+
 	.image-bar--medium .image-bar__content,
 	.image-bar--medium .image-bar__item {
 		height: 475px;
 	}
+
 	.image-bar--large .image-bar__content,
 	.image-bar--large .image-bar__item {
 		height: 650px;
 	}
+
 	.image-bar--x-large .image-bar__content,
 	.image-bar--x-large .image-bar__item {
 		height: 775px;
@@ -8517,6 +8792,7 @@ Extra specificity in selectors is used to override defaults.
 		padding-left: 22px;
 		margin-bottom: 22px;
 	}
+
 	.custom__item.small--one-half {
 		-webkit-flex: 1 0 50%;
 		-moz-flex: 1 0 50%;
@@ -8731,9 +9007,11 @@ Extra specificity in selectors is used to override defaults.
 	.video-section-wrapper {
 		overflow: visible !important;
 	}
+
 	.video-section-wrapper.video-is-playing {
 		margin: 0;
 	}
+
 	.video-section-wrapper.video-is-loaded {
 		transition: height 0.6s cubic-bezier(0.44, 0.13, 0.48, 0.87), margin 0.6s cubic-bezier(0.44, 0.13, 0.48, 0.87);
 	}
@@ -9254,6 +9532,7 @@ Extra specificity in selectors is used to override defaults.
 	.selectors-form__item {
 		padding-bottom: 0;
 	}
+
 	.selectors-form__item:first-of-type {
 		margin-left: 0;
 	}

@@ -4,7 +4,7 @@
 	data-section-id="{{ section.id }}"
 	data-section-type="list-collections-template">
 	<header class="mb-8 text-center">
-		<h1 class="text-2xl tracking-wide uppercase mb-4">{{ page_title }}</h1>
+		<h2 class="mb-4 text-xl tracking-wide uppercase font-semibold leading-snug">{{ page_title }}</h2>
 	</header>
 
 	{%- assign blocks = section.blocks | sort: 'collection.all_products_count' -%}
@@ -24,7 +24,7 @@
 			{%- assign image_size = '225x' -%}
 	{% endcase %}
 
-	<ul class="flex flex-row ">
+	<div class="flex flex-col items-stretch mx-0 md:flex-row md:flex-wrap md:-mx-4">
 		{% if section.settings.display_type == 'all' %}
 			{% case section.settings.sort %}
 				{% when 'products_high' or 'products_low' %}
@@ -34,26 +34,26 @@
 			{% endcase %}
 			{% if section.settings.sort == 'products_low' or section.settings.sort == 'date' or section.settings.sort == 'alphabetical' %}
 				{% for collection in collections %}
-					<li class="{{ grid_item_width }}">
+					<div class="px-4 {{ grid_item_width }}">
 						{% include 'collection-grid-item', collection: collection %}
-					</li>
+					</div>
 				{% endfor %}
 			{% else %}
 				{% for collection in collections reversed %}
-					<li class="{{ grid_item_width }}">
+					<div class="px-4 {{ grid_item_width }}">
 						{% include 'collection-grid-item', collection: collection %}
-					</li>
+					</div>
 				{% endfor %}
 			{% endif %}
 		{% else %}
 			{% for block in section.blocks %}
-				<li class="{{ grid_item_width }}">
+				<div class="px-4 {{ grid_item_width }}">
 					{%- assign collection = collections[block.settings.collection] -%}
 					{% include 'collection-grid-item', collection: collection %}
-				</li>
+				</div>
 			{% endfor %}
 		{% endif %}
-	</ul>
+	</div>
 </div>
 
 {% schema %}
@@ -64,7 +64,7 @@
 			"type": "text",
 			"id": "extra_class",
 			"label": "Adicional CSS Classes",
-			"default": "container"
+			"default": "container md:py-12"
 		},
 		{
 			"type": "paragraph",

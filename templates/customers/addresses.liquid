@@ -16,8 +16,7 @@
 				id="AddressNewForm"
 				class="mt-8 hidden">
 				{% form 'customer_address', customer.new_address %}
-					<h2 class="font-semibold leading-snug text-2xl tracking-wide mb-3">{{ 'customer.addresses.add_new' | t }}</h2>
-
+					<h2 class="mb-4 text-xl tracking-wide uppercase font-semibold leading-snug">{{ 'customer.addresses.add_new' | t }}</h2>
 					<div class="flex flex-row">
 						<div class="md:w-1/2">
 							<label for="AddressFirstNameNew">{{ 'customer.addresses.first_name' | t }}</label>
@@ -149,7 +148,7 @@
 					<li>
 						<div class="address">
 							{% if address == customer.default_address %}
-								<h2 class="font-semibold leading-snug text-2xl tracking-wide mb-3">{{ 'customer.addresses.default' | t }}</h2>
+								<h2 class="mb-4 text-xl tracking-wide uppercase font-semibold leading-snug">{{ 'customer.addresses.default' | t }}</h2>
 							{% endif %}
 
 							{{ address | format_address }}
@@ -182,9 +181,7 @@
 
 						<div id="EditAddress_{{ address.id }}" class="form-vertical hidden">
 							{% form 'customer_address', address %}
-
-								<h2 class="font-semibold leading-snug text-2xl tracking-wide mb-3">{{ 'customer.addresses.edit_address' | t }}</h2>
-
+								<h2 class="mb-4 text-xl tracking-wide uppercase font-semibold leading-snug">{{ 'customer.addresses.edit_address' | t }}</h2>
 								<div class="flex flex-row">
 									<div class="md:w-1/2">
 										<label for="AddressFirstName_{{ form.id }}">{{ 'customer.addresses.first_name' | t }}</label>

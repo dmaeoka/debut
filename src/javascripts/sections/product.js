@@ -37,7 +37,6 @@ const selectors = {
 
 register('product-section', {
 	async onLoad() {
-		console.log("Loading product.js");
 		const productFormElement = document.querySelector(selectors.productForm);
 		const productHandle = productFormElement.dataset.productHandle || "1-new-and-sale-badge-product";
 
@@ -53,6 +52,10 @@ register('product-section', {
 			this.container.addEventListener('click', this.onThumbnailClick);
 			this.container.addEventListener('keyup', this.onThumbnailKeyup);
 		}
+		$("#zoom_05").elevateZoom({
+			zoomType : "inner",
+			cursor: "crosshair"
+		});
 	},
 
 	onUnload() {
@@ -74,7 +77,6 @@ register('product-section', {
 		this.renderPrice(variant);
 		this.renderComparePrice(variant);
 		this.renderSubmitButton(variant);
-
 		this.updateBrowserHistory(variant);
 	},
 

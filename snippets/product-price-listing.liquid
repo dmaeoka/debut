@@ -60,7 +60,7 @@
 			<span class="sr-only">{{ 'products.product.regular_price' | t }}</span>
 		</dt>
 		<dd class="mr-2">
-			<span class="text-xl text-gray-600">
+			<span class="font-semibold text-lg">
 				{%- if product.price_varies -%}
 					{{ 'products.product.from_lowest_price_html' | t: lowest_price: money_price }}
 				{%- else -%}
@@ -75,7 +75,7 @@
 			<span class="sr-only">{{ 'products.product.sale_price' | t }}</span>
 		</dt>
 		<dd class="mr-2">
-			<span class="text-xl text-red-600">
+			<span class="font-semibold text-lg text-red-600">
 				{%- if product.price_varies -%}
 					{{ 'products.product.from_lowest_price_html' | t: lowest_price: money_price }}
 				{%- else -%}
@@ -88,9 +88,7 @@
 				<span class="sr-only">{{ 'products.product.regular_price' | t }}</span>
 			</dt>
 			<dd class="mr-2">
-				<s class="text-xl text-gray-600">
-					{{ compare_at_price | money }}
-				</s>
+				<s class="font-semibold text-lg">{{ compare_at_price | money }}</s>
 			</dd>
 		</div>
 	</div>

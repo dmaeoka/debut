@@ -21,7 +21,8 @@
 	class="relative z-1"
 	data-section-id="{{ section.id }}"
 	data-section-type="header-section"
-	data-header-section>
+	data-header-section
+	x-data="theme.header">
 	{% if section.settings.message %}
 		{% if section.settings.home_page_only == false or request.page_type == 'index' %}
 			<style>
@@ -54,12 +55,11 @@
 				{%- unless section.settings.message_link == blank -%}
 					<a href="{{ section.settings.message_link }}" class="announcement-bar__link block font-normal px-16 py-1 text-white">
 				{%- endunless -%}
-						<p class="announcement-bar__message text-current text-white text-base font-normal text-center mb-0">{{ section.settings.message_text | escape }}</p>
+					<p class="announcement-bar__message text-current text-white text-base font-normal text-center mb-0">{{ section.settings.message_text | escape }}</p>
 				{%- unless section.settings.message_link == blank -%}
 					</a>
 				{%- endunless -%}
 			</div>
-
 		{% endif %}
 	{% endif %}
 
@@ -97,7 +97,7 @@
 						</noscript>
 					</a>
 				{% else %}
-					<a class="break-words uppercase text-2xl" href="{{ routes.root_url }}">{{ shop.name }}</a>
+					<a class="break-words uppercase text-xl" href="{{ routes.root_url }}">{{ shop.name }}</a>
 				{% endif %}
 
 				{% if request.page_type == 'index' %}
@@ -116,6 +116,7 @@
 				<div class="flex flex-col flex-shrink-0 justify-center md:w-1/4">
 					<div class="flex items-center justify-end relative w-full">
 						<button
+							x-on:click="show_modal = true"
 							id="SearchDrawer-btn"
 							type="button"
 							class="btn--link p-2">

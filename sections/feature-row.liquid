@@ -2,7 +2,7 @@
 <section class="{{ section.settings.extra_class }}">
 	<div class="flex flex-col items-stretch mx-0 md:flex-row md:flex-wrap md:-mx-4">
 		<div
-			class="px-4 md:w-1/2 {{section.settings.layout}}">
+			class="px-4 mb-8 md:w-1/2 {{section.settings.layout}}">
 			{% if section.settings.image != blank %}
 				{% capture img_id %}FeatureRowImage-{{ section.id }}{% endcapture %}
 				{% capture wrapper_id %}FeatureRowImageWrapper-{{ section.id }}{% endcapture %}
@@ -33,7 +33,7 @@
 
 		<div class="px-4 flex-1 order-2 self-center">
 			{% if section.settings.title != blank %}
-				<h2 class="font-semibold leading-snug text-2xl tracking-wide mb-5">{{ section.settings.title | escape }}</h2>
+				<h2 class="mb-4 text-xl tracking-wide uppercase font-semibold leading-snug">{{ section.settings.title | escape }}</h2>
 			{% endif %}
 			{% if section.settings.text != blank %}
 				<!-- color: var(--color-body-text); -->

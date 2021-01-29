@@ -48,14 +48,12 @@
 				</div>
 			</div>
 			{% if is_filter_by_available == false and section.settings.sort_enable == false %}
-				<div class="container">
-					<span class="italic leading-10 mb-0 overflow-hidden truncate whitespace-no-wrap text-lg">{{ 'collections.general.items_with_count' | t: count: collection.products_count }}</span>
+				<div class="container py-2 text-right">
+					<span class="italic leading-10 mb-0 overflow-hidden truncate whitespace-no-wrap">{{ 'collections.general.items_with_count' | t: count: collection.products_count }}</span>
 				</div>
 			{% endif %}
 			{% if collection.description != blank %}
-				<div class="rte container my-8">
-					{{ collection.description }}
-				</div>
+				<div class="rte container my-8 md:px-12">{{ collection.description }}</div>
 			{% endif %}
 		{% else %}
 			<div class="container">
@@ -65,12 +63,10 @@
 						{{ collection.title }}
 					</h1>
 					{% if collection.description != blank %}
-						<div class="rte">
-							{{ collection.description }}
-						</div>
+					<div class="rte">{{ collection.description }}</div>
 					{% endif %}
 					{% if is_filter_by_available == false and section.settings.sort_enable == false %}
-						<span class="italic leading-10 mb-0 overflow-hidden truncate whitespace-no-wrap text-lg">{{ 'collections.general.items_with_count' | t: count: collection.products_count }}</span>
+					<span class="italic leading-10 mb-0 overflow-hidden truncate whitespace-no-wrap">{{ 'collections.general.items_with_count' | t: count: collection.products_count }}</span>
 					{% endif %}
 				</div>
 			</div>
@@ -86,9 +82,11 @@
 									<div class="md:mr-8">
 										<label class="inline-block text-sm" for="FilterTags">{{ 'collections.filters.title_tags' | t }}</label>
 										<div class="inline-flex items-center relative z-2">
+											<!-- document.location.href = this._getFilterValue(); -->
 											<select
 												name="FilterTags"
 												id="FilterTags"
+												x-on:change="alerta"
 												class="bg-none border-0 cursor-pointer h-12 p-3 relative truncate whitespace-no-wrap"
 												aria-describedby="a11y-refresh-page-message a11y-selection-message">
 												<option value="{{ collection.url }}">{{ 'collections.filters.all_tags' | t }}</option>
@@ -181,8 +179,7 @@
 											<span class="sr-only">Regular price</span>
 										</dt>
 										<dd class="mr-2">
-											<span class="text-xl text-gray-600">$19.99
-											</span>
+											<span class="font-semibold text-lg">$19.99</span>
 										</dd>
 									</div>
 								</dl>

@@ -7,7 +7,7 @@
 		<div class="{% unless section.settings.full_width %}md:w-2/3 m-auto{% endunless %}">
 			{% if section.settings.section_title != blank %}
 				<div class="text-center {{ section.settings.text_size }}">
-					<h2 class="text-2xl tracking-wide uppercase mb-4">{{ section.settings.section_title | escape }}</h2>
+					<h2 class="mb-4 text-xl tracking-wide uppercase font-semibold leading-snug">{{ section.settings.section_title | escape }}</h2>
 				</div>
 			{% endif %}
 			{% if section.settings.text != blank %}

@@ -6,7 +6,7 @@
 	<div class="flex flex-col items-center md:flex-row md:flex-wrap md:justify-center">
 		<div class="md:w-3/4">
 			<header class="text-center">
-				<h1 id="title-0" class="font-semibold leading-snug mb-3 mt-12 text-2xl tracking-wide">{{ article.title }}</h1>
+				<h1 id="title-0" class="mb-4 text-xl tracking-wide uppercase font-semibold leading-snug">{{ article.title }}</h1>
 				{% if section.settings.blog_show_author %}
 					<span class="inline-block mb-5">{{ 'blogs.article.by_author' | t: author: article.author }}</span>
 				{% endif %}

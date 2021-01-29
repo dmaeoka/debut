@@ -6,7 +6,7 @@
 	<div>
 		<div class="mb-8 text-center">
 			{% if section.settings.section_title != blank %}
-				<h2 class="text-2xl tracking-wide uppercase mb-4">{{ section.settings.section_title | escape }}</h2>
+				<h2 class="mb-4 text-xl tracking-wide uppercase font-semibold leading-snug">{{ section.settings.section_title | escape }}</h2>
 			{% endif %}
 			{% if section.settings.subheading != blank %}
 				<div class="text-gray-600">{{ section.settings.subheading }}</div>

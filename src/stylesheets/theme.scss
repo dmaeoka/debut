@@ -235,3 +235,7 @@ p {
 		@apply translate-y-0;
 	}
 }
+
+.shopify-payment-button__button--hidden {
+	@apply sr-only;
+}

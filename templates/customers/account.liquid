@@ -7,11 +7,9 @@
 		</header>
 		<div class="flex flex-col items-stretch mx-0 md:flex-row md:flex-wrap md:-mx-4">
 			<div class="px-4 md:w-1/2 w-full">
-				<h2 class="font-semibold leading-snug text-2xl tracking-wide mb-3">{{ 'customer.orders.title' | t }}</h2>
-
+				<h2 class="mb-4 text-xl tracking-wide uppercase font-semibold leading-snug">{{ 'customer.orders.title' | t }}</h2>
 				{% paginate customer.orders by 20 %}
 					{% if customer.orders.size != 0 %}
-
 						<table class="responsive-table">
 							<thead>
 								<tr>
@@ -36,11 +34,8 @@
 								{% endfor %}
 							</tbody>
 						</table>
-
 					{% else %}
-
 						<p>{{ 'customer.orders.none' | t }}</p>
-
 					{% endif %}
 					{%- if paginate.pages > 1 -%}
 						{% include 'pagination', paginate: paginate %}
@@ -48,7 +43,7 @@
 				{% endpaginate %}
 			</div>
 			<div class="px-4 md:w-1/2 w-full">
-				<h2 class="font-semibold leading-snug text-2xl tracking-wide mb-3">{{ 'customer.account.details' | t }}</h2>
+				<h2 class="mb-4 text-xl tracking-wide uppercase font-semibold leading-snug">{{ 'customer.account.details' | t }}</h2>
 				{{ customer.default_address | format_address }}
 				<p><a href="{{ routes.account_addresses_url }}" class="bg-red-600 border-red-600 btn text-white text-base">{{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})</a></p>
 			</div>

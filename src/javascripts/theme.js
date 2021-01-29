@@ -55,9 +55,10 @@ data-section-type="video-section"
 */
 
 (function(global) {
-	var THEME = global.THEME || {};
-	THEME.validate = {
+	var theme = global.theme || {};
+	theme.validate = {
 		timeStamp: 0
 	}
-	global.THEME = THEME;
+
+	global.theme = theme;
 })(window);
