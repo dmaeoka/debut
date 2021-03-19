@@ -150,8 +150,12 @@
 				},
 				show_modal: false,
 				header: {
+					mobile_nav: false,
 					alerta: function() {
 						console.log("aqui é o header");
+					},
+					openNav: function() {
+						this.mobile_nav = !this.mobile_nav;
 					}
 				}
 			};

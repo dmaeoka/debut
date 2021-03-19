@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", (e) => {
 
 		// TODO RETURN TO LAZYLOAD
 		require("./templates");
-
 		document.body.classList.replace("no-js", "js");
 	} catch (error) {
 		console.warn(error);

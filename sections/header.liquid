@@ -51,9 +51,8 @@
 				class="announcement-bar border-b p-1 relative z-10 border-transparent"
 				role="region"
 				aria-label="{{ 'sections.header.announcement_bar_label' | t }}">
-
 				{%- unless section.settings.message_link == blank -%}
-					<a href="{{ section.settings.message_link }}" class="announcement-bar__link block font-normal px-16 py-1 text-white">
+					<a href="{{ section.settings.message_link }}" class="announcement-bar__link block font-normal md:px-16 px-0 py-1 text-white">
 				{%- endunless -%}
 					<p class="announcement-bar__message text-current text-white text-base font-normal text-center mb-0">{{ section.settings.message_text | escape }}</p>
 				{%- unless section.settings.message_link == blank -%}
@@ -116,7 +115,6 @@
 				<div class="flex flex-col flex-shrink-0 justify-center md:w-1/4">
 					<div class="flex items-center justify-end relative w-full">
 						<button
-							x-on:click="show_modal = true"
 							id="SearchDrawer-btn"
 							type="button"
 							class="btn--link p-2">
@@ -159,10 +157,10 @@
 							<button
 								type="button"
 								class="md:hidden inline-block btn--link p-2"
-								data-bs-toggle="collapse"
-								data-bs-target="#MobileNav"
+								x-on:click="openNav()"
 								aria-controls="MobileNav"
 								aria-expanded="false"
+								x-bind:aria-expanded="mobile_nav"
 								aria-label="{{ 'layout.navigation.menu' | t }}"
 							>
 								{% include 'icon-hamburger', icon_class: "h-5 w-5 align-middle" %}
@@ -173,9 +171,10 @@
 				</div>
 			</div>
 		</div>
-
 		<nav
 			id="MobileNav"
+			x-on:click.away="openNav()"
+			:class="{ 'show': mobile_nav == true }"
 			class="collapse transform duration-200 ease-linear transition-transform absolute left-0 md:hidden top-full mt-px w-full z-10"
 			role="navigation">
 			<ul class="flex flex-col w-full">

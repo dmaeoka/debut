@@ -31,12 +31,11 @@
 
 	assign money_price = price | money
 -%}
-<dl class="flex flex-col items-start mt-0 mb-0
+<dl data-price
+	class="flex flex-col items-start mt-0 mb-0
 	{% if available == false %} price--sold-out {% endif %}
 	{% if compare_at_price > price %} price--on-sale {% endif %}
-	{% if variant.unit_price_measurement %} price--unit-available {% endif %}"
-	data-price
->
+	{% if variant.unit_price_measurement %} price--unit-available {% endif %}">
 
 	{% if show_vendor and product %}
 		<div class="text-gray-600 text-sm font-normal uppercase tracking-wide w-full flex-grow">

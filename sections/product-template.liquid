@@ -159,8 +159,8 @@
 		</div>
 
 		<div class="px-4 w-full {{ product_description_width }}">
-			<h1 class="font-semibold leading-snug text-2xl tracking-wide mb-2">{{ product.title }}</h1>
-			<div class="text-xl">
+			<h1 class="font-semibold leading-snug text-4xl tracking-wide mb-2">{{ product.title }}</h1>
+			<div class="text-2xl">
 				{% include 'product-price', variant: current_variant, show_vendor: section.settings.show_vendor %}
 			</div>
 			{%- if shop.taxes_included or shop.shipping_policy.body != blank -%}

@@ -10,4 +10,5 @@ require("lazysizes/plugins/bgset/ls.bgset");
 require("lazysizes");
 require("lazysizes/plugins/respimg/ls.respimg");
 require("./libs/alpine");
+require("./libs/typeahead.bundle");
 // window.Instafeed = require("instafeed.js");

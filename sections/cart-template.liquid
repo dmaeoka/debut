@@ -8,9 +8,11 @@
 	<div class="container pb-12">
 		<header class="my-12 text-center">
 			<h1 class="font-semibold text-4xl tracking-wide">{{ 'cart.general.title' | t }}</h1>
+			{%- if cart.item_count > 0 -%}
 			<a href="{{ routes.all_products_collection_url }}" class="text-link text-link--accent text-red-600 text-lg">
 				{{ 'cart.general.continue_shopping' | t }}
 			</a>
+			{%- endif -%}
 		</header>
 		<div class="px-4" data-cart-wrapper>
 			{%- if cart.item_count > 0 -%}
@@ -331,22 +333,38 @@
 				</form>
 				<p class="sr-only" data-cart-status aria-live="polite" role="status"></p>
 			{%- else -%}
-				<div class="text-center" data-empty-page-content>
+				<div class="text-center" data-empty-page-content x-data="cart()" x-init="cookieTest()">
 					<p>{{ 'cart.general.empty' | t }}</p>
-					<div>
-						<p>{{ 'cart.general.cookies_required' | t }}</p>
-					</div>
-					<a
-						href="{{ routes.root_url }}"
-						class="bg-red-600 border-red-600 btn flex-shrink-0 text-base text-white">{{ 'general.404.link' | t }}
-						{% include 'icon-arrow-right', icon_class: "h-3 w-3 align-middle" %}
+					<div x-show="!isCookieEnabled()"><p>{{ 'cart.general.cookies_required' | t }}</p></div>
+					<a href="{{ routes.root_url }}" class="bg-red-600 border-red-600 btn flex-shrink-0 text-base text-white inline-flex items-center">
+						{{ 'general.404.link' | t }}
+						{% include 'icon-arrow-right', icon_class: "align-middle fill-current h-5 text-white w-5 ml-1" %}
 					</a>
 				</div>
 			{%- endif -%}
 		</div>
 	</div>
-
 </section>
+
+<script>
+	function cart() {
+		return {
+			cookieEnabled: false,
+			cookieTest() {
+				var cookieEnabled = navigator.cookieEnabled;
+				if (!cookieEnabled){
+					document.cookie = "testcookie";
+					cookieEnabled = document.cookie.indexOf("testcookie") != -1;
+				}
+				this.cookieEnabled = cookieEnabled;
+			},
+			isCookieEnabled() {
+				console.log("entrou");
+				return this.cookieEnabled;
+			},
+		}
+	}
+</script>
 
 {% schema %}
 {
