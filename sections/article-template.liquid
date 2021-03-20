@@ -20,7 +20,7 @@
 					{% capture img_wrapper_id %}ArticleImageWrapper-{{ article.image.id }}{% endcapture %}
 					{%- assign img_url = article.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
 
-					{% include 'image-style', image: article.image, height: 600, wrapper_id: img_wrapper_id, img_id: img_id %}
+					{% render 'image-style', image: article.image, height: 600, wrapper_id: img_wrapper_id, img_id: img_id %}
 
 					<div id="{{ img_wrapper_id }}" class="mx-auto relative w-full js">
 						<div
@@ -48,7 +48,7 @@
 			</div>
 
 			{% if section.settings.show_share_buttons %}
-				{% include 'social-sharing', share_title: article.title, share_permalink: article.url, share_image: article.image %}
+				{% render 'social-sharing', share_title: article.title, share_permalink: article.url, share_image: article.image %}
 			{% endif %}
 		</div>
 	</div>

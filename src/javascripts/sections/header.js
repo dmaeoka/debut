@@ -20,43 +20,43 @@ register("header-section", {
 	onLoad() {
 		try {
 			console.log("header");
-			cache = this.cacheSelectors();
+			// cache = this.cacheSelectors();
 
-			const over = (event) => {
-				event.preventDefault();
-				const $element = $(event.currentTarget);
-				const $target = $($element.attr("data-target"));
-				$element.attr("aria-expanded", true);
-				$target.removeClass("hidden");
-			};
+			// const over = (event) => {
+			// 	event.preventDefault();
+			// 	const $element = $(event.currentTarget);
+			// 	const $target = $($element.attr("data-target"));
+			// 	$element.attr("aria-expanded", true);
+			// 	$target.removeClass("hidden");
+			// };
 
-			const out = (event) => {
-				event.preventDefault();
-				const $element = $(event.currentTarget);
-				const $target = $($element.attr("data-target"));
-				$element.attr("aria-expanded", false);
-				$target.addClass("hidden");
-			};
+			// const out = (event) => {
+			// 	event.preventDefault();
+			// 	const $element = $(event.currentTarget);
+			// 	const $target = $($element.attr("data-target"));
+			// 	$element.attr("aria-expanded", false);
+			// 	$target.addClass("hidden");
+			// };
 
-			cache.$topLevel.hoverIntent({
-				over,
-				out,
-				timeout: 80,
-				interval: 30,
-			});
+			// cache.$topLevel.hoverIntent({
+			// 	over,
+			// 	out,
+			// 	timeout: 80,
+			// 	interval: 30,
+			// });
 
-			this.searchDrawer();
+			// this.searchDrawer();
 
-			$("[data-level]").on("click", event => {
-				const $nav = cache.$mobileNav;
-				const $this = $(event.currentTarget);
-				const level = $this.data("level");
-				$nav.css({"--transform-translate-x": `${-100 * level}%`});
-			});
+			// $("[data-level]").on("click", event => {
+			// 	const $nav = cache.$mobileNav;
+			// 	const $this = $(event.currentTarget);
+			// 	const level = $this.data("level");
+			// 	$nav.css({"--transform-translate-x": `${-100 * level}%`});
+			// });
 
-			cache.$mobileNav.on("show.bs.collapse", event => {
-				cache.$mobileNav.removeAttr("style");
-			});
+			// cache.$mobileNav.on("show.bs.collapse", event => {
+			// 	cache.$mobileNav.removeAttr("style");
+			// });
 
 		} catch (error) {
 			console.warn(error);
@@ -72,21 +72,21 @@ register("header-section", {
 	},
 
 	cacheSelectors() {
-		const $nav = $(this.container);
-		return Object.assign(
-			{},
-			{
-				$nav,
-				$topLevel: $nav.find("[data-has-dropdowns]"),
-				$mobileNav: $nav.find("#MobileNav"),
-				overlay: $("#modal-overlay")
-			}
-		);
+		// const $nav = $(this.container);
+		// return Object.assign(
+		// 	{},
+		// 	{
+		// 		$nav,
+		// 		$topLevel: $nav.find("[data-has-dropdowns]"),
+		// 		$mobileNav: $nav.find("#MobileNav"),
+		// 		overlay: $("#modal-overlay")
+		// 	}
+		// );
 	},
 
 	hideDropdowns() {
 		try {
-			cache.$topLevel.find(".site-nav__dropdown").addClass("hidden");
+			// cache.$topLevel.find(".site-nav__dropdown").addClass("hidden");
 		} catch (error) {
 			console.warn(error);
 		}
@@ -94,14 +94,14 @@ register("header-section", {
 
 	searchDrawer() {
 		try {
-			// ANOTHER METHOD HERE
-			var $drawer = $("#SearchDrawer");
-			$('#SearchDrawer-btn').on("click", event => {
-				$drawer.modal("toggle");
-			});
-			$("#SearchDrawer-close").on("click", event => {
-				$drawer.modal("hide");
-			})
+			// // ANOTHER METHOD HERE
+			// var $drawer = $("#SearchDrawer");
+			// $('#SearchDrawer-btn').on("click", event => {
+			// 	$drawer.modal("toggle");
+			// });
+			// $("#SearchDrawer-close").on("click", event => {
+			// 	$drawer.modal("hide");
+			// })
 		} catch (error) {
 			console.warn(error);
 		}

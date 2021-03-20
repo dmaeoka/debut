@@ -15,7 +15,7 @@
 	</style>
 {% endif %}
 
-{% include 'search-drawer' %}
+{% render 'search-drawer' %}
 
 <div
 	class="relative z-1"
@@ -109,7 +109,7 @@
 					id="AccessibleNav"
 					class="flex-col hidden items-center justify-center md:flex relative w-1/2"
 					role="navigation">
-					{% include 'site-nav', linklist: section.settings.main_linklist %}
+					{% render 'site-nav', linklist: section.settings.main_linklist %}
 				</nav>
 
 				<div class="flex flex-col flex-shrink-0 justify-center md:w-1/4">
@@ -118,7 +118,7 @@
 							id="SearchDrawer-btn"
 							type="button"
 							class="btn--link p-2">
-							{% include 'icon-search', icon_class: "h-auto w-5 align-middle" %}
+							{% render 'icon-search', icon_class: "h-auto w-5 align-middle" %}
 							<span class="sr-only">{{ 'layout.navigation.search' | t }}</span>
 						</button>
 
@@ -127,14 +127,14 @@
 								<a
 									href="{{ routes.account_url }}"
 									class="p-2 relative inline-block">
-									{% include 'icon-login', icon_class: "h-5 w-5 align-middle" %}
+									{% render 'icon-login', icon_class: "h-5 w-5 align-middle" %}
 									<span class="sr-only">{{ 'layout.customer.account' | t }}</span>
 								</a>
 							{% else %}
 								<a
 									href="{{ routes.account_login_url }}"
 									class="p-2 relative inline-block">
-									{% include 'icon-login', icon_class: "h-5 w-5 align-middle" %}
+									{% render 'icon-login', icon_class: "h-5 w-5 align-middle" %}
 									<span class="sr-only">{{ 'layout.customer.log_in' | t }}</span>
 								</a>
 							{% endif %}
@@ -143,7 +143,7 @@
 						<a
 							href="{{ routes.cart_url }}"
 							class="p-2 relative inline-block">
-							{% include 'icon-cart', icon_class: "h-5 w-5 align-middle" %}
+							{% render 'icon-cart', icon_class: "h-5 w-5 align-middle" %}
 							<span class="sr-only">{{ 'layout.cart.title' | t }}</span>
 							<div
 								id="CartCount"
@@ -163,8 +163,8 @@
 								x-bind:aria-expanded="mobile_nav"
 								aria-label="{{ 'layout.navigation.menu' | t }}"
 							>
-								{% include 'icon-hamburger', icon_class: "h-5 w-5 align-middle" %}
-								{% include 'icon-close', icon_class: "h-5 w-5 align-middle hidden" %}
+								{% render 'icon-hamburger', icon_class: "h-5 w-5 align-middle" %}
+								{% render 'icon-close', icon_class: "h-5 w-5 align-middle hidden" %}
 							</button>
 						{% endunless %}
 					</div>
@@ -190,7 +190,7 @@
 							data-level="1">
 							<span class="border-b border-transparent">{{ link.title | escape }}</span>
 							<div class="ml-auto">
-								{% include 'icon-chevron-right', icon_class: "h-3 w-3 align-middle" %}
+								{% render 'icon-chevron-right', icon_class: "h-3 w-3 align-middle" %}
 							</div>
 						</button>
 						<ul
@@ -206,7 +206,7 @@
 										type="button"
 										data-level="0"
 										aria-label="Back to {{- link.title -}}">
-										{% include 'icon-chevron-left', icon_class: "h-3 w-3 align-middle" %}
+										{% render 'icon-chevron-left', icon_class: "h-3 w-3 align-middle" %}
 									</button>
 									<span
 										class="block px-5 py-4 relative text-base w-full">
@@ -225,7 +225,7 @@
 									data-level="2">
 									<span class="border-b border-transparent">{{ childlink.title | escape }}</span>
 									<div class="ml-auto">
-										{% include 'icon-chevron-right', icon_class: "h-3 w-3 align-middle" %}
+										{% render 'icon-chevron-right', icon_class: "h-3 w-3 align-middle" %}
 									</div>
 								</button>
 								<ul
@@ -242,7 +242,7 @@
 												data-level="1"
 												aria-expanded="true"
 												aria-label="{{ childlink.title }}">
-												{% include 'icon-chevron-left', icon_class: "h-3 w-3 align-middle" %}
+												{% render 'icon-chevron-left', icon_class: "h-3 w-3 align-middle" %}
 											</button>
 											<a
 												href="{{ childlink.url }}"

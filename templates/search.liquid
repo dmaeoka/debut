@@ -43,7 +43,7 @@
 					type="reset"
 					class="-translate-y-1/2 absolute mr-3 right-0 top-50 transform"
 					aria-label="{{ 'general.search.clear_search_term' | t }}">
-					{% include 'icon-close', icon_class: "h-4 w-4 align-middle" %}
+					{% render 'icon-close', icon_class: "h-4 w-4 align-middle" %}
 				</button>
 				<div class="predictive-search-wrapper"></div>
 			</div>
@@ -51,7 +51,7 @@
 				type="submit"
 				class="bg-red-600 border-red-600 btn flex-shrink-0 text-base text-white fill-current -ml-px"
 				aria-label="{{ 'general.search.submit' | t }}">
-				{% include 'icon-search', icon_class: "h-auto w-5 self-center" %}
+				{% render 'icon-search', icon_class: "h-auto w-5 self-center" %}
 			</button>
 		</form>
 	</div>
@@ -63,7 +63,7 @@
 			{% for item in search.results %}
 			<li class="m-auto md:w-3/5 pb-5{% unless forloop.last %} border-b border-gray-300 mb-5{% endunless %}">
 				{% if item.object_type == 'product' %}
-					{% include 'product-card-list', product: item %}
+					{% render 'product-card-list', product: item %}
 				{% else %}
 					<div class="relative">
 						<a
@@ -97,7 +97,7 @@
 		</ul>
 
 		{%- if paginate.pages > 1 -%}
-			{% include 'pagination', paginate: paginate %}
+			{% render 'pagination', paginate: paginate %}
 		{%- endif -%}
 	{% endif %}
 

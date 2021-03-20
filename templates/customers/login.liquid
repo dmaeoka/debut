@@ -98,7 +98,7 @@
 							{%- if form.errors -%}
 								<span id="RecoverEmail-email-error" class="input-error-message">
 									<span class="sr-only">{{ 'general.accessibility.error' | t }} </span>
-									{% include 'icon-error', icon_class: "h-3 w-3 align-middle" %}
+									{% render 'icon-error', icon_class: "h-3 w-3 align-middle" %}
 									<span>{{ form.errors.messages['form'] }}</span>
 								</span>
 							{%- endif -%}

@@ -168,7 +168,7 @@
 											data-cart-item-discount-list>
 											{%- for discount_allocation in itemDiscounts -%}
 												<li class="order-discount__item" data-cart-item-discount>
-													{% include 'icon-saletag', icon_class: "align-middle fill-current h-4 inline-block text-red-600 w-4" %}
+													{% render 'icon-saletag', icon_class: "align-middle fill-current h-4 inline-block text-red-600 w-4" %}
 													<span data-cart-item-discount-title>
 														{{- discount_allocation.discount_application.title -}}
 													</span> (-<span data-cart-item-discount-amount>{{ discount_allocation.amount | money }}</span>)
@@ -193,7 +193,7 @@
 										</div>
 										<div class="hidden" role="alert" data-cart-quantity-error-message-wrapper>
 											<span class="sr-only">{{ 'general.accessibility.error' | t }} </span>
-											{% include 'icon-error', icon_class: "align-middle fill-current h-4 w-4 inline-block text-red-600" %}
+											{% render 'icon-error', icon_class: "align-middle fill-current h-4 w-4 inline-block text-red-600" %}
 											<span class="align-middle leading-relaxed text-gray-800 text-sm" data-cart-quantity-error-message></span>
 										</div>
 									</td>
@@ -214,7 +214,7 @@
 										</div>
 										<div class="hidden" role="alert" data-cart-quantity-error-message-wrapper>
 											<span class="sr-only">{{ 'general.accessibility.error' | t }} </span>
-											{% include 'icon-error', icon_class: "align-middle fill-current h-4 w-4 inline-block text-red-600" %}
+											{% render 'icon-error', icon_class: "align-middle fill-current h-4 w-4 inline-block text-red-600" %}
 											<span class="align-middle leading-relaxed text-gray-800 text-sm" data-cart-quantity-error-message></span>
 										</div>
 									</td>
@@ -273,7 +273,7 @@
 										{%- for discount_application in cartDiscounts -%}
 
 											<span class="uppercase break-words text-base text-red-600">
-												{% include 'icon-saletag', icon_class: "align-middle fill-current h-4 inline-block text-red-600 w-4" %}
+												{% render 'icon-saletag', icon_class: "align-middle fill-current h-4 inline-block text-red-600 w-4" %}
 												<span class="sr-only">{{ 'customer.order.discount' | t }}:</span>
 												<span data-cart-discount-title>alsjdlkasd{{- discount_application.title -}}</span>
 											</span>
@@ -319,7 +319,7 @@
 
 									<div class="mt-3 hidden" role="alert" data-cart-error-message-wrapper>
 										<span class="sr-only">{{ 'general.accessibility.error' | t }} </span>
-										{% include 'icon-error', icon_class: "align-middle fill-current h-4 w-4 inline-block text-red-600" %}
+										{% render 'icon-error', icon_class: "align-middle fill-current h-4 w-4 inline-block text-red-600" %}
 										<span class="text-gray-600" data-cart-error-message></span>
 									</div>
 
@@ -338,7 +338,7 @@
 					<div x-show="!isCookieEnabled()"><p>{{ 'cart.general.cookies_required' | t }}</p></div>
 					<a href="{{ routes.root_url }}" class="bg-red-600 border-red-600 btn flex-shrink-0 text-base text-white inline-flex items-center">
 						{{ 'general.404.link' | t }}
-						{% include 'icon-arrow-right', icon_class: "align-middle fill-current h-5 text-white w-5 ml-1" %}
+						{% render 'icon-arrow-right', icon_class: "align-middle fill-current h-5 text-white w-5 ml-1" %}
 					</a>
 				</div>
 			{%- endif -%}

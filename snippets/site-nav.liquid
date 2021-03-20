@@ -5,7 +5,7 @@
     - linklist: {Object} Linklist Liquid object (required)
     - wrapper_class: {String} CSS wrapper class for the navigation (optional)
     Usage:
-    {% include 'site-nav', linklist: section.settings.main_linklist, wrapper_class: 'site-nav--centered' %}
+    {% render 'site-nav', linklist: section.settings.main_linklist, wrapper_class: 'site-nav--centered' %}
 {% endcomment %}
 
 <ul id="SiteNav" class="flex items-center">
@@ -40,7 +40,7 @@
 					class="flex text-lg font-light px-3 py-2 whitespace-no-wrap"
 					{% if link.current %} aria-current="page" {% endif %}>
 					<span class="border-b {{ active_item }}">{{ link.title | escape }}</span>
-					{% include 'icon-chevron-down', icon_class: "fill-current h-auto ml-2 w-3" %}
+					{% render 'icon-chevron-down', icon_class: "fill-current h-auto ml-2 w-3" %}
 				</a>
 				<div
 					id="SiteNavLabel-{{ child_list_handle }}"

@@ -20,7 +20,7 @@
 				<div
 					class="bg-center bg-cover bg-no-repeat lazyload slideshow__slide slideshow__slide--{{ block.id }}"
 					{% if block.settings.image %}
-					data-bgset="{% include 'bgset', image: block.settings.image %}"
+					data-bgset="{% render 'bgset', image: block.settings.image %}"
 					data-sizes="auto"
 					data-parent-fit="cover"
 					{% endif %}
@@ -64,7 +64,7 @@
 {% endif %}
 
 {% if section.blocks.size == 0 %}
-	{% include 'no-blocks' %}
+	{% render 'no-blocks' %}
 {% endif %}
 
 {% schema %}

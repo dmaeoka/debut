@@ -53,7 +53,7 @@
 								target="_blank"
 								rel="noopener"
 								aria-describedby="a11y-new-window-external-message">
-								{% if section.settings.show_pin %}{% include 'icon-pin', icon_class: "h-auto w-3 fill-current mr-2" %}{% endif %}
+								{% if section.settings.show_pin %}{% render 'icon-pin', icon_class: "h-auto w-3 fill-current mr-2" %}{% endif %}
 								<span>{{ section.settings.button_text | escape }}</span>
 							</a>
 						</div>
@@ -66,7 +66,7 @@
 			{% if bg_image != blank %}
 				<div
 					class="lazyload bg-center bg-cover h-full w-full"
-					data-bgset="{% include 'bgset', image: bg_image %}"
+					data-bgset="{% render 'bgset', image: bg_image %}"
 					data-sizes="auto"
 					data-parent-fit="cover">
 				</div>

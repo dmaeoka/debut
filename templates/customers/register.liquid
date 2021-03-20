@@ -9,7 +9,7 @@
 
 			{%- assign formId = 'RegisterForm' -%}
 			{% form 'create_customer', id: formId, novalidate: 'novalidate' %}
-				{% include 'form-status', form: form, form_id: formId %}
+				{% render 'form-status', form: form, form_id: formId %}
 				<div>
 					<label for="{{ formId }}-FirstName">{{ 'customer.register.first_name' | t }}</label>
 					<input
@@ -51,7 +51,7 @@
 					{%- if form.errors contains 'email' -%}
 						<span id="{{ formId }}-email-error" class="input-error-message">
 							<span class="sr-only">{{ 'general.accessibility.error' | t }} </span>
-							{% include 'icon-error', icon_class: "h-3 w-3 align-middle" %}
+							{% render 'icon-error', icon_class: "h-3 w-3 align-middle" %}
 							<span>{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}.</span>
 						</span>
 					{%- endif -%}
@@ -73,7 +73,7 @@
 					>
 					{%- if form.errors contains 'password' -%}
 						<span id="{{ formId}}-password-error" class="input-error-message">
-							{% include 'icon-error', icon_class: "h-3 w-3 align-middle" %}
+							{% render 'icon-error', icon_class: "h-3 w-3 align-middle" %}
 							<span>{{ form.errors.translated_fields['password'] | capitalize }} {{ form.errors.messages['password'] }}.</span>
 						</span>
 					{%- endif -%}

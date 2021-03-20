@@ -54,10 +54,10 @@
 		<meta name="description" content="{{ page_description | escape }}">
 	{%- endif -%}
 
-	{% include 'social-meta-tags' %}
+	{% render 'social-meta-tags' %}
 
 	<!-- CSS ================================================== -->
-	{% include 'css-variables' %}
+	{% render 'css-variables' %}
 
 	<style>
 		{{ header_font | font_face: font_display: 'swap' }}
@@ -220,7 +220,7 @@
 	<a class="in-page-link skip-link sr-only" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
 
 	{%- if settings.enable_ajax -%}
-		{% include 'cart-popup' %}
+		{% render 'cart-popup' %}
 	{%- endif -%}
 
 	{% section 'header' %}

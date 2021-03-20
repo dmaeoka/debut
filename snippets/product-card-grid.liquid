@@ -7,7 +7,7 @@
 	- show_vendor: {Boolean} Show the product's vendor depending on the section setting (optional)
 
 	Usage:
-	{% include 'product-card-grid', max_height: max_height, product: product, show_vendor: section.settings.show_vendor %}
+	{% render 'product-card-grid', max_height: max_height, product: product, show_vendor: section.settings.show_vendor %}
 {% endcomment %}
 
 <div class="mx-auto relative {% unless product.available %} grid-view-item--sold-out{% endunless %}">
@@ -46,6 +46,6 @@
 		aria-hidden="true"
 	>{{ product.title }}</div>
 
-	{% include 'product-price-listing', product: product, show_vendor: show_vendor %}
+	{% render 'product-price-listing', product: product, show_vendor: show_vendor %}
 
 </div>

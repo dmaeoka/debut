@@ -19,7 +19,7 @@
 {% paginate collection.products by limit %}
 
 <section
-	class="{{ secction.settings.extra_class }}"
+	class="{{ section.settings.extra_class }}"
 	data-section-id="{{ section.id }}"
 	data-section-type="collection-template">
 	<header class="collection-header">
@@ -32,7 +32,7 @@
 			<div class="collection-hero relative overflow-hidden">
 				<div
 					class="bg-center bg-no-repeat bg-cover relative opacity-100 h-80 lazyload"
-					data-bgset="{% include 'bgset', image: collection.image %}"
+					data-bgset="{% render 'bgset', image: collection.image %}"
 					data-sizes="auto"
 					data-parent-fit="cover"
 				></div>
@@ -143,7 +143,7 @@
 			<div class="flex flex-col mx-0 md:flex-row md:flex-wrap md:-mx-4">
 				{% for product in collection.products %}
 					<div class="px-4 mb-4 {{ grid_item_width }}">
-						{% include "product-card-grid", max_height: max_height, product: product, show_vendor: section.settings.show_vendor, aspect_ratio: section.settings.aspect_ratio %}
+						{% render "product-card-grid", max_height: max_height, product: product, show_vendor: section.settings.show_vendor, aspect_ratio: section.settings.aspect_ratio %}
 					</div>
 				{% else %}
 					{% comment %}
@@ -195,7 +195,7 @@
 			<div>
 				{% for product in collection.products %}
 					<div class="list-view-item mb-5">
-						{% include 'product-card-list', product: product, show_vendor: section.settings.show_vendor %}
+						{% render 'product-card-list', product: product, show_vendor: section.settings.show_vendor %}
 					</div>
 				{% else %}
 
@@ -243,7 +243,7 @@
 		{% endif %}
 
 		{%- if paginate.pages > 1 -%}
-			{% include 'pagination', paginate: paginate %}
+			{% render 'pagination', paginate: paginate %}
 		{%- endif -%}
 	</div>
 </section>

@@ -41,7 +41,7 @@
 				{% if section.settings.style == 'background' %} video-control__close-background{% endif %}"
 				data-controls="Video-{{ section.id }}">
 				<span class="video-control video-control__close">
-					{% include 'icon-close', icon_class: "h-3 w-3 align-middle" %}
+					{% render 'icon-close', icon_class: "h-3 w-3 align-middle" %}
 					<span class="sr-only">{{ 'sections.video.close' | t: video_title: '[video_title]' }}</span>
 				</span>
 			</button>
@@ -64,7 +64,7 @@
 			{%- else -%}
 				<div
 					class="transition-all absolute top-0 left-0 opacity-100 h-full w-full bg-no-repeat bg-cover bg-center z-1 video__image box ratio-container lazyload js"
-					data-bgset="{% include 'bgset', image: section.settings.image %}"
+					data-bgset="{% render 'bgset', image: section.settings.image %}"
 					data-sizes="auto"
 					data-parent-fit="contain"
 					style="background-position: {{ section.settings.image_position }};">
@@ -100,7 +100,7 @@
 								type="button"
 								class="bg-red-600 cursor-pointer flex h-12 items-center justify-center mx-auto opacity-100 p-1 pointer-events-none relative rounded-full text-center text-white transition-all video-control video-control__play visible w-12 z-5"
 								data-controls="Video-{{ section.id }}">
-								{% include 'icon-play', icon_class: "h-5 w-5 fill-current" %}
+								{% render 'icon-play', icon_class: "h-5 w-5 fill-current" %}
 								<span class="sr-only">{{ 'sections.video.play' | t: video_title: '[video_title]' }}</span>
 							</button>
 						</div>
@@ -113,18 +113,18 @@
 					<div class="video-play-loader"></div>
 				{%- endif -%}
 				<button type="button" class="btn video-control video-control__play" data-controls="Video-{{ section.id }}">
-					{% include 'icon-play', icon_class: "h-3 w-3 align-middle" %}
+					{% render 'icon-play', icon_class: "h-3 w-3 align-middle" %}
 					<span class="sr-only">{{ 'sections.video.play' | t: video_title: '[video_title]' }}</span>
 				</button>
 			</div>
 
 			<button type="button" class="video__pause{% unless section.settings.style == 'background' %} sr-only" tabindex="-1{% endunless %}" data-id="{{ section.id }}" aria-live="polite" aria-pressed="false" data-controls="Video-{{ section.id }}">
 				<span class="video__pause-stop">
-					{% include 'icon-pause', icon_class: "h-3 w-3 align-middle" %}
+					{% render 'icon-pause', icon_class: "h-3 w-3 align-middle" %}
 					<span class="sr-only">{{ 'sections.video.pause' | t: video_title: '[video_title]' }}</span>
 				</span>
 				<span class="video__pause-resume">
-					{% include 'icon-play', icon_class: "h-3 w-3 align-middle" %}
+					{% render 'icon-play', icon_class: "h-3 w-3 align-middle" %}
 					<span class="sr-only">{{ 'sections.video.resume' | t: video_title: '[video_title]' }}</span>
 				</span>
 			</button>

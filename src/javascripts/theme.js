@@ -1,8 +1,6 @@
 import { focusHash, bindInPageLinks } from "@shopify/theme-a11y";
 import * as cart from "@shopify/theme-cart";
 
-import "bootstrap";
-
 __webpack_public_path__ = window.__webpack_public_path__;
 
 document.addEventListener("DOMContentLoaded", (e) => {

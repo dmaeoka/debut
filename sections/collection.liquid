@@ -31,7 +31,7 @@
 	<div class="flex flex-col mx-0 md:flex-row md:flex-wrap md:-mx-4 justify-center">
 		{% for product in collection.products limit: product_limit %}
 			<div class="px-4 {{ grid_item_width }}">
-				{% include 'product-card-grid', max_height: max_height, product: product, show_vendor: section.settings.show_vendor %}
+				{% render 'product-card-grid', max_height: max_height, product: product, show_vendor: section.settings.show_vendor %}
 			</div>
 		{% else %}
 
@@ -46,7 +46,7 @@
 							{{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
 						</div>
 						<div class="font-semibold text-xl mb-0" aria-hidden="true">{{ 'homepage.onboarding.product_title' | t }}</div>
-						{% include 'product-price' %}
+						{% render 'product-price' %}
 					</div>
 				</div>
 			{% endfor %}

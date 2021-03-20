@@ -10,7 +10,7 @@
 	<div class="container">
 		<div class="text-center my-12">
 			<a href="{{ collection.url }}" class="border-red-600 btn fill-current text-red-500">
-				{% include 'icon-arrow-left', icon_class: " h-4 mr-2 self-center w-4" %}
+				{% render 'icon-arrow-left', icon_class: " h-4 mr-2 self-center w-4" %}
 				{{ 'products.product.back_to_collection' | t: title: collection.title }}
 			</a>
 		</div>

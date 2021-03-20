@@ -11,7 +11,7 @@
 		<div class="cart-popup__header border-b border-gray-300 flex flex-row items-center">
 			<h2 id="CartPopupHeading" class="cart-popup__heading flex-grow cart-popup__heading leading-tight m-0 py-2 text-base text-gray-800 tracking-wide uppercase">{{ 'cart.popup.added_to_cart' | t }}</h2>
 			<button class="-mr-4 cart-popup__close p-4" aria-label="{{ 'general.accessibility.close_modal' | t }}" data-cart-popup-close>
-				{% include 'icon-close', icon_class: "fill-current h-4 w-4" %}
+				{% render 'icon-close', icon_class: "fill-current h-4 w-4" %}
 			</button>
 		</div>
 		<div class="cart-popup-item flex my-4">

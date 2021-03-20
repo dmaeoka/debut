@@ -17,7 +17,7 @@
 	},
 	"dependencies": {
 		"@babel/polyfill": "^7.12.1",
-		"@popperjs/core": "^2.5.3",
+		"@ryangjchandler/spruce": "^2.6.3",
 		"@shopify/theme-a11y": "^2.0.1",
 		"@shopify/theme-addresses": "^3.0.0",
 		"@shopify/theme-cart": "^1.0.0-alpha.7",
@@ -28,7 +28,6 @@
 		"@shopify/theme-rte": "^1.0.0-alpha.7",
 		"@shopify/theme-sections": "^1.1.0",
 		"@shopify/theme-variants": "^1.0.0-alpha.8",
-		"bootstrap": "^5.0.0-beta1",
 		"enquire.js": "^2.1.6",
 		"instafeed.js": "^1.4.1",
 		"jquery": "^3.4.1",

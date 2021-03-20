@@ -7,7 +7,7 @@
 	- show_vendor: {Boolean} Show the product's vendor depending on the section setting (optional)
 
 	Usage:
-	{% include 'product-card-list', product: product, show_vendor: section.settings.show_vendor %}
+	{% render 'product-card-list', product: product, show_vendor: section.settings.show_vendor %}
 {% endcomment %}
 <div class="relative">
 	<a
@@ -25,6 +25,6 @@
 			<div class="text-gray-600 text-sm font-normal uppercase tracking-wide w-full">{{ product.vendor }}</div>
 			{% endif %}
 		</div>
-		{% include 'product-price-listing', product: product, show_vendor: false, align: "right" %}
+		{% render 'product-price-listing', product: product, show_vendor: false, align: "right" %}
 	</div>
 </div>

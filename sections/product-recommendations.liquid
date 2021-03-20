@@ -11,7 +11,7 @@
 				<ul class="flex flex-row  grid--view-items">
 					{%- for product in recommendations.products -%}
 						<li class="sm:w-1/2 md:w-1/4">
-							{% include 'product-card-grid', max_height: 250, product: product, show_vendor: section.settings.show_vendor %}
+							{% render 'product-card-grid', max_height: 250, product: product, show_vendor: section.settings.show_vendor %}
 						</li>
 					{%- endfor -%}
 				</ul>

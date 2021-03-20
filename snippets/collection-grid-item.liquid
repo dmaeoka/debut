@@ -6,7 +6,7 @@
 	- collection: {Object} Collection Liquid object (required)
 
 	Usage:
-	{% include 'collection-grid-item', collection: collection %}
+	{% render 'collection-grid-item', collection: collection %}
 {% endcomment %}
 {% if collection.image %}
 	{%- assign collection_image = collection.image -%}
@@ -28,7 +28,7 @@
 		{% unless collection_image == blank %}
 			<div
 				class="relative block h-full w-full bg-cover bg-no-repeat bg-center box ratio-container lazyload js"
-				data-bgset="{% include 'bgset', image: collection_image %}"
+				data-bgset="{% render 'bgset', image: collection_image %}"
 				data-sizes="auto"
 				data-parent-fit="cover"></div>
 			<noscript>

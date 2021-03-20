@@ -45,7 +45,7 @@
 					class="absolute align-middle bg-transparent border-0 h-full inline-block m-0 p-3 right-0 top-0 z-0 ml-1"
 					type="submit"
 					data-search-form-submit>
-					{% include 'icon-search', icon_class: "-mt-px h-auto relative top-0 w-5" %}
+					{% render 'icon-search', icon_class: "-mt-px h-auto relative top-0 w-5" %}
 					<span class="sr-only">{{ 'general.search.submit' | t }}</span>
 				</button>
 			</form>
@@ -55,7 +55,7 @@
 					id="SearchDrawer-close"
 					type="button"
 					class="bg-transparent border-0 btn--link p-3 text-current text-left">
-					{% include 'icon-close', icon_class: "align-middle h-auto w-4" %}
+					{% render 'icon-close', icon_class: "align-middle h-auto w-4" %}
 					<span class="sr-only">{{ 'general.search.close' | t }}</span>
 				</button>
 			</div>

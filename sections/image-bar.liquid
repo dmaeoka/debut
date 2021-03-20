@@ -23,7 +23,7 @@
 					href="{{ block.settings.link }}">
 					<div
 						class="block bg-no-repeat bg-center bg-cover text-white relative lazyload"
-						data-bgset="{% include 'bgset', image: block.settings.image %}"
+						data-bgset="{% render 'bgset', image: block.settings.image %}"
 						data-sizes="auto"
 						data-parent-fit="cover"
 						style="background-position: {{ block.settings.alignment }};">
@@ -31,7 +31,7 @@
 				<div
 					class="block bg-no-repeat bg-center bg-cover text-white relative lazyload"
 					id="{{ block.id }}"
-					data-bgset="{% include 'bgset', image: block.settings.image %}"
+					data-bgset="{% render 'bgset', image: block.settings.image %}"
 					data-sizes="auto"
 					data-parent-fit="cover"
 					style="background-position: {{ block.settings.alignment }};">
@@ -67,7 +67,7 @@
 </section>
 
 {% if section.blocks.size == 0 %}
-	{% include 'no-blocks' %}
+	{% render 'no-blocks' %}
 {% endif %}
 
 {% schema %}
